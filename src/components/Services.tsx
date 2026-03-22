@@ -89,21 +89,21 @@ export default function Services() {
             <div className="w-full h-[25vh] min-h-[300px] bg-gradient-to-b from-white/0 via-[#fafafa]/80 to-[#fafafa] pointer-events-none relative z-10" aria-hidden="true" />
 
             <div className="w-full bg-[#fafafa] relative overflow-hidden">
-                {/* ── Blueprint Grid (Light Theme) ── */}
-                <div className="absolute inset-0 pointer-events-none z-0">
-                    <svg className="absolute inset-0 w-full h-full" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <pattern id="light-blueprint-small-services" width="20" height="20" patternUnits="userSpaceOnUse">
-                                <path d="M 20 0 L 0 0 0 20" fill="none" className="stroke-slate-200/50" strokeWidth="0.5" />
-                            </pattern>
-                            <pattern id="light-blueprint-large-services" width="100" height="100" patternUnits="userSpaceOnUse">
-                                <rect width="100" height="100" fill="url(#light-blueprint-small-services)" />
-                                <path d="M 100 0 L 0 0 0 100" fill="none" className="stroke-slate-200" strokeWidth="1" />
-                            </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill="url(#light-blueprint-large-services)" />
-                    </svg>
-                </div>
+                {/* ── Fixed Blueprint Grid ── */}
+                <div
+                    className="absolute inset-0 pointer-events-none z-0"
+                    style={{
+                        backgroundImage: `
+                            linear-gradient(to right, rgba(203, 213, 225, 0.4) 1px, transparent 1px),
+                            linear-gradient(to bottom, rgba(203, 213, 225, 0.4) 1px, transparent 1px),
+                            linear-gradient(to right, rgba(203, 213, 225, 0.15) 1px, transparent 1px),
+                            linear-gradient(to bottom, rgba(203, 213, 225, 0.15) 1px, transparent 1px)
+                        `,
+                        backgroundSize: '100px 100px, 100px 100px, 20px 20px, 20px 20px',
+                        backgroundPosition: 'center top',
+                        backgroundAttachment: 'fixed'
+                    }}
+                />
 
                 {/* Left Interactive Decoration */}
                 <div className="absolute top-[30%] left-[-40px] w-32 h-64 opacity-30 hover:opacity-80 transition-all duration-700 hover:translate-x-[40px] z-0 hidden lg:block group">
@@ -156,7 +156,7 @@ export default function Services() {
 
                                 {/* Label */}
                                 <span className="text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase self-start w-full transition-colors duration-300 group-hover:text-slate-600">
-                                    {String(index + 1).padStart(2, '0')} // {service.title.split(' ')[0]}
+                                    {String(index + 1).padStart(2, '0')} {"//"} {service.title.split(' ')[0]}
                                 </span>
 
                                 {/* Graphic Geometry */}

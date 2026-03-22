@@ -1,6 +1,6 @@
 "use client";
 
-import { useScroll, motion, useTransform } from "framer-motion";
+import { useScroll, motion, useTransform, MotionValue } from "framer-motion";
 import { useRef } from "react";
 
 const steps = [
@@ -27,134 +27,181 @@ const steps = [
 ];
 
 export default function Process() {
-    const containerRef = useRef<HTMLDivElement>(null);
-
-    // Track total scroll progress through the entire section
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start 80%", "end 20%"]
-    });
-
-    // The animated pipeline line grows based on scroll progress
-    const lineY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
     return (
         <section
             id="process"
-            className="w-full relative z-20 bg-[#fafafa] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px] pb-32"
+            className="w-full relative z-20 bg-[#fafafa] bg-blueprint-light bg-fixed"
         >
-            <div className="max-w-7xl mx-auto px-4 pt-32 pb-16">
-                <div className="text-left mb-16 max-w-2xl">
-                    <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tight font-[family-name:var(--font-outfit)] drop-shadow-md">How We Build.</h2>
-                    <p className="text-slate-500 text-lg md:text-xl mt-6 leading-relaxed drop-shadow-md">
-                        A rigorous, transparent engineering pipeline designed to eliminate technical debt and deliver high-quality digital products on time.
-                    </p>
-                </div>
+            <div className="hidden lg:block relative w-full">
+                <ProcessDesktop />
             </div>
-
-            {/* The main scroll tracking container */}
-            <div ref={containerRef} className="relative w-full max-w-5xl mx-auto px-4">
-
-                {/* ── Background Vertical Pipeline Track ── */}
-                <div className="absolute left-[39px] md:left-1/2 top-0 bottom-0 w-[2px] bg-slate-200/50 transform md:-translate-x-1/2" />
-
-                {/* ── Animated Active Pipeline Path ── */}
-                <motion.div
-                    className="absolute left-[39px] md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-blue-600 via-fuchsia-500 to-purple-600 transform md:-translate-x-1/2 origin-top"
-                    style={{ scaleY: scrollYProgress }}
-                />
-
-                {/* Render Nodes */}
-                <div className="flex flex-col gap-0">
-                    {steps.map((step, index) => (
-                        <ProcessNode
-                            key={index}
-                            step={step}
-                            index={index}
-                            total={steps.length}
-                            progress={scrollYProgress}
-                        />
-                    ))}
-                </div>
-
+            <div className="block lg:hidden relative w-full">
+                <ProcessMobile />
             </div>
         </section>
     );
 }
 
-// Individual Node with isolated animation thresholds
-function ProcessNode({ step, index, total, progress }: { step: any, index: number, total: number, progress: any }) {
+function ProcessDesktop() {
+    const containerRef = useRef<HTMLDivElement>(null);
 
-    // Calculate the activation threshold for this specific node based on its index
-    // Node 0 activates at 0.1, Node 1 at 0.35, etc.
-    const startRange = index / total;
-    const peakRange = startRange + (0.5 / total);
-    const endRange = startRange + (1.2 / total);
+    // Track total scroll progress through the 250vh container
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
+    });
 
-    // Opacity mapping: fades in, peaks, and slightly fades out as we pass it
-    const opacity = useTransform(
-        progress,
-        [startRange - 0.1, startRange, peakRange, endRange],
-        // Never fully fade out past nodes, keep them at 40%
-        [0.2, 1, 1, 0.4]
-    );
-
-    // Position mapping: slides up slightly
-    const yOffsets = useTransform(
-        progress,
-        [startRange - 0.2, startRange],
-        [40, 0]
-    );
-
-    // Node Scale: pops when active
-    const scale = useTransform(
-        progress,
-        [startRange - 0.1, startRange, peakRange, endRange],
-        [0.8, 1.05, 1, 0.95]
-    );
-
-    const isEven = index % 2 === 0;
+    // The line grows fully from 0 to 100% width across the exactly matched 100% width wrapper container
+    const lineScaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
     return (
-        <div className="h-[50vh] min-h-[400px] flex items-center relative w-full">
+        <div ref={containerRef} className="w-full relative" style={{ height: "250vh" }}>
+            <div className="sticky top-0 h-[100dvh] w-full flex flex-col justify-center overflow-hidden">
 
-            {/* Number Indicator on the line */}
-            <motion.div
-                style={{ scale, opacity }}
-                className="absolute left-4 md:left-1/2 w-12 h-12 rounded-full border border-slate-300 bg-white shadow-xl flex items-center justify-center transform md:-translate-x-1/2 z-10"
-            >
-                <div className="w-8 h-8 rounded-full border border-slate-100 bg-slate-50 flex items-center justify-center">
-                    <span className="text-xs font-black text-slate-800">{step.num}</span>
-                </div>
-            </motion.div>
-
-            {/* Content Container (Alternating left/right on Desktop, Right-aligned on Mobile) */}
-            <motion.div
-                style={{ opacity, y: yOffsets }}
-                className={`w-full pl-24 md:px-0 flex flex-col md:flex-row ${isEven ? 'md:justify-start' : 'md:justify-end'}`}
-            >
-                <div className={`w-full md:w-[45%] ${isEven ? 'md:pr-16 text-left md:text-right' : 'md:pl-16 text-left'}`}>
-
-                    <div className="bg-white/60 backdrop-blur-xl border border-slate-200/60 shadow-[0_25px_60px_-20px_rgba(0,0,0,0.1)] rounded-[2rem] p-8 md:p-12 relative group hover:bg-white/90 transition-colors duration-500">
-                        {/* Eyebrow */}
-                        <div className={`flex items-center gap-3 mb-6 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>
-                            {!isEven && <div className="w-6 h-[1px] bg-slate-300 hidden md:block"></div>}
-                            <span className="text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase drop-shadow-md">Phase {step.num}</span>
-                            {isEven && <div className="w-6 h-[1px] bg-slate-300 hidden md:block"></div>}
-                        </div>
-
-                        <h3 className="text-2xl md:text-4xl font-black text-slate-900 mb-4 font-[family-name:var(--font-outfit)] tracking-tight drop-shadow-md">
-                            {step.title}
-                        </h3>
-
-                        <p className="text-slate-600 text-base md:text-lg leading-relaxed drop-shadow-md">
-                            {step.description}
+                {/* Header Area */}
+                <div className="w-full max-w-7xl mx-auto px-4 lg:px-8 absolute top-[10vh] md:top-[12vh] left-1/2 -translate-x-1/2 z-10 pointer-events-none">
+                    <div className="text-left w-full max-w-2xl">
+                        <h2 className="text-5xl xl:text-6xl font-black text-slate-900 tracking-tight font-[family-name:var(--font-outfit)] drop-shadow-md">How We Build.</h2>
+                        <p className="text-slate-500 text-lg lg:text-xl mt-4 leading-relaxed drop-shadow-md">
+                            A rigorous, transparent engineering pipeline designed to eliminate technical debt and deliver high-quality digital products on time.
                         </p>
                     </div>
-
                 </div>
-            </motion.div>
 
+                {/* Grid Layout Area (All 4 cards in a single row simultaneously) */}
+                <div className="relative w-full max-w-7xl mx-auto mt-[18vh]">
+
+                    {/* Universal Tracker Wrapper (Strictly matches Grid Width) */}
+                    <div className="absolute top-[20px] left-0 w-full px-4 lg:px-8 z-0">
+                        <div className="relative w-full">
+                            {/* Fixed Background Line spans universally */}
+                            <div className="w-full h-[2px] bg-slate-200/80" />
+
+                            {/* Fixed Illuminating Line - Synchronized perfectly 0-100% */}
+                            <motion.div
+                                className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-blue-600 via-fuchsia-500 to-purple-600 origin-left"
+                                style={{
+                                    width: "100%",
+                                    scaleX: lineScaleX,
+                                    boxShadow: "0 0 10px rgba(139, 92, 246, 0.5)"
+                                }}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Staggered Row of Cards inside exact bounds content structure */}
+                    <div className="grid grid-cols-4 gap-6 relative w-full pt-0 px-4 lg:px-8">
+                        {steps.map((step, index) => {
+                            return <ProcessCardDesktop key={index} step={step} index={index} progress={scrollYProgress} total={steps.length} />;
+                        })}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function ProcessCardDesktop({ step, index, progress, total }: { step: { num: string; title: string; description: string; }, index: number, progress: MotionValue<number>, total: number }) {
+    // Physical center of the node on the timeline line itself.
+    // 4 equal grid columns implies bounds at 0..25%, 25..50%, 50..75%, 75..100%. 
+    // The node icon wrapper has `pl-[10%]`. So 10% * 25% = 2.5% physical offset within its bounding box.
+    // Nodes lay exactly at: 2.5%, 27.5%, 52.5%, 77.5%.
+    const physicalPosition = 0.025 + (index * 0.25);
+
+    // Cards ONLY start fading in when the animating line tip approaches, and finish EXACTLY when the line hits their physical center.
+    const startAppear = Math.max(0, physicalPosition - 0.08);
+    const endAppear = physicalPosition;
+
+    const opacity = useTransform(progress, [startAppear, endAppear], [0, 1]);
+    const y = useTransform(progress, [startAppear, endAppear], [40, 0]);
+
+    // Ring styling hits precisely on threshold bounds
+    const isActive = useTransform(progress, [Math.max(0, physicalPosition - 0.01), physicalPosition + 0.01], [0, 1]);
+
+    return (
+        <div className="flex flex-col relative w-full h-full">
+            {/* Node Marker on the Line */}
+            <div className="h-[40px] flex items-center justify-start mb-8 lg:mb-10 relative z-10 w-full pl-[10%]">
+                {/* Background inactive ring */}
+                <div className="w-10 h-10 rounded-full bg-slate-100 border-2 border-slate-200 flex items-center justify-center absolute -translate-x-1/2">
+                    <span className="text-[10px] font-black text-slate-400">{step.num}</span>
+                </div>
+
+                {/* Illuminated active ring */}
+                <motion.div
+                    style={{ opacity: isActive, scale: isActive }}
+                    className="w-10 h-10 rounded-full border-[2px] border-white bg-gradient-to-br from-blue-600 to-purple-600 shadow-[0_0_20px_rgba(37,99,235,0.4)] flex items-center justify-center absolute -translate-x-1/2"
+                >
+                    <span className="text-[10px] font-black text-white">{step.num}</span>
+                </motion.div>
+            </div>
+
+            {/* Content Card */}
+            <motion.div
+                style={{ opacity, y }}
+                className="bg-white/80 backdrop-blur-xl border border-slate-200/60 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 rounded-[2rem] p-6 lg:p-8 relative flex flex-col h-[320px] group"
+            >
+                <div className="flex items-center gap-3 mb-4 xl:mb-6">
+                    <span className="text-[10px] font-bold tracking-[0.2em] text-blue-600 uppercase">Phase {step.num}</span>
+                </div>
+                <h3 className="text-xl xl:text-2xl font-black text-slate-900 mb-3 xl:mb-4 font-[family-name:var(--font-outfit)] tracking-tight">
+                    {step.title}
+                </h3>
+                <p className="text-slate-600 text-xs lg:text-sm leading-relaxed">
+                    {step.description}
+                </p>
+            </motion.div>
+        </div>
+    );
+}
+
+function ProcessMobile() {
+    return (
+        <div className="w-full pt-24 pb-16 px-0 overflow-hidden relative">
+            <div className="px-4 mb-12">
+                <h2 className="text-4xl font-black text-slate-900 tracking-tight font-[family-name:var(--font-outfit)] drop-shadow-md">How We Build.</h2>
+                <p className="text-slate-500 text-lg mt-4 leading-relaxed drop-shadow-md">
+                    A rigorous, transparent engineering pipeline designed to eliminate technical debt.
+                </p>
+            </div>
+
+            <div className="relative w-full mt-4">
+                {/* Background Horizontal Line */}
+                <div className="absolute top-[20px] left-0 w-full h-[2px] bg-slate-200/80" />
+
+                {/* Horizontal Native Scroll Container for Mobile */}
+                <div className="flex flex-nowrap overflow-x-auto gap-4 px-4 pt-0 pb-12 snap-x snap-mandatory w-full scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                    <style dangerouslySetInnerHTML={{ __html: `::-webkit-scrollbar { display: none; }` }} />
+                    {steps.map((step, index) => (
+                        <div className="flex flex-col h-full relative w-[80vw] shrink-0 snap-center" key={index}>
+                            {/* Node Marker */}
+                            <div className="h-[40px] flex items-center justify-start mb-6 relative z-10 w-full">
+                                {/* Fully illuminated active ring for mobile native scroll style */}
+                                <motion.div
+                                    initial={{ scale: 0.5, opacity: 0 }}
+                                    whileInView={{ scale: 1, opacity: 1 }}
+                                    viewport={{ amount: 0.8 }}
+                                    className="w-10 h-10 rounded-full border-[2px] border-white bg-gradient-to-br from-blue-600 to-purple-600 shadow-[0_0_15px_rgba(37,99,235,0.4)] flex items-center justify-center relative"
+                                >
+                                    <span className="text-[10px] font-black text-white">{step.num}</span>
+                                </motion.div>
+                            </div>
+
+                            {/* Content Card */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ amount: 0.4 }}
+                                className="bg-white/80 backdrop-blur-xl border border-slate-200/60 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.05)] rounded-[2rem] p-6 relative flex flex-col h-full"
+                            >
+                                <span className="text-[10px] font-bold tracking-[0.2em] text-blue-600 uppercase mb-4 block">Phase {step.num}</span>
+                                <h3 className="text-xl font-black text-slate-900 mb-3 font-[family-name:var(--font-outfit)] tracking-tight">{step.title}</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">{step.description}</p>
+                            </motion.div>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }

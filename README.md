@@ -1,36 +1,22 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TechMate4u | Digital Product Studio & Web Engineering
 
-## Getting Started
+Welcome to the **TechMate4u** engineering repository. This repository houses the source code, design systems, and frontend architectures for the official TechMate4u web platform.
 
-First, run the development server:
+## Overview
+As a premium digital product studio, our platform demonstrates our core engineering philosophies: high-fidelity UI/UX, robust performance optimization, and rigorous technical execution. The site leverages a unified "Industrial Cyber-Neon" aesthetic utilizing custom mathematical scroll-hooks, precision Framer Motion synchronization, and GPU-accelerated pipelines.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech Stack
+- **Framework:** Next.js 14+ (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS 
+- **Animation:** Framer Motion (Scroll, Transform, Intersections)
+- **Architecture:** React Server Components (RSC) focused
+- **Deployment:** Vercel Edge Network
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Engineering Standards
+- **Zero-Technical-Debt Policy:** All frontend code is strictly typed and optimized for maximal lighthouse scores.
+- **Scroll as a Narrative:** Layout components map scroll progression natively to mathematical boundaries (`IntersectionObserver` and CSS Grid synchronization) rather than JS-heavy polling, avoiding scroll-jacking while ensuring cinematic layout unveils.
+- **Security First:** Environment variables, API keys, and internal routing logic are strictly partitioned between the server and the client to maintain absolute data integrity.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+*© TechMate4u. Internally managed repository. All Rights Reserved.*

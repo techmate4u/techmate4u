@@ -14,12 +14,15 @@ We have successfully transformed the static landing page into a high-fidelity, s
 *   **Services Section (Cyber-Neon Grid)**:
     *   Built a rigid architectural grid featuring hand-coded geometric SVG art.
     *   Implemented aggressive "Reveal" interactions where neon accents and scale effects trigger on user hover.
-*   **Portfolio Section (Stacking Card Deck)**:
-    *   Developed a monumental **Sticky Stacking** interaction. As users scroll, project cards (650px height) slide over one another and lock into place, creating a cinematic focal point.
-*   **Process Section (High-Contrast Pipeline)**:
-    *   Overhauled the development lifecycle into a high-visibility pipeline.
-    *   Implemented horizontal phase layouts with consistent shadow elevation and refined typography.
-*   **Tech Stack Section**:
+*   **Portfolio Section (Grid Optimization)**:
+    *   Re-engineered the legacy vertical scroll-stacking into a high-performance responsive CSS grid (`grid-cols-2`). Removed heavy scroll-linked listeners in favor of snappy hover physics (`hover:-translate-y-2` + expanded shadows) to drastically eliminate rendering lag.
+*   **Process Section (Fixed-Grid Scroll Sync)**:
+    *   Completely architected a dual-platform scroll experience:
+        *   **Desktop:** Designed a perfect horizontal locking sequence. The entire block is pinned into the viewport natively (`sticky h-screen`). An illuminated tracking line mathematically extrapolates `scrollYProgress` directly into its physical CSS width, precisely activating cards only when the line's tip hits their grid column offsets.
+        *   **Mobile:** Bypassed desktop scroll-hijacking entirely to provide a native mobile `snap-x` horizontal slider. Cards peek (`85vw`) to afford swiping, activating elegantly via Framer `whileInView` observers.
+*   **Performance & Infrastructure (Global Constraints)**:
+    *   Upgraded all raw SVG Backgrounds across `<Hero>`, `<Services>`, and `<Process>` into universally performant CSS `linear-gradient` fixed backgrounds to resolve rendering stutter limiters.
+    *   Rectified a globally-breaking CSS context inheritance flaw (`overflow-x-hidden` mapped down from `page.tsx`) by adopting `overflow-x-clip`, unlocking safe React `position: sticky` hook support system-wide.
     *   Redesigned with industrial grid-frames and high-contrast logos, moving to genuine brands mapped via `react-icons/si` and custom SVGs (e.g., SpacetimeDB).
     *   Introduced subtle Framer Motion hover states with inertia physics.
 *   **CTA Section Overhaul**:
