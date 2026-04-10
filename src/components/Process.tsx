@@ -139,7 +139,7 @@ function ProcessCardDesktop({ step, index, progress, total }: { step: { num: str
             {/* Content Card */}
             <motion.div
                 style={{ opacity, y }}
-                className="bg-white/80 backdrop-blur-xl border border-slate-200/60 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 rounded-[2rem] p-6 lg:p-8 relative flex flex-col h-[320px] group"
+                className="bg-white border border-slate-200/60 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 rounded-[2rem] p-6 lg:p-8 relative flex flex-col h-[320px] group"
             >
                 <div className="flex items-center gap-3 mb-4 xl:mb-6">
                     <span className="text-[10px] font-bold tracking-[0.2em] text-blue-600 uppercase">Phase {step.num}</span>
@@ -192,7 +192,7 @@ function ProcessMobile() {
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ amount: 0.4 }}
-                                className="bg-white/80 backdrop-blur-xl border border-slate-200/60 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.05)] rounded-[2rem] p-6 relative flex flex-col h-full"
+                                className="bg-white border border-slate-200/60 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.05)] rounded-[2rem] p-6 relative flex flex-col h-full"
                             >
                                 <span className="text-[10px] font-bold tracking-[0.2em] text-blue-600 uppercase mb-4 block">Phase {step.num}</span>
                                 <h3 className="text-xl font-black text-slate-900 mb-3 font-[family-name:var(--font-outfit)] tracking-tight">{step.title}</h3>

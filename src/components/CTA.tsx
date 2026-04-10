@@ -34,10 +34,10 @@ export default function CTA() {
     }[inquiryType];
 
     return (
-        <section className="w-full py-32 bg-slate-900 relative overflow-hidden" id="contact">
+        <section className="w-full py-32 relative overflow-hidden" id="contact" style={{ background: "var(--cta-bg)" }}>
             {/* Ambient glowing gradients */}
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px] opacity-50 pointer-events-none" />
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-[128px] opacity-50 pointer-events-none" />
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full blur-[128px] opacity-50 pointer-events-none" style={{ background: "color-mix(in srgb, var(--accent) 26%, transparent)" }} />
 
             {/* Decorative Grid */}
             <div className="absolute inset-0 opacity-10"
@@ -53,15 +53,15 @@ export default function CTA() {
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
                 >
-                    <h2 className="text-4xl lg:text-5xl font-black text-white mb-6 tracking-tight leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]">
+                    <h2 className="text-4xl lg:text-5xl font-black mb-6 tracking-tight leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]" style={{ color: "var(--cta-text)" }}>
                         Ready to Build Your Digital Presence?
                     </h2>
-                    <p className="text-slate-300 text-lg mb-8 drop-shadow-md">
+                    <p className="text-lg mb-8 drop-shadow-md" style={{ color: "var(--cta-muted)" }}>
                         Let&apos;s discuss how we can engineer a custom solution to help your business scale and succeed online. Reach out to our team of experts below.
                     </p>
 
-                    <div className="flex items-center gap-4 text-slate-400 drop-shadow-sm">
-                        <div className="w-12 h-[1px] bg-slate-700"></div>
+                    <div className="flex items-center gap-4 drop-shadow-sm" style={{ color: "var(--cta-soft)" }}>
+                        <div className="w-12 h-[1px]" style={{ background: "color-mix(in srgb, var(--cta-soft) 50%, transparent)" }}></div>
                         <span className="text-sm font-medium uppercase tracking-wider">Fast Response Guaranteed</span>
                     </div>
                 </motion.div>
@@ -73,7 +73,7 @@ export default function CTA() {
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
                 >
-                    <div className="bg-white/[0.02] border border-white/10 backdrop-blur-xl rounded-3xl p-8 lg:p-10 shadow-2xl relative overflow-hidden">
+                    <div className="border backdrop-blur-xl rounded-3xl p-8 lg:p-10 shadow-2xl relative overflow-hidden" style={{ background: "var(--cta-panel)", borderColor: "color-mix(in srgb, var(--cta-text) 10%, transparent)" }}>
 
                         {/* Soft inner glow */}
                         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px]" />
@@ -90,8 +90,8 @@ export default function CTA() {
                                     <div className="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center mb-6 shadow-inner">
                                         <CheckCircle2 className="w-10 h-10 text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
                                     </div>
-                                    <h3 className="text-3xl font-bold text-white mb-3 tracking-tight">Request Received!</h3>
-                                    <p className="text-slate-300 text-lg">Our team will review your details and be in touch shortly.</p>
+                                    <h3 className="text-3xl font-bold mb-3 tracking-tight" style={{ color: "var(--cta-text)" }}>Request Received!</h3>
+                                    <p className="text-lg" style={{ color: "var(--cta-muted)" }}>Our team will review your details and be in touch shortly.</p>
                                 </motion.div>
                             ) : (
                                 <motion.form
@@ -104,30 +104,32 @@ export default function CTA() {
                                 >
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                         <div className="space-y-2">
-                                            <label htmlFor="name" className="text-sm font-medium text-slate-300">Full Name</label>
+                                            <label htmlFor="name" className="text-sm font-medium" style={{ color: "var(--cta-muted)" }}>Full Name</label>
                                             <input
                                                 type="text"
                                                 id="name"
                                                 required
                                                 placeholder="Jane Doe"
-                                                className="w-full bg-slate-950/50 border border-white/10 text-white rounded-xl h-12 px-4 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 focus:bg-slate-900/80 transition-all placeholder:text-slate-600"
+                                                className="w-full border rounded-xl h-12 px-4 focus:outline-none focus:ring-1 transition-all placeholder:text-slate-600"
+                                                style={{ background: "var(--cta-input)", borderColor: "color-mix(in srgb, var(--cta-text) 10%, transparent)", color: "var(--cta-text)" }}
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label htmlFor="email" className="text-sm font-medium text-slate-300">Work Email</label>
+                                            <label htmlFor="email" className="text-sm font-medium" style={{ color: "var(--cta-muted)" }}>Work Email</label>
                                             <input
                                                 type="email"
                                                 id="email"
                                                 required
                                                 placeholder="jane@company.com"
-                                                className="w-full bg-slate-950/50 border border-white/10 text-white rounded-xl h-12 px-4 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 focus:bg-slate-900/80 transition-all placeholder:text-slate-600"
+                                                className="w-full border rounded-xl h-12 px-4 focus:outline-none focus:ring-1 transition-all placeholder:text-slate-600"
+                                                style={{ background: "var(--cta-input)", borderColor: "color-mix(in srgb, var(--cta-text) 10%, transparent)", color: "var(--cta-text)" }}
                                             />
                                         </div>
                                     </div>
 
                                     {/* Inquiry Type Pills */}
                                     <div className="space-y-3">
-                                        <label className="text-sm font-medium text-slate-300">What can we help you with?</label>
+                                        <label className="text-sm font-medium" style={{ color: "var(--cta-muted)" }}>What can we help you with?</label>
                                         <div className="grid grid-cols-2 gap-3">
                                             {inquiryOptions.map((option) => {
                                                 const Icon = option.icon;
@@ -137,9 +139,15 @@ export default function CTA() {
                                                         key={option.id}
                                                         type="button"
                                                         onClick={() => setInquiryType(option.id as InquiryType)}
-                                                        className={`flex items-center gap-3 p-3 rounded-xl border text-left transition-all duration-300 ${isSelected ? "bg-blue-500/10 border-blue-500/50 text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.15)]" : "bg-slate-950/50 border-white/5 text-slate-400 hover:bg-white/[0.05] hover:text-slate-200"}`}
+                                                        className="flex items-center gap-3 p-3 rounded-xl border text-left transition-all duration-300"
+                                                        style={{
+                                                            background: isSelected ? "color-mix(in srgb, var(--primary) 12%, transparent)" : "var(--cta-input)",
+                                                            borderColor: isSelected ? "color-mix(in srgb, var(--primary) 52%, transparent)" : "color-mix(in srgb, var(--cta-text) 6%, transparent)",
+                                                            color: isSelected ? "var(--primary)" : "var(--cta-soft)",
+                                                            boxShadow: isSelected ? "0 0 15px color-mix(in srgb, var(--primary) 22%, transparent)" : "none"
+                                                        }}
                                                     >
-                                                        <Icon className={`w-5 h-5 transition-colors ${isSelected ? "text-blue-400" : "text-slate-500"}`} />
+                                                        <Icon className="w-5 h-5 transition-colors" style={{ color: isSelected ? "var(--primary)" : "var(--cta-soft)" }} />
                                                         <span className="font-medium text-sm">{option.label}</span>
                                                     </button>
                                                 );
@@ -148,13 +156,14 @@ export default function CTA() {
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label htmlFor="message" className="text-sm font-medium text-slate-300">Project Details</label>
+                                        <label htmlFor="message" className="text-sm font-medium" style={{ color: "var(--cta-muted)" }}>Project Details</label>
                                         <textarea
                                             id="message"
                                             required
                                             rows={4}
                                             placeholder="Tell us about your goals, timeline, and current challenges..."
-                                            className="w-full bg-slate-950/50 border border-white/10 text-white rounded-lg p-4 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 focus:bg-slate-900/80 transition-all placeholder:text-slate-600 resize-none"
+                                            className="w-full border rounded-lg p-4 focus:outline-none focus:ring-1 transition-all placeholder:text-slate-600 resize-none"
+                                            style={{ background: "var(--cta-input)", borderColor: "color-mix(in srgb, var(--cta-text) 10%, transparent)", color: "var(--cta-text)" }}
                                         />
                                     </div>
 
@@ -163,7 +172,8 @@ export default function CTA() {
                                         disabled={status === "submitting"}
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
-                                        className="mt-2 relative group overflow-hidden bg-primary disabled:bg-primary/50 text-white text-lg font-bold rounded-xl h-14 px-8 shadow-lg shadow-primary/20 flex items-center justify-center gap-2 w-full"
+                                        className="mt-2 relative group overflow-hidden disabled:opacity-60 text-white text-lg font-bold rounded-xl h-14 px-8 flex items-center justify-center gap-2 w-full"
+                                        style={{ background: "var(--primary)", boxShadow: "0 16px 36px -20px var(--theme-glow)" }}
                                     >
                                         {/* Dynamic shimmer hover effect using native tailwind */}
                                         <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-[1500ms] ease-in-out" />

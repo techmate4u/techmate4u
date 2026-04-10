@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import logo from "../../assets/logo.png";
 
 const navLinks = [
     { name: "Home", href: "#home" },
@@ -17,10 +19,6 @@ const serviceLinks = [
     { name: "SEO & Growth", href: "#services" },
 ];
 
-const legalLinks = [
-    { name: "Privacy Policy", href: "#" },
-    { name: "Terms of Use", href: "#" },
-];
 
 /* Social links — swap hrefs for real profiles */
 const socialLinks = [
@@ -59,13 +57,13 @@ function scrollToTop() {
 
 export default function Footer() {
     return (
-        <footer className="w-full bg-slate-50 relative overflow-hidden">
+        <footer className="w-full relative overflow-hidden" style={{ background: "var(--surface-muted)" }}>
             {/* Top gradient divider */}
             <div
                 aria-hidden="true"
                 className="absolute top-0 left-0 right-0 h-px"
                 style={{
-                    background: "linear-gradient(90deg, transparent 0%, #0d59f2 30%, #6fa3ff 60%, transparent 100%)",
+                    background: "var(--footer-divider)",
                     opacity: 0.4,
                 }}
             />
@@ -76,18 +74,18 @@ export default function Footer() {
                     {/* ── Col 1: Brand ── */}
                     <div className="col-span-2 md:col-span-1 flex flex-col gap-4">
                         <Link href="#home" className="flex items-center gap-2.5 group w-fit">
-                            <span
-                                className="material-symbols-outlined text-primary"
-                                style={{ fontSize: "26px", fontVariationSettings: "'FILL' 1, 'wght' 700" }}
-                            >
-                                layers
-                            </span>
-                            <span className="text-slate-900 font-extrabold text-lg tracking-tight group-hover:text-primary transition-colors duration-300 drop-shadow-sm">
+                            <Image
+                                src={logo}
+                                alt="TechMate4u"
+                                className="h-8 w-auto transition-all duration-300 group-hover:scale-[1.02]"
+                                style={{ filter: 'sepia(1) saturate(300%) hue-rotate(140deg)' }}
+                            />
+                            <span className="font-extrabold text-lg tracking-tight group-hover:text-[var(--primary)] transition-colors duration-300 drop-shadow-sm text-[var(--text)]">
                                 TechMate4u
                             </span>
                         </Link>
 
-                        <p className="text-slate-500 text-sm leading-relaxed max-w-xs drop-shadow-sm">
+                        <p className="text-sm leading-relaxed max-w-xs drop-shadow-sm text-[var(--text-muted)]">
                             Full-cycle product studio — discovery, design, development, and deployment. We build what others only plan.
                         </p>
 
@@ -98,7 +96,8 @@ export default function Footer() {
                                     key={s.label}
                                     href={s.href}
                                     aria-label={s.label}
-                                    className="size-9 rounded-full flex items-center justify-center text-slate-400 hover:text-primary bg-white border border-slate-200 hover:border-primary/30 hover:shadow-[0_0_12px_rgba(13,89,242,0.12)] transition-all duration-300"
+                                    className="size-9 rounded-full flex items-center justify-center hover:text-[var(--primary)] border transition-all duration-300 text-[var(--text-soft)]"
+                                    style={{ background: "var(--panel)", borderColor: "var(--line)" }}
                                 >
                                     {s.icon}
                                 </Link>
@@ -108,7 +107,7 @@ export default function Footer() {
 
                     {/* ── Col 2: Navigation ── */}
                     <div className="flex flex-col gap-3">
-                        <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-400 drop-shadow-sm">
+                        <h3 className="text-xs font-semibold uppercase tracking-widest drop-shadow-sm text-[var(--text-soft)]">
                             Navigation
                         </h3>
                         <ul className="flex flex-col gap-2.5">
@@ -116,7 +115,7 @@ export default function Footer() {
                                 <li key={link.name}>
                                     <Link
                                         href={link.href}
-                                        className="text-slate-600 hover:text-slate-900 text-sm font-medium transition-colors duration-200"
+                                        className="text-sm font-medium transition-colors duration-200 text-[var(--text-muted)] hover:text-[var(--text)]"
                                     >
                                         {link.name}
                                     </Link>
@@ -127,7 +126,7 @@ export default function Footer() {
 
                     {/* ── Col 3: Services ── */}
                     <div className="flex flex-col gap-3">
-                        <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-400 drop-shadow-sm">
+                        <h3 className="text-xs font-semibold uppercase tracking-widest drop-shadow-sm text-[var(--text-soft)]">
                             Services
                         </h3>
                         <ul className="flex flex-col gap-2.5">
@@ -135,7 +134,7 @@ export default function Footer() {
                                 <li key={link.name}>
                                     <Link
                                         href={link.href}
-                                        className="text-slate-600 hover:text-slate-900 text-sm font-medium transition-colors duration-200"
+                                        className="text-sm font-medium transition-colors duration-200 text-[var(--text-muted)] hover:text-[var(--text)]"
                                     >
                                         {link.name}
                                     </Link>
@@ -146,13 +145,14 @@ export default function Footer() {
 
                     {/* ── Col 4: Contact & CTA ── */}
                     <div className="flex flex-col gap-3">
-                        <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-400 drop-shadow-sm">
+                        <h3 className="text-xs font-semibold uppercase tracking-widest drop-shadow-sm text-[var(--text-soft)]">
                             Get In Touch
                         </h3>
 
                         <a
                             href="mailto:hello@techmate4u.com"
-                            className="group relative overflow-hidden inline-flex items-center gap-2 bg-primary text-white text-sm font-bold rounded-full h-10 px-6 w-fit transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-primary/25 mt-1"
+                            className="group relative overflow-hidden inline-flex items-center gap-2 text-white text-sm font-bold rounded-full h-10 px-6 w-fit transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-[var(--primary)]/25 mt-1"
+                            style={{ background: 'var(--primary)', boxShadow: '0 10px 24px -12px var(--theme-glow)' }}
                         >
                             <span className="relative z-10 transition-transform duration-300 group-hover:-translate-x-0.5">
                                 Email Us
@@ -169,15 +169,15 @@ export default function Footer() {
                 </div>
 
                 {/* ── Bottom bar ── */}
-                <div className="mt-10 pt-5 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
-                    <p className="text-xs text-slate-400">
+                <div className="mt-10 pt-5 border-t flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderColor: "var(--line)" }}>
+                    <p className="text-xs text-[var(--text-soft)]">
                         © {new Date().getFullYear()} TechMate4u. All rights reserved.
                     </p>
 
                     {/* Back to top */}
                     <button
                         onClick={scrollToTop}
-                        className="group flex items-center gap-1.5 text-xs text-slate-400 hover:text-primary transition-colors duration-200"
+                        className="group flex items-center gap-1.5 text-xs hover:text-[var(--primary)] transition-colors duration-200 text-[var(--text-soft)]"
                         aria-label="Back to top"
                     >
                         Back to top

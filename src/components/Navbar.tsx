@@ -1,8 +1,10 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import logo from '../../assets/logo.png';
 
 const NAV_SECTIONS = [
     { name: 'Services', href: '#services', id: 'services' },
@@ -19,16 +21,17 @@ export default function Navbar() {
     const [activeSection, setActiveSection] = useState<string>('');
     const [mobileOpen, setMobileOpen] = useState(false);
 
-    const borderRef = useRef<HTMLDivElement>(null);
+    const borderRef = useRef<SVGRectElement>(null);
     const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
     const navInnerRef = useRef<HTMLDivElement>(null);
+    const scrolledRef = useRef(false);
 
     // ── Dot/pill indicator ──────────────────────────────────────────────────
     const rawCx = useMotionValue(0);
     const rawW = useMotionValue(DOT_W);
     const cx = useSpring(rawCx, { stiffness: 280, damping: 28, mass: 1 });
     const w = useSpring(rawW, { stiffness: 200, damping: 26, mass: 1 });
-    const left = useTransform([cx, w] as any, ([c, wd]: number[]) => c - wd / 2);
+    const left = useTransform(() => cx.get() - w.get() / 2);
 
     const getCenterX = (id: string) => {
         const link = linkRefs.current[id];
@@ -76,26 +79,42 @@ export default function Navbar() {
 
     // ── Scroll-progress border ──────────────────────────────────────────────
     useEffect(() => {
-        const border = borderRef.current as any;
+        const border = borderRef.current;
         if (!border) return;
+        let ticking = false;
+
+        const updateOnScroll = () => {
+            const nextScrolled = window.scrollY > 20;
+            if (nextScrolled !== scrolledRef.current) {
+                scrolledRef.current = nextScrolled;
+                setScrolled(nextScrolled);
+            }
+
+            const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+            if (scrollable <= 0) {
+                ticking = false;
+                return;
+            }
+            // Add a buffer of 20px to ensure it hits 100% even with subpixel/mobile bar issues
+            const rawY = window.scrollY;
+            const effectiveY = rawY < 8 ? 0 : rawY;
+            const p = Math.max(0, Math.min(effectiveY / Math.max(1, scrollable - 20), 1));
+
+            border.style.strokeDasharray = '1';
+            border.style.strokeDashoffset = (1 - p).toString();
+            border.style.strokeLinecap = p <= 0.001 ? 'butt' : 'round';
+            border.style.filter = p >= 1 ? 'drop-shadow(0 0 6px var(--theme-glow))' : 'none';
+            ticking = false;
+        };
 
         const onScroll = () => {
-            const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-            if (scrollable <= 0) return;
-            // Add a buffer of 20px to ensure it hits 100% even with subpixel/mobile bar issues
-            const p = Math.max(0, Math.min(window.scrollY / Math.max(1, scrollable - 20), 1));
-            border.style.strokeDashoffset = (1 - p).toString();
-
-            if (p >= 1) {
-                border.style.filter = 'drop-shadow(0 0 6px rgba(13, 89, 242, 0.4))';
-            } else {
-                border.style.filter = 'none';
-            }
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(updateOnScroll);
         };
 
         window.addEventListener('scroll', onScroll, { passive: true });
-        // Set initial value
-        onScroll();
+        updateOnScroll();
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
@@ -113,12 +132,6 @@ export default function Navbar() {
     }, []);
 
     /* ── Scroll listener for navbar bg ── */
-    useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 20);
-        window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
-
     /* ── IntersectionObserver ── */
     useEffect(() => {
         const elements = NAV_SECTIONS
@@ -145,30 +158,35 @@ export default function Navbar() {
     return (
         <>
             {/* ═══════════ Desktop Navbar ═══════════ */}
-            <div className={`fixed left-0 right-0 z-50 flex justify-center w-full transition-all duration-500 pointer-events-none ${scrolled ? 'top-3 px-4 max-w-4xl mx-auto' : 'top-5 px-4 max-w-6xl mx-auto'
+            <div className={`fixed left-0 right-0 z-50 flex justify-center w-full top-3 px-4 max-w-4xl mx-auto md:transition-[top,max-width] md:duration-500 pointer-events-none ${scrolled ? 'md:top-3 md:max-w-4xl' : 'md:top-5 md:max-w-6xl'
                 }`}>
                 <header
-                    className={`relative rounded-full flex items-center justify-between w-full pointer-events-auto transition-all duration-500 ease-out group/nav hover:-translate-y-[2px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] hover:shadow-[0_35px_80px_rgba(13,89,242,0.15)] ${scrolled
-                        ? 'glass-nav py-2.5 px-6 bg-white/95 backdrop-blur-2xl border border-white/70'
-                        : 'glass-nav py-3.5 px-8 bg-white/80 border border-white/50 backdrop-blur-md'
+                    className={`relative rounded-full flex items-center justify-between w-full pointer-events-auto py-3 px-5 backdrop-blur-md transition-[box-shadow] duration-300 ease-out group/nav shadow-[0_18px_40px_-16px_rgba(0,0,0,0.12)] md:transition-[padding,background-color,border-color,box-shadow,backdrop-filter] md:duration-500 md:ease-out md:hover:-translate-y-[2px] md:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] ${scrolled
+                        ? 'md:glass-nav md:py-2.5 md:px-6 md:backdrop-blur-2xl md:border'
+                        : 'md:glass-nav md:py-3.5 md:px-8 md:border md:backdrop-blur-md'
                         }`}
+                    style={{
+                        background: scrolled ? 'color-mix(in srgb, var(--panel) 92%, transparent)' : 'color-mix(in srgb, var(--panel) 78%, transparent)',
+                        borderColor: 'var(--glass-border)',
+                        boxShadow: '0 18px 40px -16px rgba(0,0,0,0.12), 0 18px 48px -28px var(--theme-glow)'
+                    }}
                 >
                     {/* Blue halo */}
                     <div
                         className={`absolute inset-0 rounded-full transition-opacity duration-700 -z-10 ${scrolled ? 'opacity-100' : 'opacity-0'}`}
-                        style={{ boxShadow: '0 0 40px rgba(13,89,242,0.08), 0 0 80px rgba(13,89,242,0.04)' }}
+                        style={{ boxShadow: '0 0 40px var(--theme-glow), 0 0 80px color-mix(in srgb, var(--theme-glow) 45%, transparent)' }}
                     />
 
                     {/* ── Animated scroll-progress border ring ── */}
                     <svg className="absolute inset-0 pointer-events-none" width="100%" height="100%" style={{ zIndex: 25, overflow: 'visible' }}>
                         <rect
-                            ref={borderRef as any}
+                            ref={borderRef}
                             x="-1" y="-1"
                             className="w-[calc(100%+2px)] h-[calc(100%+2px)] transition-[filter] duration-300"
-                            rx="30"
+                            rx="35"
+                            ry="35"
                             fill="none"
-                            stroke="rgba(13, 89, 242, 1)"
-                            strokeWidth="2"
+                            stroke="var(--primary)"
                             pathLength="1"
                             strokeLinecap="round"
                             style={{
@@ -179,13 +197,15 @@ export default function Navbar() {
                     </svg>
 
                     {/* Logo */}
-                    <Link href="#home" className="flex items-center gap-2.5 relative z-30 group drop-shadow-sm">
-                        <div className="text-primary flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                            <span className="material-symbols-outlined" style={{ fontSize: '26px', fontVariationSettings: "'FILL' 1, 'wght' 700" }}>
-                                layers
-                            </span>
-                        </div>
-                        <span className="text-slate-900 font-extrabold text-xl tracking-tight transition-colors duration-300 group-hover:text-primary select-none font-[family-name:var(--font-outfit)]">
+                    <Link href="#home" className="flex items-center gap-1 sm:gap-1.5 relative z-30 group drop-shadow-sm">
+                        <Image
+                            src={logo}
+                            alt="TechMate4u"
+                            priority
+                            className="h-12 w-auto sm:h-[3.25rem] transition-all duration-300 group-hover:scale-[1.02]"
+                            style={{ filter: 'sepia(1) saturate(300%) hue-rotate(140deg)' }}
+                        />
+                        <span className="hidden sm:inline font-extrabold text-xl tracking-[-0.03em] transition-colors duration-300 group-hover:text-[var(--primary)] select-none font-[family-name:var(--font-outfit)] text-[var(--text)]">
                             TechMate4u
                         </span>
                     </Link>
@@ -198,7 +218,7 @@ export default function Navbar() {
                                 href={item.href}
                                 ref={(el) => { linkRefs.current[item.id] = el; }}
                                 onClick={() => handleLinkClick(item.id)}
-                                className={`relative text-[14.5px] font-medium tracking-tight transition-colors duration-200 py-2 drop-shadow-sm ${activeSection === item.id ? 'text-slate-900' : 'text-slate-500 hover:text-slate-800'
+                                className={`relative text-[14.5px] font-medium tracking-tight transition-colors duration-200 py-2 drop-shadow-sm ${activeSection === item.id ? 'text-[var(--text)]' : 'text-[var(--text-muted)] hover:text-[var(--text)]'
                                     }`}
                             >
                                 {item.name}
@@ -208,10 +228,10 @@ export default function Navbar() {
                         {/* Dot / pill indicator */}
                         {isVisible && (
                             <motion.div
-                                className="absolute pointer-events-none z-0 bg-primary overflow-visible"
-                                style={{ left, width: w, height: LINE_H, bottom: -4, borderRadius: 9999 }}
+                                className="absolute pointer-events-none z-0 overflow-visible"
+                                style={{ left, width: w, height: LINE_H, bottom: -4, borderRadius: 9999, background: "var(--primary)" }}
                             >
-                                <div className="absolute inset-0 bg-primary/50 rounded-full" style={{ filter: 'blur(4px)', transform: 'scaleY(2.5) scaleX(1.1)' }} />
+                                <div className="absolute inset-0 rounded-full" style={{ filter: 'blur(4px)', transform: 'scaleY(2.5) scaleX(1.1)', background: "var(--primary)", opacity: 0.5 }} />
                             </motion.div>
                         )}
                     </nav>
@@ -220,7 +240,8 @@ export default function Navbar() {
                     <div className="flex items-center gap-3 relative z-30">
                         <Link
                             href="#contact"
-                            className="hidden sm:flex group relative overflow-hidden bg-primary text-white text-[14.5px] font-semibold tracking-wide rounded-full h-10 px-6 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-0.5 items-center justify-center gap-2"
+                            className="hidden sm:flex group relative overflow-hidden text-white text-[14.5px] font-semibold tracking-wide rounded-full h-10 px-6 transition-all duration-300 hover:-translate-y-0.5 items-center justify-center gap-2"
+                            style={{ background: "var(--primary)", boxShadow: "0 10px 24px -12px var(--theme-glow)" }}
                         >
                             <span className="relative z-10 transition-transform duration-300 group-hover:-translate-x-0.5">Start Project</span>
                             <span className="material-symbols-outlined text-[16px] relative z-10 opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">arrow_forward</span>
@@ -228,10 +249,10 @@ export default function Navbar() {
                         </Link>
                         <button
                             onClick={() => setMobileOpen(true)}
-                            className="md:hidden flex items-center justify-center size-10 rounded-full hover:bg-slate-100 transition-colors"
+                            className="md:hidden flex items-center justify-center size-10 rounded-full transition-colors hover:bg-[var(--primary-soft)]"
                             aria-label="Open navigation menu"
                         >
-                            <span className="material-symbols-outlined text-slate-700" style={{ fontSize: '22px' }}>menu</span>
+                            <span className="material-symbols-outlined" style={{ fontSize: '22px', color: 'var(--text-muted)' }}>menu</span>
                         </button>
                     </div>
                 </header>
@@ -239,14 +260,20 @@ export default function Navbar() {
 
             {/* ═══════════ Mobile Overlay ═══════════ */}
             {mobileOpen && (
-                <div className="fixed inset-0 z-[100] bg-white mobile-nav-overlay">
+                <div className="fixed inset-0 z-[100] mobile-nav-overlay" style={{ background: 'var(--panel)' }}>
                     <div className="flex items-center justify-between px-6 pt-5">
-                        <Link href="#home" onClick={closeMobile} className="flex items-center gap-2.5">
-                            <span className="material-symbols-outlined text-primary" style={{ fontSize: '26px', fontVariationSettings: "'FILL' 1, 'wght' 700" }}>layers</span>
-                            <span className="text-slate-900 font-extrabold text-lg tracking-tight">TechMate4u</span>
+                        <Link href="#home" onClick={closeMobile} className="flex items-center gap-2 group">
+                            <Image
+                                src={logo}
+                                alt="TechMate4u"
+                                priority
+                                className="h-10 w-auto transition-all duration-300 group-hover:scale-[1.02]"
+                                style={{ filter: 'sepia(1) saturate(300%) hue-rotate(140deg)' }}
+                            />
+                            <span className="hidden sm:inline font-extrabold text-lg tracking-[-0.03em] text-[var(--text)] group-hover:text-[var(--primary)] transition-colors duration-300">TechMate4u</span>
                         </Link>
-                        <button onClick={closeMobile} className="flex items-center justify-center size-10 rounded-full hover:bg-slate-100 transition-colors" aria-label="Close navigation menu">
-                            <span className="material-symbols-outlined text-slate-700" style={{ fontSize: '24px' }}>close</span>
+                        <button onClick={closeMobile} className="flex items-center justify-center size-10 rounded-full transition-colors hover:bg-[var(--primary-soft)]" aria-label="Close navigation menu">
+                            <span className="material-symbols-outlined" style={{ fontSize: '24px', color: 'var(--text-muted)' }}>close</span>
                         </button>
                     </div>
                     <nav className="flex flex-col gap-2 px-6 mt-12">
@@ -255,15 +282,20 @@ export default function Navbar() {
                                 key={item.name}
                                 href={item.href}
                                 onClick={closeMobile}
-                                className="mobile-nav-link text-3xl font-extrabold font-[family-name:var(--font-outfit)] tracking-tight text-slate-900 hover:text-primary transition-colors py-3 border-b border-slate-100"
-                                style={{ animationDelay: `${0.1 + i * 0.08}s` }}
+                                className="mobile-nav-link text-3xl font-extrabold font-[family-name:var(--font-outfit)] tracking-tight text-[var(--text)] hover:text-[var(--primary)] transition-colors py-3 border-b"
+                                style={{ borderColor: 'var(--line-soft)', animationDelay: `${0.1 + i * 0.08}s` }}
                             >
                                 {item.name}
                             </Link>
                         ))}
                     </nav>
                     <div className="px-6 mt-10 mobile-nav-link" style={{ animationDelay: '0.5s' }}>
-                        <Link href="#contact" onClick={closeMobile} className="flex items-center justify-center gap-2 w-full bg-primary text-white text-lg font-bold rounded-full h-14 shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30">
+                        <Link
+                            href="#contact"
+                            onClick={closeMobile}
+                            className="flex items-center justify-center gap-2 w-full text-white text-lg font-bold rounded-full h-14 transition-all"
+                            style={{ background: "var(--primary)", boxShadow: "0 14px 28px -16px var(--theme-glow)" }}
+                        >
                             Start Project
                             <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
                         </Link>
