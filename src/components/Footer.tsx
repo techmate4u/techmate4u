@@ -149,20 +149,20 @@ export default function Footer() {
                             Get In Touch
                         </h3>
 
-                        <a
-                            href="mailto:hello@techmate4u.com"
+                        <Link
+                            href="#contact"
                             className="group relative overflow-hidden inline-flex items-center gap-2 text-white text-sm font-bold rounded-full h-10 px-6 w-fit transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-[var(--primary)]/25 mt-1"
                             style={{ background: 'var(--primary)', boxShadow: '0 10px 24px -12px var(--theme-glow)' }}
                         >
                             <span className="relative z-10 transition-transform duration-300 group-hover:-translate-x-0.5">
-                                Email Us
+                                Contact Us
                             </span>
                             <span className="material-symbols-outlined text-[16px] relative z-10 opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
                                 mail
                             </span>
                             {/* Shimmer */}
                             <div className="absolute top-0 -left-full w-1/2 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-20deg] group-hover:translate-x-[500%] transition-transform duration-700 ease-out z-0" />
-                        </a>
+                        </Link>
 
                         {/* Legal links removed temporarily as no Tos/Privacy Policy pages exist */}
                     </div>

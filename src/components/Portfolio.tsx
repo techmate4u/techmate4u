@@ -9,32 +9,26 @@ interface Project {
     category: string;
     description: string;
     themeId: ThemeId;
+    video?: string;
+    link: string;
 }
 
 const projects: Project[] = [
     {
-        title: "Krypton Web3 Platform",
-        category: "Web Development",
-        description: "A high-conversion marketing site built with Next.js and Tailwind CSS featuring a complete unified design system and complex 3D integration.",
-        themeId: "blue"
+        title: "Riwaaz Ethnic",
+        category: "E-commerce",
+        description: "A premium ethnic wear brand featuring timeless kurtis with intricate embroidery and elegant designs.",
+        themeId: "rose",
+        video: "/assets/riwaazethnic.webm",
+        link: "https://riwaazethnic.vercel.app/"
     },
     {
-        title: "Aether AI Assistant",
-        category: "AI Integration",
-        description: "An intelligent customer support bot capable of handling natural language queries 24/7 with zero hallucinations and real-time context retrieval.",
-        themeId: "purple"
-    },
-    {
-        title: "Nexus ERP System",
-        category: "Business Automation",
-        description: "A custom internal tool workflow processing data between CRM and billing systems automatically, saving over 40 hours a week in manual entry.",
-        themeId: "cyan"
-    },
-    {
-        title: "Onyx Analytics",
-        category: "Data Visualization",
-        description: "A comprehensive dashboard rendering millions of real-time server events into actionable, high-performance webGL charts.",
-        themeId: "rose"
+        title: "Lab2Door",
+        category: "Healthcare Logistics",
+        description: "A professional medical service bringing laboratory specimen collection directly to patients' homes and offices.",
+        themeId: "blue",
+        video: "/assets/lab2door.webm",
+        link: "https://lab2door.vercel.app/"
     }
 ];
 
@@ -44,14 +38,7 @@ export default function Portfolio() {
             className="w-full relative z-20 overflow-hidden -mt-10 lg:-mt-14 pt-10 lg:pt-14"
             id="portfolio"
         >
-            {/* Background layers moved to src/app/page.tsx for centralized editing.
-                Previous local layers:
-                background: var(--surface)
-                top fade: surface-muted -> surface
-                bottom fade: transparent -> surface-muted
-                ambient glows: primary 14% 22%, accent-2 84% 40%
-                panel wash: top h-40 using var(--panel)
-            */}
+            {/* Background layers moved to src/app/page.tsx for centralized editing. */}
 
             <div className="absolute top-[10%] left-[-20px] w-48 h-48 opacity-30 hover:opacity-80 transition-all duration-700 hover:translate-x-[30px] z-0 hidden lg:block group">
                 <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-slate-400 group-hover:text-blue-500 transition-colors duration-700 animate-float-3">
@@ -84,12 +71,24 @@ export default function Portfolio() {
     );
 }
 
-const Card = ({ title, description, category, themeId }: Project) => {
+const Card = ({ title, description, category, themeId, video, link }: Project) => {
     return (
         <div className="w-full flex justify-center group h-full">
             <div className="flex flex-col w-full min-h-[500px] border rounded-[2rem] overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_40px_80px_-30px_rgba(0,0,0,0.15)] relative" style={{ borderColor: "var(--line)", background: "var(--panel)" }}>
-                <div className="w-full h-64 md:h-[50%] relative overflow-hidden shrink-0" style={{ borderBottom: "1px solid var(--line-soft)", background: "var(--surface-muted)" }}>
-                    <AbstractArt themeId={themeId} />
+                <div className="w-full aspect-video relative overflow-hidden shrink-0 border-b" style={{ borderColor: "var(--line-soft)", background: "var(--surface-muted)" }}>
+                    {video ? (
+                        <video 
+                            src={video} 
+                            autoPlay 
+                            loop 
+                            muted 
+                            playsInline 
+                            className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                        />
+                    ) : (
+                        <AbstractArt themeId={themeId} />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-muted)] to-transparent opacity-20 pointer-events-none" />
                 </div>
 
                 <div className="w-full grow p-8 md:p-10 flex flex-col justify-center relative z-10" style={{ background: "var(--panel)" }}>
@@ -100,16 +99,22 @@ const Card = ({ title, description, category, themeId }: Project) => {
                     <h3 className="text-2xl md:text-3xl font-black mb-4 font-[family-name:var(--font-outfit)] leading-[1.1] tracking-tight text-[var(--text)]">{title}</h3>
                     <p className="text-sm md:text-base leading-relaxed mb-6 line-clamp-3 text-[var(--text-muted)]">{description}</p>
                     <div className="mt-auto">
-                        <button className="flex items-center gap-2 text-sm font-bold transition-colors group/btn text-[var(--text)] hover:text-[var(--primary)]">
-                            Explore Case Study
+                        <a 
+                            href={link} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-sm font-bold transition-colors group/btn text-[var(--text)] hover:text-[var(--primary)]"
+                        >
+                            View Live Project
                             <span className="material-symbols-outlined text-xs transform group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     );
 };
+
 
 const AbstractArt = ({ themeId }: { themeId: ThemeId }) => {
     return (

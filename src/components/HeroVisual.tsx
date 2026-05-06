@@ -119,7 +119,7 @@ export default function HeroVisual() {
             >
                 <div className="w-[110px] sm:w-[132px] md:w-[156px] lg:w-[200px] rounded-2xl sm:rounded-3xl border-[4px] sm:border-[6px] border-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] overflow-hidden bg-white rotate-[6deg] transition-transform hover:rotate-0 duration-500 animate-float-mobile">
                     <img
-                        src="/assets/mobile-amara.png"
+                        src="/assets/mobile-amara.webp"
                         alt="Mobile responsive view"
                         loading="lazy"
                         className="w-full h-auto object-cover block"
