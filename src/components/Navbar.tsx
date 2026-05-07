@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import logo from '../../assets/logo.png';
+import logo from '../../public/assets/t-logo.webp';
 
 const NAV_SECTIONS = [
     { name: 'Services', href: '#services', id: 'services' },
@@ -202,7 +202,7 @@ export default function Navbar() {
                             src={logo}
                             alt="TechMate4u"
                             priority
-                            className="h-12 w-auto sm:h-[3.25rem] transition-all duration-300 group-hover:scale-[1.02]"
+                            className="h-6 w-auto sm:h-8 transition-all duration-300 group-hover:scale-[1.02]"
                             style={{ filter: 'sepia(1) saturate(300%) hue-rotate(140deg)' }}
                         />
                         <span className="hidden sm:inline font-extrabold text-xl tracking-[-0.03em] transition-colors duration-300 group-hover:text-[var(--primary)] select-none font-[family-name:var(--font-outfit)] text-[var(--text)]">
@@ -267,7 +267,7 @@ export default function Navbar() {
                                 src={logo}
                                 alt="TechMate4u"
                                 priority
-                                className="h-10 w-auto transition-all duration-300 group-hover:scale-[1.02]"
+                                className="h-6 w-auto transition-all duration-300 group-hover:scale-[1.02]"
                                 style={{ filter: 'sepia(1) saturate(300%) hue-rotate(140deg)' }}
                             />
                             <span className="hidden sm:inline font-extrabold text-lg tracking-[-0.03em] text-[var(--text)] group-hover:text-[var(--primary)] transition-colors duration-300">TechMate4u</span>

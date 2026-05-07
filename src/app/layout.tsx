@@ -18,6 +18,10 @@ export const metadata: Metadata = {
   keywords: ["web development", "AI automation", "Next.js applications", "digital product studio", "SaaS websites"],
   authors: [{ name: "TechMate4u" }],
   creator: "TechMate4u",
+  icons: {
+    icon: "/assets/t-logo.webp",
+    apple: "/assets/t-logo.webp",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
