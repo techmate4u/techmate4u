@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Send, CheckCircle2, Rocket, MessageSquare, Briefcase, Zap, Shield, Users, User, Layout, Lock, CheckSquare, FileText, ChevronDown } from "lucide-react";
+import { Send, CheckCircle2, Rocket, MessageSquare, Briefcase, Zap, Shield, Users, User, Layout, Lock, CheckSquare, FileText, ChevronDown, Phone } from "lucide-react";
 
 type InquiryType = "website" | "seo" | "automation" | "mobile" | "other";
 
@@ -37,6 +37,7 @@ export default function CTA() {
         const data = {
             name: formData.get('name') as string,
             email: formData.get('email') as string,
+            mobile: formData.get('mobile') as string,
             service: inquiryType,
             message: formData.get('message') as string,
         };
@@ -217,6 +218,22 @@ export default function CTA() {
                                                     name="email"
                                                     required
                                                     placeholder="Enter Email"
+                                                    className="w-full bg-transparent focus:outline-none text-[15px] placeholder:opacity-90"
+                                                    style={{ color: "var(--cta-text)", border: "none", background: "none" }}
+                                                />
+                                            </div>
+                                            {/* Mobile Number */}
+                                            <div className="relative rounded-md p-3.5 pb-2.5 transition-all focus-within:ring-1 focus-within:ring-[var(--primary)] sm:col-span-2" style={{ background: "var(--cta-input)" }}>
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <Phone className="w-3.5 h-3.5" style={{ color: "var(--cta-soft)" }} />
+                                                    <span className="text-[11px] font-semibold tracking-wide" style={{ color: "var(--cta-text)" }}>Mobile Number</span>
+                                                </div>
+                                                <input
+                                                    type="tel"
+                                                    id="mobile"
+                                                    name="mobile"
+                                                    required
+                                                    placeholder="Enter Mobile Number"
                                                     className="w-full bg-transparent focus:outline-none text-[15px] placeholder:opacity-90"
                                                     style={{ color: "var(--cta-text)", border: "none", background: "none" }}
                                                 />

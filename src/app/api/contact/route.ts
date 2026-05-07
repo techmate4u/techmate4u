@@ -3,10 +3,10 @@ import nodemailer from 'nodemailer';
 
 export async function POST(request: Request) {
     try {
-        const { name, email, service, message } = await request.json();
+        const { name, email, mobile, service, message } = await request.json();
 
         // Validate
-        if (!name || !email || !message) {
+        if (!name || !email || !mobile || !message) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
@@ -32,6 +32,7 @@ You have received a new project inquiry from your landing page.
 
 Name: ${name}
 Email: ${email}
+Mobile: ${mobile}
 Service Category: ${service}
 
 Project Details:
@@ -41,6 +42,7 @@ ${message}
                 <h3>New Project Inquiry</h3>
                 <p><strong>Name:</strong> ${name}</p>
                 <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Mobile:</strong> ${mobile}</p>
                 <p><strong>Service:</strong> ${service}</p>
                 <h4>Project Details:</h4>
                 <p>${message.replace(/\n/g, '<br>')}</p>

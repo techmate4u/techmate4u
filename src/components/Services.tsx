@@ -51,8 +51,7 @@ const services: ServiceItem[] = [
             "AI Voice & Chat Agents",
             "CRM & API Integrations",
             "WhatsApp / SMS Automation"
-        ],
-        popular: true
+        ]
     },
     {
         id: "04",
@@ -147,8 +146,8 @@ export default function Services() {
                                     </ul>
 
                                     {/* Learn More Link */}
-                                    <a 
-                                        href="#contact" 
+                                    <a
+                                        href="#contact"
                                         onClick={() => window.dispatchEvent(new CustomEvent('selectService', { detail: service.keyId }))}
                                         className="inline-flex items-center gap-2 text-sm font-bold text-[var(--primary)] hover:opacity-80 transition-opacity mt-auto"
                                     >
