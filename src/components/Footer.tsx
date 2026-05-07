@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import logo from "../../public/assets/t-logo.webp";
+import logo from "../../public/assets/logo.webp";
 
 const navLinks = [
     { name: "Home", href: "#home" },
@@ -77,7 +77,7 @@ export default function Footer() {
                             <Image
                                 src={logo}
                                 alt="TechMate4u"
-                                className="h-6 w-auto transition-all duration-300 group-hover:scale-[1.02]"
+                                className="h-10 w-auto transition-all duration-300 group-hover:scale-[1.02]"
                                 style={{ filter: 'sepia(1) saturate(300%) hue-rotate(140deg)' }}
                             />
                             <span className="font-extrabold text-lg tracking-tight group-hover:text-[var(--primary)] transition-colors duration-300 drop-shadow-sm text-[var(--text)]">
