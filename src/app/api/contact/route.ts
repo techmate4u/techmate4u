@@ -6,9 +6,11 @@ export async function POST(request: Request) {
         const { name, email, mobile, service, message } = await request.json();
 
         // Validate
-        if (!name || !email || !mobile || !message) {
+        if (!name || !email || !mobile) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
+
+        const projectDetails = message?.trim() || "No additional details provided.";
 
         // Create a Nodemailer transporter
         // Add SMTP credentials to your .env.local file:
@@ -36,7 +38,7 @@ Mobile: ${mobile}
 Service Category: ${service}
 
 Project Details:
-${message}
+${projectDetails}
             `,
             html: `
                 <h3>New Project Inquiry</h3>
@@ -45,7 +47,7 @@ ${message}
                 <p><strong>Mobile:</strong> ${mobile}</p>
                 <p><strong>Service:</strong> ${service}</p>
                 <h4>Project Details:</h4>
-                <p>${message.replace(/\n/g, '<br>')}</p>
+                <p>${projectDetails.replace(/\n/g, '<br>')}</p>
             `,
         };
 

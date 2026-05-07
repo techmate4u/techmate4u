@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Send, CheckCircle2, Rocket, MessageSquare, Briefcase, Zap, Shield, Users, User, Layout, Lock, CheckSquare, FileText, ChevronDown, Phone } from "lucide-react";
+import { Send, CheckCircle2, Rocket, MessageSquare, Briefcase, Zap, Shield, Users, User, Layout, Lock, CheckSquare, FileText, ChevronDown, Phone, AlertCircle } from "lucide-react";
 
 type InquiryType = "website" | "seo" | "automation" | "mobile" | "other";
 
@@ -18,6 +18,7 @@ export default function CTA() {
     const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
     const [inquiryType, setInquiryType] = useState<InquiryType>("website");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
     useEffect(() => {
         const handleSelect = (e: CustomEvent) => {
@@ -31,15 +32,40 @@ export default function CTA() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setStatus("submitting");
+        setErrorMsg(null);
 
         const formData = new FormData(e.currentTarget);
+        const name = formData.get('name') as string;
+        const email = formData.get('email') as string;
+        const mobile = formData.get('mobile') as string;
+        const message = formData.get('message') as string;
+
+        // Validation
+        if (name.trim().length < 2) {
+            setErrorMsg("Please enter a valid name.");
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setErrorMsg("Please enter a valid email address.");
+            return;
+        }
+
+        const phoneRegex = /^[\d\s\-+()]{7,20}$/;
+        if (!phoneRegex.test(mobile)) {
+            setErrorMsg("Please enter a valid mobile number (min. 7 digits).");
+            return;
+        }
+
+        setStatus("submitting");
+
         const data = {
-            name: formData.get('name') as string,
-            email: formData.get('email') as string,
-            mobile: formData.get('mobile') as string,
+            name,
+            email,
+            mobile,
             service: inquiryType,
-            message: formData.get('message') as string,
+            message,
         };
 
         try {
@@ -326,6 +352,21 @@ export default function CTA() {
 
                                     {/* Submit Area */}
                                     <div className="pt-2">
+                                        <AnimatePresence>
+                                            {errorMsg && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                                                    animate={{ opacity: 1, height: 'auto', marginBottom: 16 }}
+                                                    exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                                                    className="flex items-center justify-center overflow-hidden"
+                                                >
+                                                    <div className="flex items-center gap-2 p-3 rounded-md bg-red-500/10 border border-red-500/20 text-red-500 text-sm font-medium w-full">
+                                                        <AlertCircle className="w-4 h-4 shrink-0" />
+                                                        <span>{errorMsg}</span>
+                                                    </div>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
                                         <motion.button
                                             type="submit"
                                             disabled={status === "submitting"}
