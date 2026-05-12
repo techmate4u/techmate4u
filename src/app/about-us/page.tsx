@@ -185,7 +185,7 @@ export default function AboutUsPage() {
             <div className="p-5">
               <div className="relative aspect-[16/10] overflow-hidden rounded-md border" style={{ borderColor: "var(--line-soft)" }}>
                 <Image
-                  src="/assets/amara4.png"
+                  src="/assets/amara.webp"
                   alt="TechMate4u product work on a laptop"
                   fill
                   priority
