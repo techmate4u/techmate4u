@@ -32,7 +32,7 @@ export default function Hero() {
             <div className="fixed inset-0 w-[100vw] h-[100vh] -z-20 pointer-events-none" style={{ background: "var(--hero-base)" }}>
                 {/* Light gradient from right */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(45,212,191,0.06)] to-[rgba(45,212,191,0.12)]" />
-                
+
                 {/* Texture via SVG Filter for realistic blueprint feel */}
                 <svg className="absolute inset-0 w-full h-full opacity-[0.08] mix-blend-overlay pointer-events-none">
                     <filter id="noise">
@@ -101,7 +101,7 @@ export default function Hero() {
                             </span>
 
                             <span className="relative z-10 flex items-center gap-2">
-                                Start Your Project
+                                Get in Touch
                                 <span className="material-symbols-outlined text-sm transition-all duration-300 group-hover:translate-x-1 group-hover:scale-110 text-white">arrow_forward</span>
                             </span>
                         </Link>

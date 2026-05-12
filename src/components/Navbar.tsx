@@ -2,24 +2,28 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import logo from '../../public/assets/logo.webp';
 
 const NAV_SECTIONS = [
-    { name: 'Services', href: '#services', id: 'services' },
-    { name: 'Work', href: '#portfolio', id: 'portfolio' },
-    { name: 'Process', href: '#process', id: 'process' },
-    { name: 'Contact', href: '#contact', id: 'contact' },
+    { name: 'Services', href: '/#services', id: 'services' },
+    { name: 'Work', href: '/#portfolio', id: 'portfolio' },
+    { name: 'Process', href: '/#process', id: 'process' },
+    { name: 'About Us', href: '/about-us', id: 'about-us' },
 ] as const;
 
 const DOT_W = 6;
 const LINE_H = 3;
 
 export default function Navbar() {
+    const pathname = usePathname();
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState<string>('');
     const [mobileOpen, setMobileOpen] = useState(false);
+    const standaloneActiveSection = NAV_SECTIONS.find(s => !s.href.startsWith('/#') && pathname === s.href)?.id;
+    const currentActiveSection = standaloneActiveSection ?? activeSection;
 
     const borderRef = useRef<SVGRectElement>(null);
     const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
@@ -66,16 +70,16 @@ export default function Navbar() {
     }, [animateTo]);
 
     useEffect(() => {
-        if (!activeSection || clickedRef.current) return;
-        const raf = requestAnimationFrame(() => snapTo(activeSection));
+        if (!currentActiveSection || clickedRef.current) return;
+        const raf = requestAnimationFrame(() => snapTo(currentActiveSection));
         return () => cancelAnimationFrame(raf);
-    }, [activeSection, snapTo]);
+    }, [currentActiveSection, snapTo]);
 
     useEffect(() => {
-        const onResize = () => { if (activeSection) snapTo(activeSection); };
+        const onResize = () => { if (currentActiveSection) snapTo(currentActiveSection); };
         window.addEventListener('resize', onResize);
         return () => window.removeEventListener('resize', onResize);
-    }, [activeSection, snapTo]);
+    }, [currentActiveSection, snapTo]);
 
     // ── Scroll-progress border ──────────────────────────────────────────────
     useEffect(() => {
@@ -131,9 +135,14 @@ export default function Navbar() {
         return () => document.getElementById('nav-border-style')?.remove();
     }, []);
 
+    /* ── Pathname-based active state for standalone pages ── */
     /* ── Scroll listener for navbar bg ── */
-    /* ── IntersectionObserver ── */
+    /* ── IntersectionObserver (hash sections on homepage) ── */
     useEffect(() => {
+        // Skip observer on standalone pages — pathname match handles it
+        const isStandalonePage = NAV_SECTIONS.some(s => !s.href.startsWith('/#') && pathname === s.href);
+        if (isStandalonePage) return;
+
         const elements = NAV_SECTIONS
             .map(s => document.getElementById(s.id))
             .filter(Boolean) as HTMLElement[];
@@ -144,7 +153,7 @@ export default function Navbar() {
         );
         elements.forEach(el => observer.observe(el));
         return () => observer.disconnect();
-    }, []);
+    }, [pathname]);
 
     /* ── Mobile scroll lock ── */
     useEffect(() => {
@@ -153,7 +162,7 @@ export default function Navbar() {
     }, [mobileOpen]);
 
     const closeMobile = useCallback(() => setMobileOpen(false), []);
-    const isVisible = NAV_SECTIONS.some(s => s.id === activeSection);
+    const isVisible = NAV_SECTIONS.some(s => s.id === currentActiveSection);
 
     return (
         <>
@@ -197,12 +206,12 @@ export default function Navbar() {
                     </svg>
 
                     {/* Logo */}
-                    <Link href="#home" className="flex items-center gap-1 sm:gap-1.5 relative z-30 group drop-shadow-sm">
+                    <Link href="/#home" className="flex items-center gap-1 sm:gap-1.5 relative z-30 group drop-shadow-sm">
                         <Image
                             src={logo}
                             alt="TechMate4u"
                             priority
-                            className="h-8 w-auto sm:h-10 transition-all duration-300 group-hover:scale-[1.02]"
+                            className="h-10 w-auto sm:h-10 transition-all duration-300 group-hover:scale-[1.02]"
                             style={{ filter: 'sepia(1) saturate(300%) hue-rotate(140deg)' }}
                         />
                         <span className="hidden sm:inline font-extrabold text-xl tracking-[-0.03em] transition-colors duration-300 group-hover:text-[var(--primary)] select-none font-[family-name:var(--font-outfit)] text-[var(--text)]">
@@ -218,7 +227,7 @@ export default function Navbar() {
                                 href={item.href}
                                 ref={(el) => { linkRefs.current[item.id] = el; }}
                                 onClick={() => handleLinkClick(item.id)}
-                                className={`relative text-[14.5px] font-medium tracking-tight transition-colors duration-200 py-2 drop-shadow-sm ${activeSection === item.id ? 'text-[var(--text)]' : 'text-[var(--text-muted)] hover:text-[var(--text)]'
+                                className={`relative text-[14.5px] font-medium tracking-tight transition-colors duration-200 py-2 drop-shadow-sm ${currentActiveSection === item.id ? 'text-[var(--text)]' : 'text-[var(--text-muted)] hover:text-[var(--text)]'
                                     }`}
                             >
                                 {item.name}
@@ -239,11 +248,11 @@ export default function Navbar() {
                     {/* CTA + Hamburger */}
                     <div className="flex items-center gap-3 relative z-30">
                         <Link
-                            href="#contact"
+                            href="/#contact"
                             className="hidden sm:flex group relative overflow-hidden text-white text-[14.5px] font-semibold tracking-wide rounded-full h-10 px-6 transition-all duration-300 hover:-translate-y-0.5 items-center justify-center gap-2"
                             style={{ background: "var(--primary)", boxShadow: "0 10px 24px -12px var(--theme-glow)" }}
                         >
-                            <span className="relative z-10 transition-transform duration-300 group-hover:-translate-x-0.5">Start Project</span>
+                            <span className="relative z-10 transition-transform duration-300 group-hover:-translate-x-0.5">Get in Touch</span>
                             <span className="material-symbols-outlined text-[16px] relative z-10 opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">arrow_forward</span>
                             <div className="absolute top-0 -left-full w-1/2 h-full bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-[-20deg] group-hover:translate-x-[400%] transition-transform duration-1000 ease-out z-0" />
                         </Link>
@@ -262,12 +271,12 @@ export default function Navbar() {
             {mobileOpen && (
                 <div className="fixed inset-0 z-[100] mobile-nav-overlay" style={{ background: 'var(--panel)' }}>
                     <div className="flex items-center justify-between px-6 pt-5">
-                        <Link href="#home" onClick={closeMobile} className="flex items-center gap-2 group">
+                        <Link href="/#home" onClick={closeMobile} className="flex items-center gap-2 group">
                             <Image
                                 src={logo}
                                 alt="TechMate4u"
                                 priority
-                                className="h-8 w-auto transition-all duration-300 group-hover:scale-[1.02]"
+                                className="h-10 w-auto transition-all duration-300 group-hover:scale-[1.02]"
                                 style={{ filter: 'sepia(1) saturate(300%) hue-rotate(140deg)' }}
                             />
                             <span className="hidden sm:inline font-extrabold text-lg tracking-[-0.03em] text-[var(--text)] group-hover:text-[var(--primary)] transition-colors duration-300">TechMate4u</span>
@@ -291,12 +300,12 @@ export default function Navbar() {
                     </nav>
                     <div className="px-6 mt-10 mobile-nav-link" style={{ animationDelay: '0.5s' }}>
                         <Link
-                            href="#contact"
+                            href="/#contact"
                             onClick={closeMobile}
                             className="flex items-center justify-center gap-2 w-full text-white text-lg font-bold rounded-full h-14 transition-all"
                             style={{ background: "var(--primary)", boxShadow: "0 14px 28px -16px var(--theme-glow)" }}
                         >
-                            Start Project
+                            Get in Touch
                             <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
                         </Link>
                     </div>

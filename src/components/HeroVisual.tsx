@@ -21,7 +21,7 @@ type FloatingCard = {
 };
 
 const FLOATING_CARDS: FloatingCard[] = [
-    {
+    /*{
         id: "growth",
         icon: TrendingUp,
         label: "Traffic Growth",
@@ -31,7 +31,7 @@ const FLOATING_CARDS: FloatingCard[] = [
         position: "top-[-12px] right-[-6px] sm:top-[-14px] sm:right-[-10px] md:top-[6%] md:right-[-18px] lg:right-[-40px]",
         delay: "hero-stagger-2",
         floatAnimation: "animate-float-1",
-    },
+    },*/
 
     {
         id: "speed",
@@ -77,7 +77,7 @@ export default function HeroVisual() {
             {/* ── Main Browser Mockup (Showing a Real Website) ── */}
             <motion.div
                 style={{ y: 0, background: "var(--panel)", boxShadow: "var(--hero-card-shadow)" }}
-                className="relative w-full max-w-[92vw] sm:max-w-[480px] md:max-w-[560px] lg:max-w-[560px] rounded-[1rem] sm:rounded-[1.5rem] overflow-hidden hero-fade-up hero-stagger-1 mx-auto lg:ml-auto flex flex-col"
+                className="relative w-full max-w-[92vw] sm:max-w-[480px] md:max-w-[560px] lg:max-w-[560px] rounded-lg overflow-hidden hero-fade-up hero-stagger-1 mx-auto lg:ml-auto flex flex-col"
             >
 
                 {/* Browser Header */}
@@ -101,7 +101,7 @@ export default function HeroVisual() {
 
                     {/* Flat UI Screenshot */}
                     <img
-                        src="/assets/laptop.webp"
+                        src="/assets/amara.webp"
                         alt="Amara website"
                         loading="lazy"
                         className="relative block w-full h-auto object-cover object-top"
@@ -117,9 +117,9 @@ export default function HeroVisual() {
                 style={{ y: 0 }}
                 className="absolute bottom-[-10px] right-[-4px] sm:bottom-[-14px] sm:right-[-8px] md:bottom-[4px] md:right-[2%] lg:bottom-[-18px] lg:right-[-12px] z-40 hero-fade-up hero-stagger-4"
             >
-                <div className="w-[110px] sm:w-[132px] md:w-[156px] lg:w-[200px] rounded-2xl sm:rounded-3xl border-[4px] sm:border-[6px] border-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] overflow-hidden bg-white rotate-[6deg] transition-transform hover:rotate-0 duration-500 animate-float-mobile">
+                <div className="w-[110px] sm:w-[132px] md:w-[156px] lg:w-[200px] rounded-2xl border-[4px] sm:border-[6px] border-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] overflow-hidden bg-white rotate-[6deg] transition-transform hover:rotate-0 duration-500 animate-float-mobile">
                     <img
-                        src="/assets/mobile-amara.webp"
+                        src="/assets/amara-mobile.webp"
                         alt="Mobile responsive view"
                         loading="lazy"
                         className="w-full h-auto object-cover block"

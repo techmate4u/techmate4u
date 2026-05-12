@@ -46,3 +46,6 @@ next-env.d.ts
 _agents/
 _agent/
 
+# .context files
+2day-action-plan.md
+redesign-context.md

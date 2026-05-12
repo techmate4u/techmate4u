@@ -32,6 +32,19 @@ const projects: Project[] = [
     }
 ];
 
+const testimonials = [
+    {
+        project: projects[0],
+        quote: "TechMate4u delivered a clean and modern website that matched our brand perfectly. The process was smooth, communication was quick, and the final result exceeded expectations.",
+        label: "Clothing Brand"
+    },
+    {
+        project: projects[1],
+        quote: "The dashboard and platform experience were designed thoughtfully with attention to usability and performance. The team was responsive and easy to work with.",
+        label: "Healthcare Logistics"
+    }
+];
+
 export default function Portfolio() {
     return (
         <section
@@ -62,10 +75,48 @@ export default function Portfolio() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto px-4 pb-32 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto px-4 pb-20 relative z-10">
                 {projects.map((project, i) => (
                     <Card key={i} {...project} />
                 ))}
+            </div>
+
+            {/* Testimonials / Client Feedback */}
+            <div className="max-w-7xl mx-auto px-4 pb-32 relative z-10">
+                <div className="flex items-center gap-3 mb-8 lg:mb-10">
+                    <div className="w-8 h-[1px]" style={{ background: "var(--primary)" }}></div>
+                    <h3 className="text-sm font-black uppercase tracking-widest text-[var(--primary)] font-[family-name:var(--font-outfit)]">Client Feedback</h3>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mt-6">
+                    {testimonials.map(({ project, quote, label }) => (
+                        <article
+                            key={project.title}
+                            className="flex min-h-[260px] flex-col rounded-lg border p-5 md:p-6 transition-all duration-500 hover:-translate-y-1"
+                            style={{ borderColor: "var(--line)", background: "var(--panel)" }}
+                        >
+                            <span className="text-5xl text-[var(--primary)] mb-2 font-serif leading-none">&ldquo;</span>
+                            <p className="text-base lg:text-lg italic leading-relaxed text-[var(--text-muted)] mb-6 flex-grow">
+                                {quote}
+                            </p>
+                            <div className="mt-auto flex items-center gap-4">
+                                <div className="w-8 h-[2px]" style={{ background: "var(--primary)" }}></div>
+                                <div>
+                                    <a
+                                        href={project.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1.5 text-sm font-bold text-[var(--text)] font-[family-name:var(--font-outfit)] tracking-widest uppercase mb-0.5 transition-colors hover:text-[var(--primary)]"
+                                    >
+                                        {project.title}
+                                        <span className="material-symbols-outlined text-[14px] leading-none">open_in_new</span>
+                                    </a>
+                                    <span className="block text-sm text-[var(--text-muted)]">{label}</span>
+                                </div>
+                            </div>
+                        </article>
+                    ))}
+                </div>
             </div>
         </section>
     );
@@ -74,7 +125,7 @@ export default function Portfolio() {
 const Card = ({ title, description, category, themeId, video, link }: Project) => {
     return (
         <div className="w-full flex justify-center group h-full">
-            <div className="flex flex-col w-full min-h-[500px] border rounded-[2rem] overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_40px_80px_-30px_rgba(0,0,0,0.15)] relative" style={{ borderColor: "var(--line)", background: "var(--panel)" }}>
+            <div className="flex flex-col w-full min-h-[500px] border rounded-lg overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_40px_80px_-30px_rgba(0,0,0,0.15)] relative" style={{ borderColor: "var(--line)", background: "var(--panel)" }}>
                 <div className="w-full aspect-video relative overflow-hidden shrink-0 border-b" style={{ borderColor: "var(--line-soft)", background: "var(--surface-muted)" }}>
                     {video ? (
                         <video 
@@ -123,8 +174,8 @@ const AbstractArt = ({ themeId }: { themeId: ThemeId }) => {
                 <React.Fragment>
                     <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-400/20 via-transparent to-transparent blur-xl" />
                     <div className="absolute bottom-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent blur-xl" />
-                    <div className="w-40 h-56 md:w-64 md:h-80 bg-white/80 backdrop-blur-md border border-white/80 rounded-3xl shadow-2xl transform -rotate-6 absolute transition-transform duration-700 group-hover:-translate-y-4 group-hover:rotate-[-8deg] " />
-                    <div className="w-40 h-56 md:w-64 md:h-80 bg-blue-500/10 backdrop-blur-md border border-white/60 rounded-3xl shadow-xl transform rotate-6 absolute ml-16 md:ml-32 mt-12 transition-transform duration-700 group-hover:-translate-y-2 group-hover:rotate-[8deg] " />
+                    <div className="w-40 h-56 md:w-64 md:h-80 bg-white/80 backdrop-blur-md border border-white/80 rounded-xl shadow-2xl transform -rotate-6 absolute transition-transform duration-700 group-hover:-translate-y-4 group-hover:rotate-[-8deg] " />
+                    <div className="w-40 h-56 md:w-64 md:h-80 bg-blue-500/10 backdrop-blur-md border border-white/60 rounded-xl shadow-xl transform rotate-6 absolute ml-16 md:ml-32 mt-12 transition-transform duration-700 group-hover:-translate-y-2 group-hover:rotate-[8deg] " />
                 </React.Fragment>
             )}
             {themeId === "purple" && (
@@ -139,9 +190,9 @@ const AbstractArt = ({ themeId }: { themeId: ThemeId }) => {
                 <React.Fragment>
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-cyan-400/20 via-transparent to-transparent blur-lg" />
                     <div className="w-full h-full flex flex-col gap-4 p-8 md:p-24 absolute inset-0 transform -rotate-12 scale-110 opacity-60">
-                        <div className="w-full h-8 md:h-12 bg-white/70 backdrop-blur-sm border border-white/60 rounded-lg shadow-sm transition-transform duration-500 group-hover:translate-x-4 will-change-transform" />
-                        <div className="w-3/4 h-8 md:h-12 bg-white/90 backdrop-blur-sm border border-white/90 rounded-lg shadow-md transition-transform duration-700 delay-75 group-hover:translate-x-8 will-change-transform" />
-                        <div className="w-full h-24 md:h-32 bg-cyan-500/10 backdrop-blur-sm border border-white/60 rounded-lg shadow-sm transition-transform duration-[900ms] delay-150 group-hover:translate-x-2 will-change-transform" />
+                        <div className="w-full h-8 md:h-12 bg-white/70 backdrop-blur-sm border border-white/60 rounded-xl shadow-sm transition-transform duration-500 group-hover:translate-x-4 will-change-transform" />
+                        <div className="w-3/4 h-8 md:h-12 bg-white/90 backdrop-blur-sm border border-white/90 rounded-xl shadow-md transition-transform duration-700 delay-75 group-hover:translate-x-8 will-change-transform" />
+                        <div className="w-full h-24 md:h-32 bg-cyan-500/10 backdrop-blur-sm border border-white/60 rounded-xl shadow-sm transition-transform duration-[900ms] delay-150 group-hover:translate-x-2 will-change-transform" />
                     </div>
                 </React.Fragment>
             )}
