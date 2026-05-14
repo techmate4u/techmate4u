@@ -48,7 +48,7 @@ const testimonials = [
 export default function Portfolio() {
     return (
         <section
-            className="w-full relative z-20 overflow-hidden -mt-10 lg:-mt-14 pt-10 lg:pt-14"
+            className="w-full relative z-20 overflow-hidden -mt-10 lg:-mt-14 pt-6 lg:pt-8"
             id="portfolio"
         >
             {/* Background layers moved to src/app/page.tsx for centralized editing. */}
@@ -68,7 +68,7 @@ export default function Portfolio() {
                 </svg>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 pt-24 lg:pt-28 pb-12 relative z-10">
+            <div className="max-w-7xl mx-auto px-4 pt-16 lg:pt-20 pb-8 relative z-10">
                 <div className="mb-4">
                     <h2 className="text-4xl lg:text-6xl font-black tracking-tight font-[family-name:var(--font-outfit)] drop-shadow-md text-[var(--text)]">Selected Work</h2>
                     A curated deck of digital products, scalable architectures, and intelligent systems we&apos;ve engineered.
@@ -82,36 +82,38 @@ export default function Portfolio() {
             </div>
 
             {/* Testimonials / Client Feedback */}
-            <div className="max-w-7xl mx-auto px-4 pb-32 relative z-10">
+            <div className="max-w-7xl mx-auto px-4 pb-16 relative z-10">
                 <div className="flex items-center gap-3 mb-8 lg:mb-10">
                     <div className="w-8 h-[1px]" style={{ background: "var(--primary)" }}></div>
                     <h3 className="text-sm font-black uppercase tracking-widest text-[var(--primary)] font-[family-name:var(--font-outfit)]">Client Feedback</h3>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 mt-6">
                     {testimonials.map(({ project, quote, label }) => (
                         <article
                             key={project.title}
-                            className="flex min-h-[260px] flex-col rounded-lg border p-5 md:p-6 transition-all duration-500 hover:-translate-y-1"
+                            className="flex flex-row items-start gap-4 p-5 md:p-8 rounded-xl border transition-all duration-500 hover:shadow-lg"
                             style={{ borderColor: "var(--line)", background: "var(--panel)" }}
                         >
-                            <span className="text-5xl text-[var(--primary)] mb-2 font-serif leading-none">&ldquo;</span>
-                            <p className="text-base lg:text-lg italic leading-relaxed text-[var(--text-muted)] mb-6 flex-grow">
-                                {quote}
-                            </p>
-                            <div className="mt-auto flex items-center gap-4">
-                                <div className="w-8 h-[2px]" style={{ background: "var(--primary)" }}></div>
-                                <div>
+                            {/* Quote Icon */}
+                            <span className="text-4xl md:text-5xl text-[var(--primary)] font-serif leading-none mt-1 shrink-0 opacity-80 select-none">&ldquo;</span>
+                            
+                            <div className="flex flex-col">
+                                <p className="text-[13px] md:text-[15px] lg:text-base leading-relaxed text-[var(--text-muted)] mb-4 italic">
+                                    {quote}
+                                </p>
+                                
+                                <div className="flex items-center gap-2">
+                                    <div className="w-4 h-[1.5px]" style={{ background: "var(--primary)" }}></div>
                                     <a
                                         href={project.link}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-1.5 text-sm font-bold text-[var(--text)] font-[family-name:var(--font-outfit)] tracking-widest uppercase mb-0.5 transition-colors hover:text-[var(--primary)]"
+                                        className="text-[14px] md:text-base font-bold text-[var(--text)] font-[family-name:var(--font-outfit)] tracking-tight hover:text-[var(--primary)] transition-colors inline-flex items-center gap-1"
                                     >
                                         {project.title}
-                                        <span className="material-symbols-outlined text-[14px] leading-none">open_in_new</span>
+                                        <span className="material-symbols-outlined text-[12px] md:text-[14px]">open_in_new</span>
                                     </a>
-                                    <span className="block text-sm text-[var(--text-muted)]">{label}</span>
                                 </div>
                             </div>
                         </article>
@@ -125,7 +127,7 @@ export default function Portfolio() {
 const Card = ({ title, description, category, themeId, video, link }: Project) => {
     return (
         <div className="w-full flex justify-center group h-full">
-            <div className="flex flex-col w-full min-h-[500px] border rounded-lg overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_40px_80px_-30px_rgba(0,0,0,0.15)] relative" style={{ borderColor: "var(--line)", background: "var(--panel)" }}>
+            <div className="flex flex-col w-full min-h-[400px] md:min-h-[500px] border rounded-lg overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_40px_80px_-30px_rgba(0,0,0,0.15)] relative" style={{ borderColor: "var(--line)", background: "var(--panel)" }}>
                 <div className="w-full aspect-video relative overflow-hidden shrink-0 border-b" style={{ borderColor: "var(--line-soft)", background: "var(--surface-muted)" }}>
                     {video ? (
                         <video 
@@ -142,13 +144,13 @@ const Card = ({ title, description, category, themeId, video, link }: Project) =
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-muted)] to-transparent opacity-20 pointer-events-none" />
                 </div>
 
-                <div className="w-full grow p-8 md:p-10 flex flex-col justify-center relative z-10" style={{ background: "var(--panel)" }}>
-                    <span className="text-xs font-bold tracking-[0.2em] uppercase mb-4 flex items-center gap-3 text-[var(--text-soft)]">
+                <div className="w-full grow p-6 md:p-10 flex flex-col justify-center relative z-10" style={{ background: "var(--panel)" }}>
+                    <span className="text-xs font-bold tracking-[0.2em] uppercase mb-2 md:mb-4 flex items-center gap-3 text-[var(--text-soft)]">
                         <div className="w-6 h-[1px]" style={{ background: "var(--line-strong)" }}></div>
                         {category}
                     </span>
-                    <h3 className="text-2xl md:text-3xl font-black mb-4 font-[family-name:var(--font-outfit)] leading-[1.1] tracking-tight text-[var(--text)]">{title}</h3>
-                    <p className="text-sm md:text-base leading-relaxed mb-6 line-clamp-3 text-[var(--text-muted)]">{description}</p>
+                    <h3 className="text-xl md:text-3xl font-black mb-2 md:mb-4 font-[family-name:var(--font-outfit)] leading-[1.1] tracking-tight text-[var(--text)]">{title}</h3>
+                    <p className="text-sm md:text-base leading-relaxed mb-4 md:mb-6 line-clamp-3 text-[var(--text-muted)]">{description}</p>
                     <div className="mt-auto">
                         <a 
                             href={link} 

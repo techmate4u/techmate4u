@@ -77,12 +77,12 @@ const contrast = [
     ours: "The people you talk to are the people who build it",
   },
   {
-    theirs: "Hands off a WordPress site with 40 plugins",
-    ours: "Custom-built on Next.js, typed end-to-end, zero bloat",
+    theirs: "Hands off a site that's slow, bloated, and hard to manage",
+    ours: "Engineers high-performance, lightweight assets built to scale",
   },
   {
-    theirs: "Charges for revisions after round two",
-    ours: "Iterates until the work is right — it's built into the scope",
+    theirs: "Makes you wait days for a simple status update",
+    ours: "Maintains a direct, transparent communication loop with you",
   },
   {
     theirs: "Disappears after launch day",

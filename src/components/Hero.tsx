@@ -25,7 +25,7 @@ export default function Hero() {
     return (
         <section
             ref={containerRef}
-            className="w-full max-w-7xl mx-auto min-h-screen pt-32 pb-10 px-4 sm:px-6 lg:px-8 relative overflow-visible flex flex-col lg:flex-row items-center"
+            className="w-full max-w-7xl mx-auto min-h-[85vh] pt-24 pb-8 px-4 sm:px-6 lg:px-8 relative overflow-visible flex flex-col lg:flex-row items-center"
             id="home"
         >
             {/* ── Fixed Colored Blueprint Background ── */}
@@ -123,8 +123,8 @@ export default function Hero() {
                     </div>
 
                     {/* ── Honest trust signal ── */}
-                    <div className="hero-fade-up hero-stagger-5 pt-6 border-t mt-2 w-full" style={{ borderColor: "var(--line)" }}>
-                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-[13px] font-semibold tracking-wide uppercase drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)] text-[var(--text-muted)]">
+                    <div className="hidden sm:block hero-fade-up hero-stagger-5 pt-4 border-t mt-2 w-full" style={{ borderColor: "var(--line)" }}>
+                        <div className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-3 sm:gap-4 text-[11px] sm:text-[13px] font-semibold tracking-wide uppercase drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)] text-[var(--text-muted)]">
                             <span className="flex items-center gap-1.5">
                                 <span
                                     className="material-symbols-outlined"
@@ -135,7 +135,7 @@ export default function Hero() {
                                 <span className="mt-[2px] drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]">Modern Tech Stack</span>
                             </span>
 
-                            <span aria-hidden="true" style={{ color: "color-mix(in srgb, var(--primary) 42%, transparent)" }}>•</span>
+                            <span className="hidden sm:inline" aria-hidden="true" style={{ color: "color-mix(in srgb, var(--primary) 42%, transparent)" }}>•</span>
 
                             <span className="flex items-center gap-1.5">
                                 <span
@@ -149,7 +149,7 @@ export default function Hero() {
 
                             <span className="hidden sm:inline" aria-hidden="true" style={{ color: "color-mix(in srgb, var(--primary) 42%, transparent)" }}>•</span>
 
-                            <span className="hidden sm:flex items-center gap-1.5">
+                            <span className="flex items-center gap-1.5">
                                 <span
                                     className="material-symbols-outlined"
                                     style={{ fontSize: '18px', fontVariationSettings: "'FILL' 1, 'wght' 500", color: "var(--primary)" }}
@@ -163,7 +163,7 @@ export default function Hero() {
                 </header>
 
                 {/* ── Hero Visual ── */}
-                <figure className="lg:col-span-6 relative h-[360px] sm:h-[460px] md:h-[540px] lg:h-[600px] w-full overflow-visible mt-10 md:mt-12 lg:mt-0 flex items-center justify-center">
+                <figure className="lg:col-span-6 relative h-[360px] sm:h-[460px] md:h-[540px] lg:h-[600px] w-full overflow-visible mt-4 md:mt-6 lg:mt-0 flex items-center justify-center">
                     <HeroVisual />
                 </figure>
             </div>

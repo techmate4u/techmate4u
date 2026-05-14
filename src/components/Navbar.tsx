@@ -256,13 +256,15 @@ export default function Navbar() {
                             <span className="material-symbols-outlined text-[16px] relative z-10 opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">arrow_forward</span>
                             <div className="absolute top-0 -left-full w-1/2 h-full bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-[-20deg] group-hover:translate-x-[400%] transition-transform duration-1000 ease-out z-0" />
                         </Link>
-                        <button
+                        <motion.button
                             onClick={() => setMobileOpen(true)}
-                            className="md:hidden flex items-center justify-center size-10 rounded-full transition-colors hover:bg-[var(--primary-soft)]"
+                            whileHover={{ scale: 1.05, backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                            whileTap={{ scale: 0.95 }}
+                            className="md:hidden flex items-center justify-center size-11 rounded-full glass-card transition-all duration-300"
                             aria-label="Open navigation menu"
                         >
-                            <span className="material-symbols-outlined" style={{ fontSize: '22px', color: 'var(--text-muted)' }}>menu</span>
-                        </button>
+                            <span className="material-symbols-outlined" style={{ fontSize: '24px', color: 'var(--text)' }}>menu</span>
+                        </motion.button>
                     </div>
                 </header>
             </div>
@@ -281,9 +283,15 @@ export default function Navbar() {
                             />
                             <span className="hidden sm:inline font-extrabold text-lg tracking-[-0.03em] text-[var(--text)] group-hover:text-[var(--primary)] transition-colors duration-300">TechMate4u</span>
                         </Link>
-                        <button onClick={closeMobile} className="flex items-center justify-center size-10 rounded-full transition-colors hover:bg-[var(--primary-soft)]" aria-label="Close navigation menu">
-                            <span className="material-symbols-outlined" style={{ fontSize: '24px', color: 'var(--text-muted)' }}>close</span>
-                        </button>
+                        <motion.button 
+                            onClick={closeMobile} 
+                            whileHover={{ scale: 1.05, backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                            whileTap={{ scale: 0.95 }}
+                            className="flex items-center justify-center size-11 rounded-full glass-card transition-all duration-300" 
+                            aria-label="Close navigation menu"
+                        >
+                            <span className="material-symbols-outlined" style={{ fontSize: '24px', color: 'var(--text)' }}>close</span>
+                        </motion.button>
                     </div>
                     <nav className="flex flex-col gap-2 px-6 mt-12">
                         {NAV_SECTIONS.map((item, i) => (

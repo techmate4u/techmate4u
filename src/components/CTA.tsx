@@ -1,17 +1,32 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
-import { Send, CheckCircle2, Rocket, MessageSquare, Briefcase, Zap, Shield, Users, User, Layout, Lock, CheckSquare, FileText, ChevronDown, Phone, AlertCircle } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Send, CheckCircle2, MessageSquare, Zap, User, Layout, Lock, CheckSquare, FileText, ChevronDown, Phone, AlertCircle, Timer, ShieldX, Lightbulb, Code2, Search, Bot, Smartphone, Megaphone, Mail } from "lucide-react";
+import { countryCodes } from "./countryData";
 
 type InquiryType = "website" | "seo" | "automation" | "mobile" | "other";
 
+// Sanitize user input to prevent XSS
+function sanitizeInput(str: string): string {
+    return str
+        .replace(/</g, '')
+        .replace(/>/g, '')
+        .replace(/"/g, '')
+        .replace(/'/g, '')
+        .replace(/`/g, '')
+        .replace(/javascript:/gi, '')
+        .replace(/on\w+\s*=/gi, '')
+        .trim();
+}
+
 const inquiryOptions = [
-    { id: "website", label: "Website Development", icon: Rocket },
-    { id: "seo", label: "Technical SEO", icon: Briefcase },
-    { id: "automation", label: "AI Automation", icon: Zap },
-    { id: "mobile", label: "Mobile Apps", icon: MessageSquare },
-    { id: "other", label: "Other Query", icon: Send },
+    { id: "website", label: "Website Development", icon: Code2 },
+    { id: "seo", label: "Technical SEO", icon: Search },
+    { id: "automation", label: "AI Automation", icon: Bot },
+    { id: "mobile", label: "Mobile Apps", icon: Smartphone },
+    { id: "marketing", label: "Digital Marketing", icon: Megaphone },
+    { id: "other", label: "Other Query", icon: MessageSquare },
 ] as const;
 
 export default function CTA() {
@@ -19,10 +34,14 @@ export default function CTA() {
     const [inquiryType, setInquiryType] = useState<InquiryType>("website");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const [selectedCountry, setSelectedCountry] = useState(countryCodes[0]);
+    const [isCountryOpen, setIsCountryOpen] = useState(false);
+    const [countrySearch, setCountrySearch] = useState("");
+    const countryRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleSelect = (e: CustomEvent) => {
-            if (["website", "seo", "automation", "mobile", "other"].includes(e.detail)) {
+            if (["website", "seo", "automation", "mobile", "marketing", "other"].includes(e.detail)) {
                 setInquiryType(e.detail as InquiryType);
             }
         };
@@ -30,31 +49,60 @@ export default function CTA() {
         return () => window.removeEventListener('selectService', handleSelect as EventListener);
     }, []);
 
+    // Close country dropdown on outside click
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (countryRef.current && !countryRef.current.contains(e.target as Node)) {
+                setIsCountryOpen(false);
+                setCountrySearch("");
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setErrorMsg(null);
 
         const formData = new FormData(e.currentTarget);
-        const name = formData.get('name') as string;
-        const email = formData.get('email') as string;
-        const mobile = formData.get('mobile') as string;
-        const message = formData.get('message') as string;
+        const rawName = (formData.get('name') as string || '').trim();
+        const rawEmail = (formData.get('email') as string || '').trim();
+        const rawMobile = (formData.get('mobile') as string || '').trim();
+        const rawMessage = (formData.get('message') as string || '').trim();
 
-        // Validation
-        if (name.trim().length < 2) {
-            setErrorMsg("Please enter a valid name.");
+        // Sanitize all inputs
+        const name = sanitizeInput(rawName);
+        const email = sanitizeInput(rawEmail);
+        const mobile = rawMobile.replace(/\D/g, ''); // digits only
+        const message = sanitizeInput(rawMessage);
+
+        // Validation: Name (2-100 chars, letters/spaces only)
+        if (name.length < 2 || name.length > 100) {
+            setErrorMsg("Please enter a valid name (2-100 characters).");
+            return;
+        }
+        if (!/^[a-zA-Z\s.'-]+$/.test(name)) {
+            setErrorMsg("Name can only contain letters, spaces, and basic punctuation.");
             return;
         }
 
+        // Validation: Email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
+        if (!emailRegex.test(email) || email.length > 254) {
             setErrorMsg("Please enter a valid email address.");
             return;
         }
 
-        const phoneRegex = /^[\d\s\-+()]{7,20}$/;
-        if (!phoneRegex.test(mobile)) {
-            setErrorMsg("Please enter a valid mobile number (min. 7 digits).");
+        // Validation: Phone (optional, but must be 10 digits if provided)
+        if (mobile && mobile.length !== 10) {
+            setErrorMsg("Phone number must be exactly 10 digits.");
+            return;
+        }
+
+        // Validation: Message length
+        if (message.length > 2000) {
+            setErrorMsg("Project details must be under 2000 characters.");
             return;
         }
 
@@ -63,6 +111,7 @@ export default function CTA() {
         const data = {
             name,
             email,
+            countryCode: mobile ? selectedCountry.dial : '',
             mobile,
             service: inquiryType,
             message,
@@ -87,16 +136,10 @@ export default function CTA() {
         }
     };
 
-    const buttonText = {
-        website: "Start Website Project",
-        seo: "Improve SEO Rankings",
-        automation: "Automate My Business",
-        mobile: "Build a Mobile App",
-        other: "Start My Project",
-    }[inquiryType];
+
 
     return (
-        <section className="w-full py-32 relative overflow-hidden" id="contact" style={{ background: "var(--cta-bg)" }}>
+        <section className="w-full py-20 lg:py-24 relative overflow-hidden" id="contact" style={{ background: "var(--cta-bg)" }}>
             {/* Ambient glowing gradients */}
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[128px] opacity-50 pointer-events-none" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full blur-[128px] opacity-50 pointer-events-none" style={{ background: "color-mix(in srgb, var(--accent) 15%, transparent)" }} />
@@ -117,52 +160,52 @@ export default function CTA() {
                 >
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-8" style={{ borderColor: "color-mix(in srgb, var(--primary) 25%, transparent)", background: "color-mix(in srgb, var(--primary) 10%, transparent)" }}>
                         <Send className="w-4 h-4" style={{ color: "var(--primary)" }} />
-                        <span className="text-[11px] font-bold tracking-widest uppercase" style={{ color: "var(--primary)" }}>Let's work together</span>
+                        <span className="text-[11px] font-bold tracking-widest uppercase" style={{ color: "var(--primary)" }}>Let&apos;s work together</span>
                     </div>
 
-                    <h2 className="text-4xl lg:text-5xl font-black mb-6 tracking-tight leading-[1.1] drop-shadow-lg" style={{ color: "var(--cta-text)" }}>
-                        Let's Build <br /> Something <br /><span style={{ color: "var(--primary)" }}>Amazing.</span>
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 tracking-tight leading-[1.1] drop-shadow-lg" style={{ color: "var(--cta-text)" }}>
+                        Let&apos;s Build <br className="hidden lg:block" /> Something <br className="hidden lg:block" /><span style={{ color: "var(--primary)" }}>Amazing.</span>
                     </h2>
-
-                    <p className="text-base mb-12 drop-shadow-md max-w-md leading-relaxed" style={{ color: "var(--cta-muted)" }}>
-                        Tell us about your project and our team will get back to you within 24 hours to discuss how we can help.
+                    
+                    <p className="text-sm sm:text-base mb-10 lg:mb-12 drop-shadow-md max-w-md leading-relaxed" style={{ color: "var(--cta-muted)" }}>
+                        Whether you need a modern website, automation system, or digital marketing, we&apos;re here to bring your ideas to life.
                     </p>
 
-                    <div className="flex flex-col gap-8 mb-14">
-                        <div className="flex items-start gap-5">
-                            <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 border" style={{ background: "color-mix(in srgb, var(--primary) 8%, transparent)", borderColor: "color-mix(in srgb, var(--primary) 20%, transparent)" }}>
+                    <div className="grid grid-cols-2 lg:grid-cols-1 gap-6 lg:gap-10 mb-10 lg:mb-14">
+                        <div className="flex flex-col lg:flex-row items-center lg:items-start text-center lg:text-left gap-3 lg:gap-5">
+                            <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border" style={{ background: "color-mix(in srgb, var(--primary) 8%, transparent)", borderColor: "color-mix(in srgb, var(--primary) 20%, transparent)" }}>
+                                <Timer className="w-5 h-5" style={{ color: "var(--primary)" }} />
+                            </div>
+                            <div className="pt-0.5 max-w-[120px] lg:max-w-none">
+                                <h4 className="font-bold text-[11px] sm:text-xs lg:text-base leading-tight" style={{ color: "var(--cta-text)" }}>Free 15-min consultation</h4>
+                                <p className="hidden lg:block text-sm opacity-70 mt-1" style={{ color: "var(--cta-muted)" }}>Get expert advice with no strings attached.</p>
+                            </div>
+                        </div>
+                        <div className="flex flex-col lg:flex-row items-center lg:items-start text-center lg:text-left gap-3 lg:gap-5">
+                            <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border" style={{ background: "color-mix(in srgb, var(--primary) 8%, transparent)", borderColor: "color-mix(in srgb, var(--primary) 20%, transparent)" }}>
+                                <ShieldX className="w-5 h-5" style={{ color: "var(--primary)" }} />
+                            </div>
+                            <div className="pt-0.5 max-w-[120px] lg:max-w-none">
+                                <h4 className="font-bold text-[11px] sm:text-xs lg:text-base leading-tight" style={{ color: "var(--cta-text)" }}>No <br className="lg:hidden" /> obligation</h4>
+                                <p className="hidden lg:block text-sm opacity-70 mt-1" style={{ color: "var(--cta-muted)" }}>Explore your options with zero commitment.</p>
+                            </div>
+                        </div>
+                        <div className="flex flex-col lg:flex-row items-center lg:items-start text-center lg:text-left gap-3 lg:gap-5">
+                            <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border" style={{ background: "color-mix(in srgb, var(--primary) 8%, transparent)", borderColor: "color-mix(in srgb, var(--primary) 20%, transparent)" }}>
+                                <Lightbulb className="w-5 h-5" style={{ color: "var(--primary)" }} />
+                            </div>
+                            <div className="pt-0.5 max-w-[120px] lg:max-w-none">
+                                <h4 className="font-bold text-[11px] sm:text-xs lg:text-base leading-tight" style={{ color: "var(--cta-text)" }}>Clear advice for your business</h4>
+                                <p className="hidden lg:block text-sm opacity-70 mt-1" style={{ color: "var(--cta-muted)" }}>Technical insights tailored to your specific goals.</p>
+                            </div>
+                        </div>
+                        <div className="flex flex-col lg:flex-row items-center lg:items-start text-center lg:text-left gap-3 lg:gap-5">
+                            <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border" style={{ background: "color-mix(in srgb, var(--primary) 8%, transparent)", borderColor: "color-mix(in srgb, var(--primary) 20%, transparent)" }}>
                                 <Zap className="w-5 h-5" style={{ color: "var(--primary)" }} />
                             </div>
-                            <div className="pt-0.5">
-                                <h4 className="font-bold mb-1 text-sm" style={{ color: "var(--cta-text)" }}>Quick Response</h4>
-                                <p className="text-sm opacity-80" style={{ color: "var(--cta-muted)" }}>We typically reply within a few hours</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start gap-5">
-                            <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 border" style={{ background: "color-mix(in srgb, var(--primary) 8%, transparent)", borderColor: "color-mix(in srgb, var(--primary) 20%, transparent)" }}>
-                                <Shield className="w-5 h-5" style={{ color: "var(--primary)" }} />
-                            </div>
-                            <div className="pt-0.5">
-                                <h4 className="font-bold mb-1 text-sm" style={{ color: "var(--cta-text)" }}>Secure & Confidential</h4>
-                                <p className="text-sm opacity-80" style={{ color: "var(--cta-muted)" }}>Your information is always protected</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start gap-5">
-                            <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 border" style={{ background: "color-mix(in srgb, var(--primary) 8%, transparent)", borderColor: "color-mix(in srgb, var(--primary) 20%, transparent)" }}>
-                                <Users className="w-5 h-5" style={{ color: "var(--primary)" }} />
-                            </div>
-                            <div className="pt-0.5">
-                                <h4 className="font-bold mb-1 text-sm" style={{ color: "var(--cta-text)" }}>Expert Consultation</h4>
-                                <p className="text-sm opacity-80" style={{ color: "var(--cta-muted)" }}>Get advice from our technical experts</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start gap-5">
-                            <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 border" style={{ background: "color-mix(in srgb, var(--primary) 8%, transparent)", borderColor: "color-mix(in srgb, var(--primary) 20%, transparent)" }}>
-                                <CheckCircle2 className="w-5 h-5" style={{ color: "var(--primary)" }} />
-                            </div>
-                            <div className="pt-0.5">
-                                <h4 className="font-bold mb-1 text-sm" style={{ color: "var(--cta-text)" }}>No Obligation</h4>
-                                <p className="text-sm opacity-80" style={{ color: "var(--cta-muted)" }}>Free consultation with no commitments</p>
+                            <div className="pt-0.5 max-w-[120px] lg:max-w-none">
+                                <h4 className="font-bold text-[11px] sm:text-xs lg:text-base leading-tight" style={{ color: "var(--cta-text)" }}>Fast & reliable communication</h4>
+                                <p className="hidden lg:block text-sm opacity-70 mt-1" style={{ color: "var(--cta-muted)" }}>We typically respond to inquiries within a few hours.</p>
                             </div>
                         </div>
                     </div>
@@ -212,7 +255,7 @@ export default function CTA() {
                                             <User className="w-5 h-5" style={{ color: "var(--primary)" }} />
                                             <div>
                                                 <h3 className="font-bold text-sm" style={{ color: "var(--cta-text)" }}>Contact Details</h3>
-                                                <p className="text-[13px] opacity-80 mt-0.5" style={{ color: "var(--cta-muted)" }}>We'll use this to get in touch with you</p>
+                                                <p className="text-[13px] opacity-80 mt-0.5" style={{ color: "var(--cta-muted)" }}>We&apos;ll use this to get in touch with you</p>
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -235,7 +278,7 @@ export default function CTA() {
                                             {/* Work Email */}
                                             <div className="relative rounded-md p-3.5 pb-2.5 transition-all focus-within:ring-1 focus-within:ring-[var(--primary)]" style={{ background: "var(--cta-input)" }}>
                                                 <div className="flex items-center gap-2 mb-2">
-                                                    <MessageSquare className="w-3.5 h-3.5" style={{ color: "var(--cta-soft)" }} />
+                                                    <Mail className="w-3.5 h-3.5" style={{ color: "var(--cta-soft)" }} />
                                                     <span className="text-[11px] font-semibold tracking-wide" style={{ color: "var(--cta-text)" }}>Work Email</span>
                                                 </div>
                                                 <input
@@ -248,21 +291,91 @@ export default function CTA() {
                                                     style={{ color: "var(--cta-text)", border: "none", background: "none" }}
                                                 />
                                             </div>
-                                            {/* Mobile Number */}
+                                            {/* Phone/WhatsApp */}
                                             <div className="relative rounded-md p-3.5 pb-2.5 transition-all focus-within:ring-1 focus-within:ring-[var(--primary)] sm:col-span-2" style={{ background: "var(--cta-input)" }}>
                                                 <div className="flex items-center gap-2 mb-2">
                                                     <Phone className="w-3.5 h-3.5" style={{ color: "var(--cta-soft)" }} />
-                                                    <span className="text-[11px] font-semibold tracking-wide" style={{ color: "var(--cta-text)" }}>Mobile Number</span>
+                                                    <span className="text-[11px] font-semibold tracking-wide" style={{ color: "var(--cta-text)" }}>Phone / WhatsApp (Optional)</span>
                                                 </div>
-                                                <input
-                                                    type="tel"
-                                                    id="mobile"
-                                                    name="mobile"
-                                                    required
-                                                    placeholder="Enter Mobile Number"
-                                                    className="w-full bg-transparent focus:outline-none text-[15px] placeholder:opacity-90"
-                                                    style={{ color: "var(--cta-text)", border: "none", background: "none" }}
-                                                />
+                                                <div className="flex items-center gap-2">
+                                                    {/* Country Code Selector */}
+                                                    <div className="relative" ref={countryRef}>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => { setIsCountryOpen(!isCountryOpen); setCountrySearch(""); }}
+                                                            className="flex items-center gap-1.5 px-2 py-1 rounded-md text-[14px] cursor-pointer transition-colors hover:bg-white/5 shrink-0"
+                                                            style={{ color: "var(--cta-text)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+                                                        >
+                                                            <span className="text-base leading-none">{selectedCountry.flag}</span>
+                                                            <span className="text-[13px] font-medium">{selectedCountry.dial}</span>
+                                                            <ChevronDown className={`w-3 h-3 opacity-50 transition-transform ${isCountryOpen ? 'rotate-180' : ''}`} />
+                                                        </button>
+                                                        <AnimatePresence>
+                                                            {isCountryOpen && (
+                                                                <motion.div
+                                                                    initial={{ opacity: 0, y: -8 }}
+                                                                    animate={{ opacity: 1, y: 0 }}
+                                                                    exit={{ opacity: 0, y: -8 }}
+                                                                    transition={{ duration: 0.15 }}
+                                                                    className="absolute top-full left-0 mt-2 w-56 max-h-52 overflow-y-auto rounded-md border z-50 shadow-2xl"
+                                                                    style={{ background: "var(--cta-bg)", borderColor: "color-mix(in srgb, var(--cta-text) 10%, transparent)" }}
+                                                                >
+                                                                    <div className="sticky top-0 p-2" style={{ background: "var(--cta-bg)" }}>
+                                                                        <input
+                                                                            type="text"
+                                                                            placeholder="Search country..."
+                                                                            value={countrySearch}
+                                                                            onChange={(e) => setCountrySearch(e.target.value)}
+                                                                            className="w-full px-2 py-1.5 rounded text-[13px] bg-transparent focus:outline-none placeholder:opacity-60"
+                                                                            style={{ color: "var(--cta-text)", border: "1px solid rgba(255,255,255,0.1)" }}
+                                                                            autoFocus
+                                                                        />
+                                                                    </div>
+                                                                    {countryCodes
+                                                                        .filter(c => c.name.toLowerCase().includes(countrySearch.toLowerCase()) || c.dial.includes(countrySearch))
+                                                                        .map((country) => (
+                                                                        <button
+                                                                            key={country.code}
+                                                                            type="button"
+                                                                            onClick={() => {
+                                                                                setSelectedCountry(country);
+                                                                                setIsCountryOpen(false);
+                                                                                setCountrySearch("");
+                                                                            }}
+                                                                            className={`w-full text-left px-3 py-2 text-[13px] transition-colors flex items-center gap-2.5 hover:bg-white/5 ${
+                                                                                selectedCountry.code === country.code ? 'bg-white/8' : ''
+                                                                            }`}
+                                                                            style={{ color: "var(--cta-text)" }}
+                                                                        >
+                                                                            <span className="text-base leading-none">{country.flag}</span>
+                                                                            <span className="flex-1">{country.name}</span>
+                                                                            <span className="opacity-50 text-[12px]">{country.dial}</span>
+                                                                        </button>
+                                                                    ))}
+                                                                </motion.div>
+                                                            )}
+                                                        </AnimatePresence>
+                                                    </div>
+                                                    {/* Phone Input */}
+                                                    <input
+                                                        type="tel"
+                                                        id="mobile"
+                                                        name="mobile"
+                                                        maxLength={10}
+                                                        placeholder="Enter 10-digit number"
+                                                        onKeyDown={(e) => {
+                                                            if (!/[0-9]/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','Home','End'].includes(e.key) && !e.ctrlKey && !e.metaKey) {
+                                                                e.preventDefault();
+                                                            }
+                                                        }}
+                                                        onPaste={(e) => {
+                                                            const pasted = e.clipboardData.getData('text');
+                                                            if (!/^\d+$/.test(pasted)) e.preventDefault();
+                                                        }}
+                                                        className="flex-1 bg-transparent focus:outline-none text-[15px] placeholder:opacity-90"
+                                                        style={{ color: "var(--cta-text)", border: "none", background: "none" }}
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -281,7 +394,7 @@ export default function CTA() {
                                             <div className="relative rounded-md p-3.5 transition-all focus-within:ring-1 focus-within:ring-[var(--primary)]" style={{ background: "var(--cta-input)" }}>
                                                 <div className="flex items-center gap-2 mb-2 pointer-events-none">
                                                     <CheckSquare className="w-3.5 h-3.5" style={{ color: "var(--cta-text)" }} />
-                                                    <span className="text-[11px] font-semibold tracking-wide" style={{ color: "var(--cta-text)" }}>What can we help you with?</span>
+                                                    <span className="text-[11px] font-semibold tracking-wide" style={{ color: "var(--cta-text)" }}>Project Type</span>
                                                 </div>
                                                 <div className="relative">
                                                     <input type="hidden" name="service" value={inquiryType} />
@@ -382,8 +495,8 @@ export default function CTA() {
                                                 </span>
                                             ) : (
                                                 <span className="flex items-center gap-2 relative z-10">
-                                                    {buttonText}
-                                                    <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                                                    Let&apos;s Discuss!
+                                                    <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300">north_east</span>
                                                 </span>
                                             )}
                                         </motion.button>

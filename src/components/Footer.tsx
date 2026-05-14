@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Bot, Code2, Megaphone, Mail, MapPin, Phone, Search, Smartphone } from "lucide-react";
+import { Bot, Code2, Megaphone, Mail, MapPin, Phone, Search, Smartphone, Instagram } from "lucide-react";
 import logo from "../../public/assets/logo.webp";
 
 const navLinks = [
@@ -35,17 +35,15 @@ const contactLinks = [
 
 const socialLinks = [
     {
-        label: "GitHub",
-        href: "#",
+        label: "Instagram",
+        href: "https://www.instagram.com/officialtechmate4u/",
         icon: (
-            <svg viewBox="0 0 24 24" fill="currentColor" className="h-4.5 w-4.5" aria-hidden="true">
-                <path d="M12 .5C5.648.5.5 5.648.5 12c0 5.087 3.292 9.396 7.862 10.918.575.104.785-.25.785-.555 0-.274-.01-1.001-.015-1.964-3.198.695-3.874-1.54-3.874-1.54-.523-1.328-1.277-1.681-1.277-1.681-1.044-.713.08-.699.08-.699 1.154.082 1.762 1.186 1.762 1.186 1.026 1.758 2.692 1.25 3.349.956.104-.742.4-1.25.728-1.537-2.553-.29-5.24-1.277-5.24-5.682 0-1.255.449-2.28 1.183-3.084-.118-.291-.513-1.46.113-3.044 0 0 .964-.308 3.159 1.178a10.99 10.99 0 0 1 2.878-.387c.976.005 1.958.132 2.878.387 2.194-1.486 3.156-1.178 3.156-1.178.628 1.584.232 2.753.114 3.044.737.804 1.182 1.829 1.182 3.084 0 4.416-2.692 5.389-5.254 5.674.413.354.78 1.053.78 2.123 0 1.534-.014 2.77-.014 3.146 0 .308.208.664.79.552C20.71 21.393 24 17.087 24 12 24 5.648 18.852.5 12 .5Z" />
-            </svg>
+            <Instagram className="h-4.5 w-4.5" />
         ),
     },
     {
         label: "LinkedIn",
-        href: "#",
+        href: "https://www.linkedin.com/company/techmate-4u",
         icon: (
             <svg viewBox="0 0 24 24" fill="currentColor" className="h-4.5 w-4.5" aria-hidden="true">
                 <path d="M20.452 20.452h-3.554v-5.569c0-1.328-.024-3.037-1.851-3.037-1.852 0-2.136 1.445-2.136 2.94v5.666H9.358V9h3.414v1.561h.048c.476-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286ZM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124ZM6.891 20.452H3.781V9h3.11v11.452ZM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003Z" />
@@ -54,7 +52,7 @@ const socialLinks = [
     },
     {
         label: "Twitter / X",
-        href: "#",
+        href: "https://x.com/techmate4u",
         icon: (
             <svg viewBox="0 0 24 24" fill="currentColor" className="h-4.5 w-4.5" aria-hidden="true">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -76,8 +74,8 @@ export default function Footer() {
             />
 
             <div className="mx-auto max-w-7xl px-6 pb-8 pt-14 sm:px-8 lg:px-12">
-                <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.25fr_0.8fr_1fr_1.2fr] lg:gap-8">
-                    <div className="flex flex-col gap-4">
+                <div className="grid grid-cols-2 gap-10 lg:grid-cols-[1.25fr_0.8fr_1fr_1.2fr] lg:gap-8">
+                    <div className="col-span-2 lg:col-span-1 flex flex-col gap-4">
                         <Link href="/#home" className="group flex w-fit items-center gap-2.5">
                             <Image
                                 src={logo}
@@ -109,7 +107,7 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-3">
+                    <div className="col-span-1 flex flex-col gap-3">
                         <h3 className="text-xs font-semibold uppercase tracking-widest text-[var(--text-soft)] drop-shadow-sm">
                             Navigation
                         </h3>
@@ -127,7 +125,7 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    <div className="flex flex-col gap-3">
+                    <div className="col-span-1 flex flex-col gap-3">
                         <h3 className="text-xs font-semibold uppercase tracking-widest text-[var(--text-soft)] drop-shadow-sm">
                             Services
                         </h3>
@@ -154,7 +152,7 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    <div className="flex flex-col gap-4">
+                    <div className="col-span-2 lg:col-span-1 flex flex-col gap-4">
                         <h3 className="text-xs font-semibold uppercase tracking-widest text-[var(--text-soft)] drop-shadow-sm">
                             Get In Touch
                         </h3>
