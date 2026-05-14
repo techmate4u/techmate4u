@@ -34,7 +34,7 @@ export default function Hero() {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(45,212,191,0.06)] to-[rgba(45,212,191,0.12)]" />
 
                 {/* Texture via SVG Filter for realistic blueprint feel */}
-                <svg className="absolute inset-0 w-full h-full opacity-[0.08] mix-blend-overlay pointer-events-none">
+                <svg className="hidden md:block absolute inset-0 w-full h-full opacity-[0.08] mix-blend-overlay pointer-events-none">
                     <filter id="noise">
                         <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" stitchTiles="stitch" />
                     </filter>

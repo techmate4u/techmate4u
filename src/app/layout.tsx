@@ -43,7 +43,11 @@ export const metadata: Metadata = {
     title: "TechMate4u | Digital Product Studio",
     description: "We engineer highly interactive, conversion-optimized websites and AI-integrated digital systems that accelerate business growth.",
   },
+  verification: {
+    google: "w56WffuDI3QBXzEvLwEoDB7K9mra_NmO_PZCwtgMMFM",
+  },
 };
+
 
 export const viewport = {
   width: "device-width",
@@ -60,6 +64,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="light scroll-smooth" style={{ backgroundColor: '#0a1a1f' }}>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"

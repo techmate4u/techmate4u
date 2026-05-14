@@ -1,0 +1,23 @@
+# TechMate4u
+
+> We engineer highly interactive, conversion-optimized websites and AI-integrated digital systems that accelerate business growth.
+
+## About Us
+TechMate4u is a premium digital product studio and web engineering agency. We specialize in building next-generation digital systems, high-performance websites, custom ERP solutions, and modern restaurant POS systems. We focus on modern tech stacks, fast delivery, and startup-friendly models.
+
+## Core Services
+- **Web Development**: High-performance, SEO-optimized frontends (Next.js, React).
+- **AI Automation & Integration**: Intelligent systems for business workflows.
+- **Custom ERP Software**: Enterprise management platforms designed to streamline operations.
+- **Restaurant Management & POS**: Modern systems for table handling, billing, and kitchen coordination.
+- **E-commerce Solutions**: Scalable architectures for online retail.
+
+## Key Projects
+- **Amara**: Custom Client Showcase
+- **Riwaaz Ethnic**: Premium ethnic wear e-commerce platform
+- **Lab2Door**: Healthcare logistics and medical service platform
+- **Restaurant Management**: Custom Hospitality & POS System
+
+## Contact & Links
+- Website: https://techmate4u.com
+- Contact: https://techmate4u.com/#contact

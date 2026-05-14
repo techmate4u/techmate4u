@@ -169,7 +169,7 @@ html[data-theme="teal"] .hero-white-overlay {
 
 .hero-fade-up {
   opacity: 0;
-  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .hero-stagger-1 {
@@ -177,19 +177,19 @@ html[data-theme="teal"] .hero-white-overlay {
 }
 
 .hero-stagger-2 {
-  animation-delay: 0.15s;
+  animation-delay: 0.1s;
 }
 
 .hero-stagger-3 {
-  animation-delay: 0.3s;
+  animation-delay: 0.2s;
 }
 
 .hero-stagger-4 {
-  animation-delay: 0.5s;
+  animation-delay: 0.3s;
 }
 
 .hero-stagger-5 {
-  animation-delay: 0.7s;
+  animation-delay: 0.4s;
 }
 
 .hero-fade-in {

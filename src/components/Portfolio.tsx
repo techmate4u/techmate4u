@@ -10,7 +10,8 @@ interface Project {
     description: string;
     themeId: ThemeId;
     video?: string;
-    link: string;
+    images?: string[];
+    link?: string;
 }
 
 const projects: Project[] = [
@@ -29,6 +30,19 @@ const projects: Project[] = [
         themeId: "blue",
         video: "/assets/lab2door.webm",
         link: "https://lab2door.vercel.app/"
+    },
+    {
+        title: "Restaurant Management",
+        category: "Hospitality & POS",
+        description: "A modern restaurant POS and management system designed to streamline table handling, orders, kitchen workflows, billing, and waiter operations through a clean real-time dashboard.",
+        themeId: "cyan",
+        images: [
+            "/assets/erp1.webp",
+            "/assets/erp2.webp",
+            "/assets/erp3.webp",
+            "/assets/erp4.webp",
+            "/assets/erp5.webp"
+        ]
     }
 ];
 
@@ -75,7 +89,7 @@ export default function Portfolio() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto px-4 pb-20 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-7xl mx-auto px-4 pb-20 relative z-10">
                 {projects.map((project, i) => (
                     <Card key={i} {...project} />
                 ))}
@@ -87,7 +101,7 @@ export default function Portfolio() {
                     <div className="w-8 h-[1px]" style={{ background: "var(--primary)" }}></div>
                     <h3 className="text-sm font-black uppercase tracking-widest text-[var(--primary)] font-[family-name:var(--font-outfit)]">Client Feedback</h3>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 mt-6">
                     {testimonials.map(({ project, quote, label }) => (
                         <article
@@ -97,12 +111,12 @@ export default function Portfolio() {
                         >
                             {/* Quote Icon */}
                             <span className="text-4xl md:text-5xl text-[var(--primary)] font-serif leading-none mt-1 shrink-0 opacity-80 select-none">&ldquo;</span>
-                            
+
                             <div className="flex flex-col">
                                 <p className="text-[13px] md:text-[15px] lg:text-base leading-relaxed text-[var(--text-muted)] mb-4 italic">
                                     {quote}
                                 </p>
-                                
+
                                 <div className="flex items-center gap-2">
                                     <div className="w-4 h-[1.5px]" style={{ background: "var(--primary)" }}></div>
                                     <a
@@ -124,20 +138,53 @@ export default function Portfolio() {
     );
 }
 
-const Card = ({ title, description, category, themeId, video, link }: Project) => {
+const Card = ({ title, description, category, themeId, video, images, link }: Project) => {
+    const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
+
+    React.useEffect(() => {
+        if (images && images.length > 1) {
+            const timer = setInterval(() => {
+                setCurrentImageIndex((prev) => (prev + 1) % images.length);
+            }, 3000);
+            return () => clearInterval(timer);
+        }
+    }, [images]);
+
     return (
         <div className="w-full flex justify-center group h-full">
             <div className="flex flex-col w-full min-h-[400px] md:min-h-[500px] border rounded-lg overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_40px_80px_-30px_rgba(0,0,0,0.15)] relative" style={{ borderColor: "var(--line)", background: "var(--panel)" }}>
                 <div className="w-full aspect-video relative overflow-hidden shrink-0 border-b" style={{ borderColor: "var(--line-soft)", background: "var(--surface-muted)" }}>
                     {video ? (
-                        <video 
-                            src={video} 
-                            autoPlay 
-                            loop 
-                            muted 
-                            playsInline 
+                        <video
+                            src={video}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
                             className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                         />
+                    ) : images && images.length > 0 ? (
+                        <div className="w-full h-full relative">
+                            {images.map((img, idx) => (
+                                <img
+                                    key={img}
+                                    src={img}
+                                    alt={`${title} screenshot ${idx + 1}`}
+                                    className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ${idx === currentImageIndex ? 'opacity-100' : 'opacity-0'}`}
+                                />
+                            ))}
+                            {/* Slideshow indicators */}
+                            {images.length > 1 && (
+                                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
+                                    {images.map((_, idx) => (
+                                        <div
+                                            key={idx}
+                                            className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${idx === currentImageIndex ? 'bg-white w-4' : 'bg-white/40'}`}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     ) : (
                         <AbstractArt themeId={themeId} />
                     )}
@@ -151,17 +198,19 @@ const Card = ({ title, description, category, themeId, video, link }: Project) =
                     </span>
                     <h3 className="text-xl md:text-3xl font-black mb-2 md:mb-4 font-[family-name:var(--font-outfit)] leading-[1.1] tracking-tight text-[var(--text)]">{title}</h3>
                     <p className="text-sm md:text-base leading-relaxed mb-4 md:mb-6 line-clamp-3 text-[var(--text-muted)]">{description}</p>
-                    <div className="mt-auto">
-                        <a 
-                            href={link} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-sm font-bold transition-colors group/btn text-[var(--text)] hover:text-[var(--primary)]"
-                        >
-                            View Live Project
-                            <span className="material-symbols-outlined text-xs transform group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
-                        </a>
-                    </div>
+                    {link && (
+                        <div className="mt-auto">
+                            <a
+                                href={link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 text-sm font-bold transition-colors group/btn text-[var(--text)] hover:text-[var(--primary)]"
+                            >
+                                View Live Project
+                                <span className="material-symbols-outlined text-xs transform group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+                            </a>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
