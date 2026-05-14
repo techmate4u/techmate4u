@@ -71,7 +71,7 @@ export default function ProcessLite() {
               {/* Step Content */}
               <div className="flex flex-col pr-4">
                 <span className="text-[10px] font-bold tracking-[0.2em] uppercase mb-2" style={{ color: "var(--primary)" }}>
-                  {String(i + 1).padStart(2, '0')} // Phase
+                  {String(i + 1).padStart(2, '0')} {/* Phase */}
                 </span>
                 <h3 className="text-base font-bold font-[family-name:var(--font-outfit)] tracking-tight leading-snug mb-3" style={{ color: "var(--text)" }}>
                   {step.title}

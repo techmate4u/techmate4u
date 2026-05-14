@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { Send, CheckCircle2, MessageSquare, Zap, User, Layout, Lock, CheckSquare, FileText, ChevronDown, Phone, AlertCircle, Timer, ShieldX, Lightbulb, Code2, Search, Bot, Smartphone, Megaphone, Mail } from "lucide-react";
 import { countryCodes } from "./countryData";
 
-type InquiryType = "website" | "seo" | "automation" | "mobile" | "other";
+type InquiryType = "website" | "seo" | "automation" | "mobile" | "marketing" | "other";
 
 // Sanitize user input to prevent XSS
 function sanitizeInput(str: string): string {
