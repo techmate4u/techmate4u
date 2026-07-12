@@ -63,8 +63,8 @@ const socialLinks = [
 
 export default function Footer() {
     return (
-        <footer className="relative w-full overflow-hidden" style={{ background: "var(--surface-muted)" }}>
-            
+        <footer className="relative w-full overflow-hidden premium-footer" style={{ background: "var(--surface-muted)" }}>
+
 
             <div
                 aria-hidden="true"
@@ -212,6 +212,7 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
+
         </footer>
     );
 }

@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Play, Pause, X, Volume2, VolumeX } from "lucide-react";
+import { Play, Pause, X, Volume2, VolumeX, Users } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import Badge from "@/components/ui/Badge";
 
 interface Testimonial {
   name: string;
@@ -21,7 +20,7 @@ export default function ClientVoice() {
       role: "VP Product, TechFlow Systems",
       quote: '"TechMate4u transformed our onboarding experience. Within 3 months, we saw a 67% improvement in user retention and doubled our free-to-paid conversion rate."',
       duration: "2:34",
-      videoBg: "from-[#0f2d5c] to-[#1e3a8a]",
+      videoBg: "from-[#0f3575] to-[#1d4ed8]",
       accentColor: "text-blue-500",
     },
     {
@@ -29,15 +28,15 @@ export default function ClientVoice() {
       role: "CEO, FinServe Solutions",
       quote: '"The team delivered enterprise-grade solutions while keeping us involved at every step. Their technical expertise and communication were exceptional."',
       duration: "3:12",
-      videoBg: "from-[#0d4f45] to-[#115e59]",
+      videoBg: "from-[#0f766e] to-[#0d9488]",
       accentColor: "text-teal-500",
     },
     {
       name: "Amita Desai",
       role: "Founder, HealthConnect Pro",
       quote: '"Building a HIPAA-compliant telemedicine platform is complex. TechMate4u not only delivered on time but exceeded our expectations on security and UX."',
-      duration: "2:58",
-      videoBg: "from-[#0d4b32] to-[#065f46]",
+      duration: "2:45",
+      videoBg: "from-[#065f46] to-[#059669]",
       accentColor: "text-emerald-500",
     },
   ];
@@ -142,7 +141,7 @@ export default function ClientVoice() {
   };
 
   return (
-    <section id="client-voice" className="w-full relative z-20 overflow-hidden pt-16 lg:pt-20 pb-16 lg:pb-24">
+    <section id="client-voice" className="w-full relative z-20 overflow-hidden pt-16 lg:pt-20 pb-16 lg:pb-24 testimonials-premium-section">
       {/* Visual styles for the visualizer animation */}
       <style>{`
         @keyframes visualizerBounce {
@@ -169,7 +168,10 @@ export default function ClientVoice() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header Block */}
         <div className="mb-14 text-center flex flex-col items-center">
-          <Badge variant="primary" className="mb-4">CLIENT VOICE</Badge>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-4" style={{ borderColor: "color-mix(in srgb, var(--primary) 25%, transparent)", background: "color-mix(in srgb, var(--primary) 10%, transparent)" }}>
+            <Users className="w-4 h-4" style={{ color: "var(--primary)" }} />
+            <span className="text-[11px] font-bold tracking-widest uppercase" style={{ color: "var(--primary)" }}>Client Testimonials</span>
+          </div>
           <h2 className="mx-auto mt-4 max-w-2xl font-[family-name:var(--font-outfit)] text-3xl font-bold tracking-tight text-[var(--text)] sm:text-4xl">
             What Our Clients Say
           </h2>
@@ -181,34 +183,48 @@ export default function ClientVoice() {
         {/* 3-Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto">
           {testimonials.map((test, index) => (
-            <div key={index} className="flex flex-col group h-full">
+            <div 
+              key={index} 
+              className="flex flex-col rounded-3xl p-5 border shadow-xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-md transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 h-full"
+              style={{
+                borderColor: "color-mix(in srgb, var(--primary) 10%, transparent)",
+                boxShadow: "0 15px 35px rgba(37, 99, 235, 0.04)"
+              }}
+            >
               {/* Colored Video Box */}
               <div
                 onClick={() => openPlayer(index)}
-                className={`w-full aspect-[5/4] rounded-2xl relative overflow-hidden bg-gradient-to-br ${test.videoBg} shadow-md border border-white/5 flex items-center justify-center mb-6 cursor-pointer group`}
+                className={`w-full aspect-[5/4] rounded-2xl relative overflow-hidden bg-gradient-to-br ${test.videoBg} shadow-inner flex items-center justify-center mb-5 cursor-pointer group`}
               >
                 {/* Play Button */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-white/25 shadow-xl">
-                    <Play className="h-6 w-6 text-white fill-white ml-0.5" />
+                  <div className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-white/25 shadow-xl">
+                    <Play className="h-5 w-5 text-white fill-white ml-0.5" />
                   </div>
                 </div>
 
                 {/* Duration Badge */}
-                <div className="absolute bottom-4 right-4 bg-black/60 text-white text-[11px] font-bold px-2 py-0.5 rounded backdrop-blur-sm select-none">
+                <div className="absolute bottom-3 right-3 bg-black/60 text-white text-[10px] font-bold px-2 py-0.5 rounded backdrop-blur-sm select-none">
                   {test.duration}
                 </div>
               </div>
 
               {/* Client Info & Quote */}
               <div className="flex flex-col grow px-1">
-                <h3 className="text-lg font-bold font-[family-name:var(--font-outfit)] tracking-tight text-[var(--text)] mb-0.5">
-                  {test.name}
-                </h3>
-                <p className="text-xs text-[var(--text-soft)] font-semibold mb-4 uppercase tracking-wide">
-                  {test.role}
-                </p>
-                <p className="text-[13.5px] leading-relaxed text-[var(--text-muted)] italic font-medium">
+                <div className="flex justify-between items-start gap-4 mb-3">
+                  <div className="flex-grow">
+                    <h3 className="text-base font-bold font-[family-name:var(--font-outfit)] tracking-tight text-[var(--text)] leading-tight">
+                      {test.name}
+                    </h3>
+                    <p className="text-[10px] text-[var(--primary)] font-bold uppercase tracking-wider mt-1">
+                      {test.role}
+                    </p>
+                  </div>
+                  <span className="text-4xl font-serif leading-none select-none" style={{ color: "color-mix(in srgb, var(--primary) 18%, transparent)" }}>
+                    ”
+                  </span>
+                </div>
+                <p className="text-[13px] leading-relaxed text-[var(--text-muted)] italic font-medium">
                   {test.quote}
                 </p>
               </div>

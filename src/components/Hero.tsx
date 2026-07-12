@@ -26,7 +26,7 @@ export default function Hero() {
     return (
         <section
             ref={containerRef}
-            className="w-full max-w-7xl mx-auto min-h-[85vh] pt-24 pb-8 px-4 sm:px-6 lg:px-8 relative overflow-visible flex flex-col lg:flex-row items-center"
+            className="w-full max-w-7xl mx-auto min-h-[85vh] pt-24 pb-8 px-4 sm:px-6 lg:px-8 relative overflow-visible flex flex-col lg:flex-row items-center hero-premium-section"
             id="home"
         >
             {/* ── Fixed Colored Blueprint Background ── */}

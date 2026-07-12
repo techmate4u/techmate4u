@@ -4,7 +4,6 @@ import React, { useRef, useState, useEffect } from "react";
 import { TrendingUp, Zap, Lock } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import amaraImg from "../../public/assets/amara.webp";
 import amaraMobileImg from "../../public/assets/amara-mobile.webp";
 
 
@@ -99,20 +98,19 @@ export default function HeroVisual() {
                     <div className="w-12" /> {/* Spacer for centering */}
                 </div>
 
-                {/* Website Image Container */}
+                {/* Website Video Container */}
                 <div className="relative w-full overflow-hidden border-t shadow-[inset_0_4px_20px_rgba(0,0,0,0.03)] flex" style={{ background: "var(--surface-muted)", borderColor: "var(--line)" }}>
-                    <div className="absolute inset-0 w-full h-full animate-pulse" style={{ background: "color-mix(in srgb, var(--surface-muted) 70%, var(--line))" }} /> {/* Loading skeleton */}
-
-                    {/* Flat UI Screenshot */}
-                    <Image
-                        src={amaraImg}
-                        alt="Amara website"
-                        priority
-                        className="relative block w-full h-auto object-cover object-top"
+                    <video
+                        src="/assets/1.mp4"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="relative block w-full h-auto object-cover object-top border-none outline-none z-10"
                     />
 
                     {/* Subtle inner shadow for depth instead of a heavy gloss */}
-                    <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.02)] pointer-events-none" />
+                    <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.02)] pointer-events-none z-20" />
                 </div>
             </motion.div>
 

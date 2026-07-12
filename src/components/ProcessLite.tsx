@@ -41,14 +41,17 @@ const steps = [
 
 export default function ProcessLite() {
   return (
-    <section id="process" className="w-full relative z-20 overflow-hidden -mt-10 lg:-mt-14 pt-10 lg:pt-14 pb-16 lg:pb-24">
+    <section id="process" className="w-full relative z-20 overflow-hidden -mt-10 lg:-mt-14 pt-10 lg:pt-14 pb-16 lg:pb-24 process-premium-section">
       
       
       <div className="w-full max-w-7xl mx-auto px-4 lg:px-8 pt-16 lg:pt-24 relative z-10">
         <div className="max-w-2xl mb-16 lg:mb-24">
-          <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-[1px]" style={{ background: "var(--line-strong)" }}></div>
-              <span className="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">How We Work</span>
+          <div className="flex items-center gap-3.5 mb-4">
+              <div className="flex items-center gap-1.5 text-[var(--primary)]">
+                  <span className="text-[10px]">✦</span>
+                  <div className="w-6 h-[1px]" style={{ background: "var(--primary)", opacity: 0.5 }}></div>
+              </div>
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--primary)]">How We Work</span>
           </div>
           <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight font-[family-name:var(--font-outfit)] drop-shadow-md text-[var(--text)]">
             Our Process

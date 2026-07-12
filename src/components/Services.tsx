@@ -8,7 +8,7 @@ import { SERVICES_DATA } from "@/components/servicesData";
 
 export default function Services() {
   return (
-    <section className="w-full relative z-20 overflow-hidden -mt-6 lg:-mt-8 pt-16 lg:pt-20 pb-10" id="services">
+    <section className="w-full relative z-20 overflow-hidden -mt-6 lg:-mt-8 pt-16 lg:pt-20 pb-10 services-premium-section" id="services">
       
 
       

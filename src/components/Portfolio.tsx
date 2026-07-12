@@ -51,7 +51,7 @@ const projects: Project[] = [
 export default function Portfolio() {
     return (
         <section
-            className="w-full relative z-20 overflow-hidden -mt-10 lg:-mt-14 pt-6 lg:pt-8"
+            className="w-full relative z-20 overflow-hidden -mt-10 lg:-mt-14 pt-6 lg:pt-8 portfolio-premium-section"
             id="portfolio"
         >
             

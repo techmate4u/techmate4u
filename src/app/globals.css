@@ -2,7 +2,8 @@
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/container-queries";
 
-html, body {
+html,
+body {
   background-color: #ffffff;
 }
 
@@ -170,7 +171,7 @@ html[data-theme="teal"] .hero-white-overlay {
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
     border: 1px solid var(--line);
-    box-shadow: 
+    box-shadow:
       0 10px 30px -10px rgba(37, 99, 235, 0.08),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
   }
@@ -192,13 +193,13 @@ html[data-theme="teal"] .hero-white-overlay {
   color: #ffffff;
   transition: all 0.2s ease-in-out;
   box-shadow: 0 4px 14px rgba(37, 99, 235, 0.12);
-  
+
   &:hover {
     background-color: var(--color-primary-700);
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(37, 99, 235, 0.18);
   }
-  
+
   &:active {
     transform: translateY(0);
   }
@@ -215,13 +216,13 @@ html[data-theme="teal"] .hero-white-overlay {
   background-color: transparent;
   color: var(--color-primary-700);
   transition: all 0.2s ease-in-out;
-  
+
   &:hover {
     background-color: var(--color-primary-50);
     border-color: var(--color-primary-300);
     transform: translateY(-1px);
   }
-  
+
   &:active {
     transform: translateY(0);
   }
@@ -238,13 +239,13 @@ html[data-theme="teal"] .hero-white-overlay {
   color: #ffffff;
   transition: all 0.2s ease-in-out;
   box-shadow: 0 4px 14px rgba(22, 163, 74, 0.12);
-  
+
   &:hover {
     background-color: var(--color-success-700);
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(22, 163, 74, 0.18);
   }
-  
+
   &:active {
     transform: translateY(0);
   }
@@ -258,10 +259,10 @@ html[data-theme="teal"] .hero-white-overlay {
   color: var(--color-primary-600);
   background-color: transparent;
   transition: all 0.2s ease-in-out;
-  
+
   &:hover {
     color: var(--color-primary-700);
-    
+
     & .btn-text-arrow {
       transform: translateX(3px);
     }
@@ -277,7 +278,7 @@ html[data-theme="teal"] .hero-white-overlay {
   padding: 1.5rem;
   box-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.08);
   transition: all 0.3s ease-in-out;
-  
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.15);
@@ -574,6 +575,7 @@ canvas {
 
 /* ===== Pause non-essential animations on mobile & low-motion ===== */
 @media (max-width: 767px) {
+
   .animate-float-1,
   .animate-float-2,
   .animate-float-3,
@@ -585,6 +587,7 @@ canvas {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -592,4 +595,158 @@ canvas {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ===== Premium Footer Background Blueprint styling ===== */
+.premium-footer {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Pseudo-element for the decorative skyline blueprint background */
+.premium-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("/assets/footer_wave.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%; /* Fit entire image inside footer to align top-right and bottom-left waves */
+  opacity: 0.95; /* High opacity to ensure the wave elements are clearly visible */
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+/* Pseudo-element for a soft overlay to ensure readability and hide rectangular edges */
+.premium-footer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+      transparent 0%, /* Fully transparent at the top to let top-right waves display clearly */
+      rgba(248, 250, 252, 0.25) 50%, /* Soft tint in the middle for text readability */
+      transparent 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Ensure all footer content elements stay elevated above the background pseudo-elements */
+.premium-footer>* {
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsive adjustments for tablet and mobile sizes */
+@media (max-width: 1024px) {
+  .premium-footer::before {
+    opacity: 0.85; /* Highly visible on tablets */
+  }
+}
+
+@media (max-width: 640px) {
+  .premium-footer::before {
+    opacity: 0.75; /* Clearly visible on mobile devices */
+  }
+}
+
+/* ===== Premium CTA Background Smooth Fade styling ===== */
+.cta-premium-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-premium-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("/assets/cta_bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  pointer-events: none;
+  /* Smooth opacity gradient mask on top and bottom to blend edges */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+}
+
+/* ===== Premium Hero Section Background Smooth Fade styling ===== */
+.hero-premium-section {
+  position: relative;
+}
+
+.hero-premium-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("/assets/process_bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -10;
+  pointer-events: none;
+  opacity: 0.85;
+  /* Smooth fade at the bottom of hero */
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
+
+/* ===== Premium Sections Background Smooth Fade styling ===== */
+.process-premium-section,
+.testimonials-premium-section,
+.services-premium-section,
+.portfolio-premium-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.process-premium-section::before,
+.testimonials-premium-section::before,
+.services-premium-section::before,
+.portfolio-premium-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("/assets/process_bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  pointer-events: none;
+  /* Smooth opacity gradient mask on top and bottom to blend edges */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+}
+
+.process-premium-section > *,
+.testimonials-premium-section > *,
+.services-premium-section > *,
+.portfolio-premium-section > * {
+  position: relative;
+  z-index: 1;
 }
