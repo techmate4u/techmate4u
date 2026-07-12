@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Mail } from "lucide-react";
 import { LegalCards, LegalList, LegalPage, LegalSection } from "@/components/LegalDocument";
+import Card from "@/components/ui/Card";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions | TechMate4u",
@@ -376,7 +377,7 @@ export default function TermsAndConditionsPage() {
       </LegalSection>
 
       <LegalSection index={21} title="Contact Information">
-        <div className="rounded-lg border p-5" style={{ borderColor: "var(--line-soft)" }}>
+        <Card className="p-5">
           <Mail className="mb-4 h-5 w-5 text-[var(--primary)]" />
           <h3 className="font-bold text-[var(--text)]">TechMate4u</h3>
           <p className="mt-2 text-sm leading-7">
@@ -386,7 +387,7 @@ export default function TermsAndConditionsPage() {
             <br />
             Ahmedabad, Gujarat, India
           </p>
-        </div>
+        </Card>
         <p>
           TechMate4u reserves the right to update or modify these Terms at any time.
           Revised Terms will be posted on our website with an updated effective date.

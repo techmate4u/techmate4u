@@ -10,11 +10,16 @@ import {
   ShieldCheck,
   Sparkles,
   Workflow,
-  X,
   Check,
+  X,
+  Zap,
+  Award,
+  Users,
 } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Badge from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
+import Card from "@/components/ui/Card";
+import CTABanner from "@/components/sections/CTABanner";
 
 export const metadata: Metadata = {
   title: "About Us | TechMate4u",
@@ -42,7 +47,7 @@ const values = [
     title: "Performance obsessed",
     copy: "Speed, search, and conversion quality are built into every build because pretty pixels alone don't pay the bills.",
     icon: Gauge,
-    accent: "#2dd4bf",
+    accent: "#2563eb",
   },
   {
     title: "Startup-friendly, enterprise-ready",
@@ -101,10 +106,16 @@ const contrast = [
 export default function AboutUsPage() {
   return (
     <main className="relative flex min-h-screen flex-col overflow-x-clip bg-[var(--background)]">
-      <Navbar />
 
       {/* ── Fixed background ── */}
       <div className="fixed inset-0 -z-20" style={{ background: "var(--hero-base)" }} />
+      
+      {/* Subtle blueprint drafting layout texture */}
+      <div className="fixed inset-0 -z-20 opacity-[0.07] bg-[url(/assets/bg-blueprint.png)] bg-no-repeat bg-cover pointer-events-none" />
+
+      {/* Skyline drawing overlay representing scale and architecture */}
+      <div className="fixed right-0 top-1/4 w-[700px] h-[500px] -z-20 opacity-[0.09] bg-[url(/assets/bg-skyline.png)] bg-no-repeat bg-contain pointer-events-none" />
+
       <div
         className="fixed inset-0 -z-20 opacity-[0.07]"
         style={{
@@ -123,7 +134,7 @@ export default function AboutUsPage() {
           <p className="mb-5 text-sm font-bold uppercase tracking-[0.28em] text-[var(--text-soft)]">
             TechMate4u Studio
           </p>
-          <h1 className="font-[family-name:var(--font-outfit)] text-4xl font-black leading-[1.05] tracking-tight text-[var(--text)] sm:text-5xl lg:text-7xl">
+          <h1 className="font-[family-name:var(--font-outfit)] text-3xl font-bold leading-[1.1] tracking-tight text-[var(--text)] sm:text-4xl lg:text-6xl">
             We build the digital systems that power modern businesses.
           </h1>
           <p className="mt-7 max-w-2xl text-base leading-8 text-[var(--text-muted)] sm:text-lg">
@@ -132,21 +143,22 @@ export default function AboutUsPage() {
             applications for ambitious brands and growing startups.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
-            <Link
+            <Button
+              variant="primary"
               href="/#contact"
-              className="group inline-flex h-12 items-center gap-2 rounded-full px-7 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5"
-              style={{ background: "var(--primary)", boxShadow: "0 14px 32px -18px var(--theme-glow)" }}
+              className="h-12 rounded-full px-7 shadow-lg"
+              icon={<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />}
+              iconPosition="right"
             >
               Start Your Project
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link
+            </Button>
+            <Button
+              variant="secondary"
               href="/#portfolio"
-              className="inline-flex h-12 items-center rounded-full border px-7 text-sm font-bold text-[var(--text)] transition-colors hover:bg-white/5"
-              style={{ borderColor: "var(--line)" }}
+              className="h-12 rounded-full px-7"
             >
               See the Work
-            </Link>
+            </Button>
           </div>
         </div>
 
@@ -162,7 +174,7 @@ export default function AboutUsPage() {
                   <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--text-soft)]">
                     Delivery console
                   </p>
-                  <p className="mt-2 text-xl font-black text-[var(--text)]">One accountable team</p>
+                  <p className="mt-2 text-xl font-bold text-[var(--text)]">One accountable team</p>
                 </div>
                 <Sparkles className="h-5 w-5 text-[var(--primary)]" />
               </div>
@@ -206,7 +218,7 @@ export default function AboutUsPage() {
           <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr]">
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.24em] text-[var(--text-soft)]">Who we are</p>
-              <h2 className="mt-4 font-[family-name:var(--font-outfit)] text-3xl font-black tracking-tight text-[var(--text)] sm:text-4xl">
+              <h2 className="mt-4 font-[family-name:var(--font-outfit)] text-2xl font-bold tracking-tight text-[var(--text)] sm:text-3xl">
                 Not a template shop. A product studio with opinions.
               </h2>
             </div>
@@ -226,17 +238,104 @@ export default function AboutUsPage() {
             </div>
           </div>
 
-          {/* ── Stats bar ── */}
-          <div className="mt-16 grid gap-px overflow-hidden rounded-lg border bg-[var(--line-soft)] sm:grid-cols-2 lg:grid-cols-4" style={{ borderColor: "var(--line)" }}>
+          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {stats.map((stat) => (
-              <div key={stat.label} className="flex flex-col items-center justify-center bg-[var(--panel)] px-6 py-8 text-center">
-                <span className="font-[family-name:var(--font-outfit)] text-4xl font-black text-[var(--primary)]">
+              <Card key={stat.label} className="flex flex-col items-center justify-center p-8 text-center select-none bg-[var(--panel)]">
+                <span className="font-[family-name:var(--font-outfit)] text-4xl font-bold text-[var(--primary)] mb-2">
                   {stat.value}
                 </span>
-                <span className="mt-2 text-sm font-medium text-[var(--text-muted)]">{stat.label}</span>
-              </div>
+                <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">{stat.label}</span>
+              </Card>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════
+          SECTION 2.5 — LEADERSHIP (Founding Team)
+      ═══════════════════════════════════════════════════ */}
+      <section className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8 border-b" style={{ borderColor: "var(--line-soft)" }}>
+        <div className="mb-14 text-center flex flex-col items-center">
+          <Badge variant="primary" className="mb-4">LEADERSHIP</Badge>
+          <h2 className="mx-auto mt-4 max-w-2xl font-[family-name:var(--font-outfit)] text-2xl font-bold tracking-tight text-[var(--text)] sm:text-3xl">
+            Meet Our Founding Team
+          </h2>
+          <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-[var(--text-muted)]">
+            Decades of combined experience in technology, strategy, and design. We&apos;re obsessed with delivering results for our clients.
+          </p>
+        </div>
+
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              name: "Founder 1",
+              role: "FOUNDER & CHIEF TECHNOLOGY OFFICER",
+              desc: "With 15+ years in enterprise software development, Rajesh leads our technical vision. His expertise spans scalable backend systems, cloud infrastructure, and team leadership at Fortune 500 companies.",
+              expertise: "System Design, Cloud Infrastructure, Team Leadership",
+              icon: Zap,
+              color: "text-blue-600",
+              bg: "bg-blue-50 text-blue-700 border-blue-200/50",
+              panelBg: "from-blue-200/40 to-indigo-100/40 border-blue-200/20"
+            },
+            {
+              name: "Founder 2",
+              role: "CO-FOUNDER & CHIEF STRATEGY OFFICER",
+              desc: "Priya brings deep domain expertise in digital transformation strategy. She's worked with industry leaders to chart their digital journeys and scale their operations from startup to enterprise.",
+              expertise: "Go-to-Market Strategy, Enterprise Sales, Operations",
+              icon: Award,
+              color: "text-teal-600",
+              bg: "bg-teal-50 text-teal-700 border-teal-200/50",
+              panelBg: "from-teal-200/40 to-emerald-100/40 border-teal-200/20"
+            },
+            {
+              name: "Founder 3",
+              role: "HEAD OF PRODUCT & DESIGN",
+              desc: "Arjun combines design thinking with product management excellence. He's created user experiences for 20+ successful SaaS products and believes great design drives business results.",
+              expertise: "Product Strategy, UX/UI Design, User Experience",
+              icon: Users,
+              color: "text-emerald-600",
+              bg: "bg-emerald-50 text-emerald-700 border-emerald-200/50",
+              panelBg: "from-emerald-200/40 to-teal-100/40 border-emerald-200/20"
+            }
+          ].map((member, i) => {
+            const Icon = member.icon;
+            return (
+              <Card
+                key={i}
+                className="flex flex-col overflow-hidden p-0 relative transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                style={{ background: "var(--panel)", borderColor: "var(--line)" }}
+              >
+                {/* Visual Panel Header */}
+                <div className={`w-full aspect-[4/3] flex items-center justify-center bg-gradient-to-br ${member.panelBg} border-b`} style={{ borderColor: "var(--line-soft)" }}>
+                  <Icon className={`h-12 w-12 ${member.color}`} />
+                </div>
+
+                {/* Content Area */}
+                <div className="p-6 md:p-8 flex flex-col grow">
+                  <h3 className="text-xl font-bold mb-1 font-[family-name:var(--font-outfit)] leading-tight text-[var(--text)]">
+                    {member.name}
+                  </h3>
+                  
+                  <span className={`text-[10px] font-bold tracking-wider uppercase mb-4 ${member.color}`}>
+                    {member.role}
+                  </span>
+
+                  <p className="text-[13px] leading-relaxed text-[var(--text-muted)] flex-grow">
+                    {member.desc}
+                  </p>
+
+                  <div className="mt-6 pt-4 border-t" style={{ borderColor: "var(--line-soft)" }}>
+                    <h4 className="text-[9.5px] font-extrabold tracking-wider uppercase text-[var(--text-soft)] mb-2">
+                      Expertise
+                    </h4>
+                    <p className="text-[12.5px] leading-relaxed text-[var(--text-muted)]">
+                      {member.expertise}
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            );
+          })}
         </div>
       </section>
 
@@ -248,7 +347,7 @@ export default function AboutUsPage() {
           <p className="text-sm font-bold uppercase tracking-[0.24em] text-[var(--text-soft)]">
             Why teams choose us
           </p>
-          <h2 className="mx-auto mt-4 max-w-2xl font-[family-name:var(--font-outfit)] text-3xl font-black tracking-tight text-[var(--text)] sm:text-4xl">
+          <h2 className="mx-auto mt-4 max-w-2xl font-[family-name:var(--font-outfit)] text-2xl font-bold tracking-tight text-[var(--text)] sm:text-3xl">
             Serious execution without agency fog.
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-[var(--text-muted)]">
@@ -258,10 +357,10 @@ export default function AboutUsPage() {
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {values.map((item) => (
-            <article
+            <Card
               key={item.title}
-              className="group relative overflow-hidden rounded-lg border p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_-20px_rgba(45,212,191,0.15)]"
-              style={{ borderColor: "var(--line)", background: "color-mix(in srgb, var(--panel) 60%, transparent)" }}
+              className="group relative overflow-hidden p-6 hover:-translate-y-1"
+              style={{ background: "color-mix(in srgb, var(--panel) 60%, transparent)" }}
             >
               {/* Top accent line on hover */}
               <div
@@ -283,7 +382,7 @@ export default function AboutUsPage() {
                 {item.title}
               </h3>
               <p className="mt-3 text-sm leading-7 text-[var(--text-muted)]">{item.copy}</p>
-            </article>
+            </Card>
           ))}
         </div>
       </section>
@@ -297,7 +396,7 @@ export default function AboutUsPage() {
             <p className="text-sm font-bold uppercase tracking-[0.24em] text-[var(--text-soft)]">
               The honest difference
             </p>
-            <h2 className="mt-4 font-[family-name:var(--font-outfit)] text-3xl font-black tracking-tight text-[var(--text)] sm:text-4xl">
+            <h2 className="mt-4 font-[family-name:var(--font-outfit)] text-2xl font-bold tracking-tight text-[var(--text)] sm:text-3xl">
               What you actually get vs. the usual agency experience.
             </h2>
           </div>
@@ -335,46 +434,14 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════
-          SECTION 5 — CTA
-      ═══════════════════════════════════════════════════ */}
-      <section className="relative w-full overflow-hidden py-28">
-        {/* Subtle ambient glow */}
-        <div className="absolute left-1/3 top-1/4 h-80 w-80 rounded-full opacity-30 blur-[120px]" style={{ background: "color-mix(in srgb, var(--primary) 18%, transparent)" }} />
-
-        <div className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 h-px w-16 bg-[var(--primary)]" />
-
-          <h2 className="font-[family-name:var(--font-outfit)] text-3xl font-black leading-[1.15] tracking-tight text-[var(--text)] sm:text-4xl lg:text-5xl">
-            You tell us what needs to get built. We&apos;ll tell you exactly what it takes.
-          </h2>
-
-          <p className="mt-6 max-w-xl text-base leading-8 text-[var(--text-muted)]">
-            No 40-page proposals. No discovery phase that costs half the budget.
-            A clear scope, a fixed timeline, and a price — within 48 hours of your first message.
-          </p>
-
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Link
-              href="/#contact"
-              className="group inline-flex h-12 items-center gap-2 rounded-full px-7 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5"
-              style={{ background: "var(--primary)", boxShadow: "0 14px 32px -18px var(--theme-glow)" }}
-            >
-              Get in Touch
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link
-              href="/#portfolio"
-              className="inline-flex h-12 items-center rounded-full border px-7 text-sm font-bold text-[var(--text)] transition-colors hover:bg-white/5"
-              style={{ borderColor: "var(--line)" }}
-            >
-              See Past Work
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
+      <CTABanner
+        title="You tell us what needs to get built. We'll tell you exactly what it takes."
+        description="No 40-page proposals. No discovery phase that costs half the budget. A clear scope, a fixed timeline, and a price — within 48 hours of your first message."
+        primaryBtnText="Get in Touch"
+        primaryBtnHref="/#contact"
+        secondaryBtnText="See Past Work"
+        secondaryBtnHref="/#portfolio"
+      />
     </main>
   );
 }

@@ -41,14 +41,17 @@ const steps = [
 
 export default function ProcessLite() {
   return (
-    <section id="process" className="w-full relative z-20 bg-fixed -mt-10 lg:-mt-14 pt-10 lg:pt-14 pb-16 lg:pb-24">
+    <section id="process" className="w-full relative z-20 overflow-hidden -mt-10 lg:-mt-14 pt-10 lg:pt-14 pb-16 lg:pb-24">
+      {/* City Skyline drawing on the right side bottom */}
+      <div className="absolute right-[0%] bottom-[0%] w-[650px] h-[450px] bg-[url(/assets/bg-skyline.png)] bg-no-repeat bg-contain opacity-[0.09] pointer-events-none -z-10" />
+      
       <div className="w-full max-w-7xl mx-auto px-4 lg:px-8 pt-16 lg:pt-24 relative z-10">
         <div className="max-w-2xl mb-16 lg:mb-24">
           <div className="flex items-center gap-3 mb-4">
               <div className="w-8 h-[1px]" style={{ background: "var(--line-strong)" }}></div>
               <span className="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">How We Work</span>
           </div>
-          <h2 className="text-4xl lg:text-5xl xl:text-6xl font-black tracking-tight font-[family-name:var(--font-outfit)] drop-shadow-md text-[var(--text)]">
+          <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight font-[family-name:var(--font-outfit)] drop-shadow-md text-[var(--text)]">
             Our Process
           </h2>
           <p className="text-lg lg:text-xl mt-6 leading-relaxed drop-shadow-md text-[var(--text-muted)]">

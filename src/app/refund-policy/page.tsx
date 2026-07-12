@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Mail } from "lucide-react";
 import { LegalCards, LegalList, LegalPage, LegalSection } from "@/components/LegalDocument";
+import Card from "@/components/ui/Card";
 
 export const metadata: Metadata = {
   title: "Refund Policy | TechMate4u",
@@ -40,7 +41,7 @@ export default function RefundPolicyPage() {
       }
     >
       <section className="border-t py-10" style={{ borderColor: "var(--line)" }}>
-        <div className="rounded-lg border p-5" style={{ borderColor: "var(--line-soft)" }}>
+        <Card className="p-5">
           <p className="text-base leading-8 text-[var(--text-muted)]">
             We are committed to delivering high-quality digital products and services
             that meet the goals agreed upon at the start of every engagement. Because
@@ -49,7 +50,7 @@ export default function RefundPolicyPage() {
             team. By making a payment to TechMate4u, you agree to the terms outlined
             below.
           </p>
-        </div>
+        </Card>
       </section>
 
       <LegalSection index={1} title="Nature of Our Services">
@@ -168,7 +169,7 @@ export default function RefundPolicyPage() {
       </LegalSection>
 
       <LegalSection index={10} title="Contact Us">
-        <div className="rounded-lg border p-5" style={{ borderColor: "var(--line-soft)" }}>
+        <Card className="p-5">
           <Mail className="mb-4 h-5 w-5 text-[var(--primary)]" />
           <h3 className="font-bold text-[var(--text)]">Refund Requests & Questions</h3>
           <p className="mt-2 text-sm leading-7">
@@ -178,7 +179,7 @@ export default function RefundPolicyPage() {
             <br />
             Response Time: Within 24 business hours
           </p>
-        </div>
+        </Card>
       </LegalSection>
 
       <LegalSection index={11} title="Changes to This Policy">

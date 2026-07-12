@@ -4,8 +4,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import logo from '../../public/assets/logo.webp';
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
+import { Bot, Code2, Megaphone, Search, Smartphone, ChevronDown } from 'lucide-react';
+import logo from '../../../public/assets/logo.webp';
+
+import { SERVICES_DATA } from "@/components/servicesData";
 
 const NAV_SECTIONS = [
     { name: 'Services', href: '/#services', id: 'services' },
@@ -13,6 +16,13 @@ const NAV_SECTIONS = [
     { name: 'Process', href: '/#process', id: 'process' },
     { name: 'About Us', href: '/about-us', id: 'about-us' },
 ] as const;
+
+const SERVICES_ITEMS = SERVICES_DATA.map((s) => ({
+    name: s.title,
+    href: `/services/${s.slug}`,
+    desc: s.description,
+    icon: s.icon
+}));
 
 const DOT_W = 6;
 const LINE_H = 3;
@@ -22,11 +32,13 @@ export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState<string>('');
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [servicesOpen, setServicesOpen] = useState(false);
+    const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
     const standaloneActiveSection = NAV_SECTIONS.find(s => !s.href.startsWith('/#') && pathname === s.href)?.id;
     const currentActiveSection = standaloneActiveSection ?? activeSection;
 
     const borderRef = useRef<SVGRectElement>(null);
-    const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
+    const linkRefs = useRef<Record<string, HTMLAnchorElement | HTMLButtonElement | null>>({});
     const navInnerRef = useRef<HTMLDivElement>(null);
     const scrolledRef = useRef(false);
 
@@ -212,7 +224,7 @@ export default function Navbar() {
                             alt="TechMate4u"
                             priority
                             className="h-10 w-auto sm:h-10 transition-all duration-300 group-hover:scale-[1.02]"
-                            style={{ filter: 'sepia(1) saturate(300%) hue-rotate(140deg)' }}
+                            style={{ filter: 'sepia(1) saturate(300%) hue-rotate(190deg)' }}
                         />
                         <span className="hidden sm:inline font-extrabold text-xl tracking-[-0.03em] transition-colors duration-300 group-hover:text-[var(--primary)] select-none font-[family-name:var(--font-outfit)] text-[var(--text)]">
                             TechMate4u
@@ -221,11 +233,82 @@ export default function Navbar() {
 
                     {/* Desktop Nav */}
                     <nav ref={navInnerRef} className="hidden md:flex items-center gap-7 absolute left-1/2 -translate-x-1/2 z-30">
-                        {NAV_SECTIONS.map((item) => (
+                        {/* Services Dropdown */}
+                        <div
+                            className="relative"
+                            onMouseEnter={() => setServicesOpen(true)}
+                            onMouseLeave={() => setServicesOpen(false)}
+                        >
+                            <Link
+                                href="/#services"
+                                ref={(el) => { if (el) linkRefs.current['services'] = el; }}
+                                onClick={() => {
+                                    handleLinkClick('services');
+                                    setServicesOpen(false);
+                                }}
+                                onFocus={() => setServicesOpen(true)}
+                                className={`relative flex items-center gap-1 text-[14.5px] font-medium tracking-tight transition-colors duration-200 py-2 cursor-pointer drop-shadow-sm ${currentActiveSection === 'services' ? 'text-[var(--text)]' : 'text-[var(--text-muted)] hover:text-[var(--text)]'
+                                    }`}
+                            >
+                                Services
+                                <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${servicesOpen ? 'rotate-180 text-[var(--primary)]' : 'text-[var(--text-soft)]'}`} />
+                            </Link>
+
+                            <AnimatePresence>
+                                {servicesOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                                        transition={{ duration: 0.15, ease: "easeOut" }}
+                                        className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[420px] rounded-2xl glass-panel p-4 shadow-xl z-50 pointer-events-auto border"
+                                        style={{
+                                            background: 'color-mix(in srgb, var(--panel) 98%, transparent)',
+                                            borderColor: 'var(--line)',
+                                        }}
+                                    >
+                                        <div className="grid gap-1">
+                                            {SERVICES_ITEMS.map((svc) => {
+                                                const Icon = svc.icon;
+                                                return (
+                                                    <Link
+                                                        key={svc.name}
+                                                        href={svc.href}
+                                                        onClick={() => setServicesOpen(false)}
+                                                        className="group flex items-start gap-3.5 rounded-xl p-2.5 transition-all duration-200 hover:bg-[var(--primary-soft)]"
+                                                    >
+                                                        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg border bg-[var(--surface)] text-[var(--text-soft)] group-hover:text-[var(--primary)] group-hover:border-[var(--primary-soft)] transition-colors duration-200" style={{ borderColor: 'var(--line-soft)' }}>
+                                                            <Icon className="h-4.5 w-4.5" />
+                                                        </div>
+                                                        <div className="flex flex-col gap-0.5 text-left">
+                                                            <span className="text-[13.5px] font-bold text-[var(--text)] group-hover:text-[var(--primary)] transition-colors duration-200">{svc.name}</span>
+                                                            <span className="text-[11.5px] leading-relaxed text-[var(--text-muted)]">{svc.desc}</span>
+                                                        </div>
+                                                    </Link>
+                                                );
+                                            })}
+                                        </div>
+                                        <div className="mt-3 pt-3 border-t flex justify-end" style={{ borderColor: 'var(--line-soft)' }}>
+                                            <Link
+                                                href="/#services"
+                                                onClick={() => setServicesOpen(false)}
+                                                className="text-[12.5px] font-bold text-[var(--primary)] hover:text-[var(--primary-strong)] flex items-center gap-1 transition-colors group/all"
+                                            >
+                                                View All Services
+                                                <span className="transition-transform group-hover/all:translate-x-0.5">→</span>
+                                            </Link>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+
+                        {/* Other Section Links */}
+                        {NAV_SECTIONS.filter(item => item.id !== 'services').map((item) => (
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                ref={(el) => { linkRefs.current[item.id] = el; }}
+                                ref={(el) => { if (el) linkRefs.current[item.id] = el; }}
                                 onClick={() => handleLinkClick(item.id)}
                                 className={`relative text-[14.5px] font-medium tracking-tight transition-colors duration-200 py-2 drop-shadow-sm ${currentActiveSection === item.id ? 'text-[var(--text)]' : 'text-[var(--text-muted)] hover:text-[var(--text)]'
                                     }`}
@@ -279,7 +362,7 @@ export default function Navbar() {
                                 alt="TechMate4u"
                                 priority
                                 className="h-10 w-auto transition-all duration-300 group-hover:scale-[1.02]"
-                                style={{ filter: 'sepia(1) saturate(300%) hue-rotate(140deg)' }}
+                                style={{ filter: 'sepia(1) saturate(300%) hue-rotate(190deg)' }}
                             />
                             <span className="hidden sm:inline font-extrabold text-lg tracking-[-0.03em] text-[var(--text)] group-hover:text-[var(--primary)] transition-colors duration-300">TechMate4u</span>
                         </Link>
@@ -294,13 +377,56 @@ export default function Navbar() {
                         </motion.button>
                     </div>
                     <nav className="flex flex-col gap-2 px-6 mt-12">
-                        {NAV_SECTIONS.map((item, i) => (
+                        {/* Services accordion item */}
+                        <div className="flex flex-col border-b" style={{ borderColor: 'var(--line-soft)' }}>
+                            <button
+                                onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                                className="flex items-center justify-between w-full text-3xl font-extrabold font-[family-name:var(--font-outfit)] tracking-tight text-[var(--text)] hover:text-[var(--primary)] transition-colors py-3 cursor-pointer"
+                            >
+                                <span>Services</span>
+                                <ChevronDown className={`h-6 w-6 transition-transform duration-300 text-[var(--text-soft)] ${mobileServicesOpen ? 'rotate-180 text-[var(--primary)]' : ''}`} />
+                            </button>
+                            
+                            <AnimatePresence initial={false}>
+                                {mobileServicesOpen && (
+                                    <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: 'auto', opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.25, ease: 'easeInOut' }}
+                                        className="overflow-hidden pl-4 flex flex-col gap-1.5 pb-3 text-left"
+                                    >
+                                        {SERVICES_ITEMS.map((svc) => (
+                                            <Link
+                                                key={svc.name}
+                                                href={svc.href}
+                                                onClick={closeMobile}
+                                                className="text-[17px] font-bold text-[var(--text-muted)] hover:text-[var(--primary)] transition-colors py-2 border-b border-dashed"
+                                                style={{ borderColor: 'var(--line-soft)' }}
+                                            >
+                                                {svc.name}
+                                            </Link>
+                                        ))}
+                                        <Link
+                                            href="/#services"
+                                            onClick={closeMobile}
+                                            className="text-[16px] font-extrabold text-[var(--primary)] hover:text-[var(--primary-strong)] py-2 flex items-center gap-1 transition-colors"
+                                        >
+                                            View All Services →
+                                        </Link>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+
+                        {/* Other sections */}
+                        {NAV_SECTIONS.filter(item => item.id !== 'services').map((item, i) => (
                             <Link
                                 key={item.name}
                                 href={item.href}
                                 onClick={closeMobile}
                                 className="mobile-nav-link text-3xl font-extrabold font-[family-name:var(--font-outfit)] tracking-tight text-[var(--text)] hover:text-[var(--primary)] transition-colors py-3 border-b"
-                                style={{ borderColor: 'var(--line-soft)', animationDelay: `${0.1 + i * 0.08}s` }}
+                                style={{ borderColor: 'var(--line-soft)', animationDelay: `${0.1 + (i + 1) * 0.08}s` }}
                             >
                                 {item.name}
                             </Link>

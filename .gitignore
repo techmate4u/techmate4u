@@ -45,6 +45,7 @@ next-env.d.ts
 .agent/
 _agents/
 _agent/
+.skills/
 
 # .context files
 2day-action-plan.md

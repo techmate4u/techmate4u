@@ -71,7 +71,7 @@ export default function HeroVisual() {
     const yBrowser = useTransform(scrollYProgress, [0, 1], ["10%", "-10%"]);
 
     return (
-        <div ref={containerRef} className="relative w-full h-full flex items-center justify-center lg:justify-end select-none lg:pr-8">
+        <div ref={containerRef} className="relative w-full flex items-start justify-center lg:justify-end select-none lg:pr-8 lg:pt-1">
 
             {/* Background glow */}
             <div className="absolute top-1/2 right-[20%] -translate-y-1/2 w-[400px] h-[400px] rounded-full blur-[120px] -z-10 pointer-events-none" style={{ background: "var(--primary-soft)" }} />

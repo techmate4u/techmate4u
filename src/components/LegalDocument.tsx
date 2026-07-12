@@ -1,8 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { FileText, MapPin } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 export function slugify(value: string) {
   return value
@@ -29,7 +27,6 @@ export function LegalPage({
 }) {
   return (
     <main className="relative flex min-h-screen flex-col overflow-x-clip bg-[var(--background)]">
-      <Navbar />
 
       <div className="absolute inset-0 -z-10" style={{ background: "var(--hero-base)" }} />
       <div
@@ -111,8 +108,6 @@ export function LegalPage({
           </article>
         </div>
       </section>
-
-      <Footer />
     </main>
   );
 }

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Database, FileText, LockKeyhole, Mail, MapPin, ShieldCheck } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Card from "@/components/ui/Card";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | TechMate4u",
@@ -143,7 +142,6 @@ function PolicySection({
 export default function PrivacyPolicyPage() {
   return (
     <main className="relative flex min-h-screen flex-col overflow-x-clip bg-[var(--background)]">
-      <Navbar />
 
       <div className="absolute inset-0 -z-10" style={{ background: "var(--hero-base)" }} />
       <div
@@ -519,7 +517,7 @@ export default function PrivacyPolicyPage() {
                 handled, please contact us.
               </p>
               <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-lg border p-5" style={{ borderColor: "var(--line-soft)" }}>
+                <Card className="p-5">
                   <Mail className="mb-4 h-5 w-5 text-[var(--primary)]" />
                   <h3 className="font-bold text-[var(--text)]">TechMate4u</h3>
                   <p className="mt-2 text-sm leading-7">
@@ -529,8 +527,8 @@ export default function PrivacyPolicyPage() {
                     <br />
                     Ahmedabad, Gujarat, India
                   </p>
-                </div>
-                <div className="rounded-lg border p-5" style={{ borderColor: "var(--line-soft)" }}>
+                </Card>
+                <Card className="p-5">
                   <ShieldCheck className="mb-4 h-5 w-5 text-[var(--primary)]" />
                   <h3 className="font-bold text-[var(--text)]">Grievance Officer</h3>
                   <p className="mt-2 text-sm leading-7">
@@ -540,7 +538,7 @@ export default function PrivacyPolicyPage() {
                     <br />
                     Ahmedabad, Gujarat, India
                   </p>
-                </div>
+                </Card>
               </div>
               <p>
                 We will acknowledge your grievance within 5 business days and aim to resolve it within
@@ -553,8 +551,6 @@ export default function PrivacyPolicyPage() {
           </article>
         </div>
       </section>
-
-      <Footer />
     </main>
   );
 }

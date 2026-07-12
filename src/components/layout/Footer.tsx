@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Bot, Code2, Megaphone, Mail, MapPin, Phone, Search, Smartphone, Instagram } from "lucide-react";
-import logo from "../../public/assets/logo.webp";
+import logo from "../../../public/assets/logo.webp";
 
 const navLinks = [
     { name: "Home", href: "/#home" },
@@ -30,7 +30,7 @@ const legalLinks = [
 
 const contactLinks = [
     { label: "info@techmate4u.com", href: "mailto:info@techmate4u.com", icon: Mail },
-    { label: "+91 94276 10067", href: "tel:+919427610067", icon: Phone },
+    { label: "+91 93272 63267", href: "tel:+919327263267", icon: Phone },
 ];
 
 const socialLinks = [
@@ -80,8 +80,8 @@ export default function Footer() {
                             <Image
                                 src={logo}
                                 alt="TechMate4u"
-                                className="h-10 w-auto transition-all duration-300 group-hover:scale-[1.02]"
-                                style={{ filter: "sepia(1) saturate(300%) hue-rotate(140deg)" }}
+                                className="h-10 w-auto transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"
+                                style={{ filter: "sepia(1) saturate(300%) hue-rotate(190deg)" }}
                             />
                             <span className="text-lg font-extrabold tracking-tight text-[var(--text)] drop-shadow-sm transition-colors duration-300 group-hover:text-[var(--primary)]">
                                 TechMate4u
@@ -98,7 +98,7 @@ export default function Footer() {
                                     key={social.label}
                                     href={social.href}
                                     aria-label={social.label}
-                                    className="flex size-9 items-center justify-center rounded-full border text-[var(--text-soft)] transition-all duration-300 hover:text-[var(--primary)]"
+                                    className="flex size-9 items-center justify-center rounded-full border text-[var(--text-soft)] transition-all duration-300 hover:text-[var(--primary)] hover:border-[var(--primary)] hover:shadow-[0_4px_16px_var(--theme-glow)] hover:-translate-y-1 hover:scale-110"
                                     style={{ background: "var(--panel)", borderColor: "var(--line)" }}
                                 >
                                     {social.icon}
@@ -116,9 +116,10 @@ export default function Footer() {
                                 <li key={link.name}>
                                     <Link
                                         href={link.href}
-                                        className="text-sm font-medium text-[var(--text-muted)] transition-colors duration-200 hover:text-[var(--text)]"
+                                        className="group inline-flex items-center gap-1.5 text-sm font-medium text-[var(--text-muted)] transition-all duration-300 hover:text-[var(--primary)] hover:translate-x-1.5"
                                     >
-                                        {link.name}
+                                        <span className="text-[12px] opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 text-[var(--primary)]">→</span>
+                                        <span>{link.name}</span>
                                     </Link>
                                 </li>
                             ))}
@@ -134,18 +135,12 @@ export default function Footer() {
                                 <li key={link.name}>
                                     <Link
                                         href={link.href}
-                                        className="group flex items-center gap-2.5 text-sm font-medium text-[var(--text-muted)] transition-colors duration-200 hover:text-[var(--text)]"
+                                        className="group flex items-center gap-2.5 text-sm font-medium text-[var(--text-muted)] transition-all duration-300 hover:text-[var(--primary)]"
                                     >
-                                        <span
-                                            className="flex size-7 shrink-0 items-center justify-center rounded-md border transition-colors group-hover:text-[var(--primary)]"
-                                            style={{
-                                                background: "color-mix(in srgb, var(--panel) 72%, transparent)",
-                                                borderColor: "var(--line-soft)",
-                                            }}
-                                        >
-                                            <link.icon className="h-3.5 w-3.5" />
+                                        <span className="flex size-7 shrink-0 items-center justify-center rounded-md border border-blue-500/20 bg-blue-500/10 text-blue-600 transition-all duration-300 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(37,99,235,0.35)]">
+                                            <link.icon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:scale-110" />
                                         </span>
-                                        {link.name}
+                                        <span className="transition-transform duration-300 group-hover:translate-x-1 group-hover:text-[var(--primary)]">{link.name}</span>
                                     </Link>
                                 </li>
                             ))}
@@ -162,38 +157,26 @@ export default function Footer() {
                                 <a
                                     key={item.label}
                                     href={item.href}
-                                    className="group flex items-center gap-3 text-sm font-medium text-[var(--text-muted)] transition-colors duration-200 hover:text-[var(--text)]"
+                                    className="group flex items-center gap-3 text-sm font-medium text-[var(--text-muted)] transition-all duration-300 hover:text-[var(--primary)]"
                                 >
-                                    <span
-                                        className="flex size-8 shrink-0 items-center justify-center rounded-md border text-[var(--primary)]"
-                                        style={{
-                                            background: "color-mix(in srgb, var(--primary) 9%, transparent)",
-                                            borderColor: "var(--line-soft)",
-                                        }}
-                                    >
-                                        <item.icon className="h-4 w-4" />
+                                    <span className="flex size-8 shrink-0 items-center justify-center rounded-md border border-blue-500/20 bg-blue-500/10 text-blue-600 transition-all duration-300 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(37,99,235,0.35)]">
+                                        <item.icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                                     </span>
-                                    {item.label}
+                                    <span className="transition-transform duration-300 group-hover:translate-x-1">{item.label}</span>
                                 </a>
                             ))}
 
-                            <div className="flex items-center gap-3 text-sm font-medium text-[var(--text-muted)]">
-                                <span
-                                    className="flex size-8 shrink-0 items-center justify-center rounded-md border text-[var(--primary)]"
-                                    style={{
-                                        background: "color-mix(in srgb, var(--primary) 9%, transparent)",
-                                        borderColor: "var(--line-soft)",
-                                    }}
-                                >
-                                    <MapPin className="h-4 w-4" />
+                            <div className="group flex items-center gap-3 text-sm font-medium text-[var(--text-muted)] transition-colors duration-300 hover:text-[var(--primary)]">
+                                <span className="flex size-8 shrink-0 items-center justify-center rounded-md border border-blue-500/20 bg-blue-500/10 text-blue-600 transition-all duration-300 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 group-hover:scale-110 group-hover:shadow-[0_4px_12px_rgba(37,99,235,0.35)]">
+                                    <MapPin className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                                 </span>
-                                Ahmedabad, Gujarat, India
+                                <span className="transition-transform duration-300 group-hover:translate-x-1">Ahmedabad, Gujarat, India</span>
                             </div>
                         </div>
 
                         <a
                             href="mailto:info@techmate4u.com"
-                            className="group relative mt-1 inline-flex h-10 w-fit items-center gap-2 overflow-hidden rounded-full px-6 text-sm font-bold text-white shadow-sm transition-all duration-300 hover:shadow-lg hover:shadow-[var(--primary)]/25"
+                            className="group relative mt-1 inline-flex h-10 w-fit items-center gap-2 overflow-hidden rounded-full px-6 text-sm font-bold text-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_var(--theme-glow)]"
                             style={{ background: "var(--primary)", boxShadow: "0 10px 24px -12px var(--theme-glow)" }}
                         >
                             <span className="relative z-10 transition-transform duration-300 group-hover:-translate-x-0.5">
@@ -218,7 +201,7 @@ export default function Footer() {
                                 <Link
                                     key={link.name}
                                     href={link.href}
-                                    className="text-xs font-medium text-[var(--text-soft)] transition-colors duration-200 hover:text-[var(--text)]"
+                                    className="text-xs font-medium text-[var(--text-soft)] transition-all duration-200 hover:text-[var(--primary)] hover:-translate-y-0.5"
                                 >
                                     {link.name}
                                 </Link>
