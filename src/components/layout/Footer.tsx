@@ -65,7 +65,7 @@ export default function Footer() {
     return (
         <footer className="relative w-full overflow-hidden" style={{ background: "var(--surface-muted)" }}>
             {/* City Skyline background drawing */}
-            <div className="absolute right-0 bottom-0 w-[600px] h-[320px] bg-[url(/assets/bg-skyline.png)] bg-no-repeat bg-contain bg-bottom opacity-[0.09] pointer-events-none z-0" />
+            <div className="absolute inset-0 bg-[url(/assets/bg-skyline.png)] bg-cover bg-bottom opacity-[0.10] pointer-events-none z-0" />
 
             <div
                 aria-hidden="true"
