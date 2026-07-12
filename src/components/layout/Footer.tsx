@@ -64,16 +64,19 @@ const socialLinks = [
 export default function Footer() {
     return (
         <footer className="relative w-full overflow-hidden" style={{ background: "var(--surface-muted)" }}>
+            {/* City Skyline background drawing */}
+            <div className="absolute right-0 bottom-0 w-[600px] h-[320px] bg-[url(/assets/bg-skyline.png)] bg-no-repeat bg-contain bg-bottom opacity-[0.09] pointer-events-none z-0" />
+
             <div
                 aria-hidden="true"
-                className="absolute left-0 right-0 top-0 h-px"
+                className="absolute left-0 right-0 top-0 h-px z-10"
                 style={{
                     background: "var(--footer-divider)",
                     opacity: 0.4,
                 }}
             />
 
-            <div className="mx-auto max-w-7xl px-6 pb-8 pt-14 sm:px-8 lg:px-12">
+            <div className="mx-auto max-w-7xl px-6 pb-8 pt-14 sm:px-8 lg:px-12 relative z-10">
                 <div className="grid grid-cols-2 gap-10 lg:grid-cols-[1.25fr_0.8fr_1fr_1.2fr] lg:gap-8">
                     <div className="col-span-2 lg:col-span-1 flex flex-col gap-4">
                         <Link href="/#home" className="group flex w-fit items-center gap-2.5">
