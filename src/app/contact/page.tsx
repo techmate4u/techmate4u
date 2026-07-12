@@ -38,11 +38,9 @@ const STUDIO_COORDINATES = [
 export default function ContactPage() {
   return (
     <main className="min-h-screen pt-32 pb-0 relative overflow-hidden">
-      {/* 3D hexagon wall pattern overlay on the right */}
-      <div className="absolute right-[-5%] top-[15%] w-[600px] h-[700px] bg-[url(/assets/bg-hexagons.png)] bg-no-repeat bg-contain opacity-[0.09] pointer-events-none -z-10" />
+      
 
-      {/* Blueprint drawing overlay on the left */}
-      <div className="absolute left-[-10%] bottom-0 w-[550px] h-[550px] bg-[url(/assets/bg-blueprint.png)] bg-no-repeat bg-contain opacity-[0.08] pointer-events-none -z-10 animate-float" />
+      
 
       {/* Background blueprint details */}
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none -z-10"

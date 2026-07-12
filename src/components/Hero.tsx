@@ -31,11 +31,9 @@ export default function Hero() {
         >
             {/* ── Fixed Colored Blueprint Background ── */}
             <div className="fixed inset-0 w-[100vw] h-[100vh] -z-20 pointer-events-none" style={{ background: "var(--hero-base)" }}>
-                {/* Tactile Blueprint drawing texture */}
-                <div className="absolute inset-0 bg-[url(/assets/bg-blueprint.png)] bg-no-repeat bg-cover opacity-[0.08]" />
                 
-                {/* Network Globe drawing at bottom right */}
-                <div className="absolute right-[-8%] bottom-[8%] w-[550px] h-[550px] bg-[url(/assets/bg-globe.png)] bg-no-repeat bg-contain opacity-[0.09] animate-float-3" />
+                
+                
 
                 {/* Light gradient from right */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(37,99,235,0.08)] to-[rgba(37,99,235,0.15)]" />

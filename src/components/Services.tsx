@@ -9,11 +9,9 @@ import { SERVICES_DATA } from "@/components/servicesData";
 export default function Services() {
   return (
     <section className="w-full relative z-20 overflow-hidden -mt-6 lg:-mt-8 pt-16 lg:pt-20 pb-10" id="services">
-      {/* Wave drawing texture on the left bottom */}
-      <div className="absolute left-[-10%] bottom-[-10%] w-[900px] h-[550px] bg-[url(/assets/bg-waves.png)] bg-no-repeat bg-contain opacity-[0.09] pointer-events-none -z-10 animate-float-delayed" />
+      
 
-      {/* Hexagons wall texture on the right top */}
-      <div className="absolute right-[-5%] top-[10%] w-[500px] h-[500px] bg-[url(/assets/bg-hexagons.png)] bg-no-repeat bg-contain opacity-[0.09] pointer-events-none -z-10 animate-float" />
+      
 
       {/* Background blueprint details */}
       <div className="absolute inset-0 opacity-[0.05]"

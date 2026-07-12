@@ -44,14 +44,11 @@ const CATEGORIES = ["All", "E-commerce", "Automation", "SEO"];
 export default function BlogListingPage() {
   return (
     <main className="min-h-screen pt-32 pb-0 relative overflow-hidden">
-      {/* Blueprint background layout texture */}
-      <div className="absolute inset-0 bg-[url(/assets/bg-blueprint.png)] bg-no-repeat bg-cover opacity-[0.06] pointer-events-none -z-10" />
+      
 
-      {/* Skyline drawing overlay representing landscape and thoughts */}
-      <div className="absolute right-[-10%] top-[10%] w-[650px] h-[450px] bg-[url(/assets/bg-skyline.png)] bg-no-repeat bg-contain opacity-[0.09] pointer-events-none -z-10 animate-float" />
+      
 
-      {/* Waves background line-work */}
-      <div className="absolute left-[-10%] bottom-[5%] w-[800px] h-[550px] bg-[url(/assets/bg-waves.png)] bg-no-repeat bg-contain opacity-[0.08] pointer-events-none -z-10 animate-float-delayed" />
+      
 
       {/* Background blueprint details grid */}
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none -z-10"

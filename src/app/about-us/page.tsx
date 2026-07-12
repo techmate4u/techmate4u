@@ -110,11 +110,9 @@ export default function AboutUsPage() {
       {/* ── Fixed background ── */}
       <div className="fixed inset-0 -z-20" style={{ background: "var(--hero-base)" }} />
       
-      {/* Subtle blueprint drafting layout texture */}
-      <div className="fixed inset-0 -z-20 opacity-[0.07] bg-[url(/assets/bg-blueprint.png)] bg-no-repeat bg-cover pointer-events-none" />
+      
 
-      {/* Skyline drawing overlay representing scale and architecture */}
-      <div className="fixed right-0 top-1/4 w-[700px] h-[500px] -z-20 opacity-[0.09] bg-[url(/assets/bg-skyline.png)] bg-no-repeat bg-contain pointer-events-none" />
+      
 
       <div
         className="fixed inset-0 -z-20 opacity-[0.07]"

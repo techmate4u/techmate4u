@@ -7,8 +7,7 @@ import ContactForm from "@/components/forms/ContactForm";
 export default function CTA() {
   return (
     <section className="w-full py-20 lg:py-24 relative overflow-hidden" id="contact" style={{ background: "var(--cta-bg)" }}>
-      {/* Blueprint drawing overlay */}
-      <div className="absolute inset-0 bg-[url(/assets/bg-blueprint.png)] bg-no-repeat bg-cover opacity-[0.08] pointer-events-none -z-10" />
+      
 
       {/* Ambient glowing gradients */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[128px] opacity-50 pointer-events-none" />

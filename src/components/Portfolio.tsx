@@ -54,11 +54,9 @@ export default function Portfolio() {
             className="w-full relative z-20 overflow-hidden -mt-10 lg:-mt-14 pt-6 lg:pt-8"
             id="portfolio"
         >
-            {/* Network Globe drawing on the left side */}
-            <div className="absolute left-[-5%] top-[15%] w-[600px] h-[600px] bg-[url(/assets/bg-globe.png)] bg-no-repeat bg-contain opacity-[0.09] pointer-events-none -z-10 animate-float" />
+            
 
-            {/* Wave drawing texture on the right bottom */}
-            <div className="absolute right-[-10%] bottom-[5%] w-[800px] h-[550px] bg-[url(/assets/bg-waves.png)] bg-no-repeat bg-contain opacity-[0.10] pointer-events-none -z-10 animate-float-delayed" />
+            
             {/* Background layers moved to src/app/page.tsx for centralized editing. */}
 
             <div className="absolute top-[10%] left-[-20px] w-48 h-48 opacity-30 hover:opacity-80 transition-all duration-700 hover:translate-x-[30px] z-0 hidden lg:block group">

@@ -64,8 +64,7 @@ const socialLinks = [
 export default function Footer() {
     return (
         <footer className="relative w-full overflow-hidden" style={{ background: "var(--surface-muted)" }}>
-            {/* City Skyline background drawing */}
-            <div className="absolute inset-0 bg-[url(/assets/bg-skyline.png)] bg-cover bg-bottom opacity-[0.10] pointer-events-none z-0" />
+            
 
             <div
                 aria-hidden="true"
