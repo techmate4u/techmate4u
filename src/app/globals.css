@@ -686,22 +686,7 @@ canvas {
 /* ===== Premium Hero Section Background Smooth Fade styling ===== */
 .hero-premium-section {
   position: relative;
-}
-
-.hero-premium-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("/assets/process_bg.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: -10;
-  pointer-events: none;
-  opacity: 0.85;
-  /* Smooth fade at the bottom of hero */
-  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  overflow: visible;
 }
 
 /* ===== Premium Sections Background Smooth Fade styling ===== */

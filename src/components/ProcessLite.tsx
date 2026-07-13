@@ -41,10 +41,10 @@ const steps = [
 
 export default function ProcessLite() {
   return (
-    <section id="process" className="w-full relative z-20 overflow-hidden -mt-10 lg:-mt-14 pt-10 lg:pt-14 pb-16 lg:pb-24 process-premium-section">
+    <section id="process" className="w-full relative z-20 overflow-hidden py-16 lg:py-24 process-premium-section">
       
       
-      <div className="w-full max-w-7xl mx-auto px-4 lg:px-8 pt-16 lg:pt-24 relative z-10">
+      <div className="w-full max-w-7xl mx-auto px-4 lg:px-8 relative z-10">
         <div className="max-w-2xl mb-16 lg:mb-24">
           <div className="flex items-center gap-3.5 mb-4">
               <div className="flex items-center gap-1.5 text-[var(--primary)]">

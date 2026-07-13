@@ -1,0 +1,388 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - link "TechMate4u TechMate4u" [ref=e4] [cursor=pointer]:
+      - /url: /#home
+      - img "TechMate4u" [ref=e5]
+      - generic [ref=e6]: TechMate4u
+    - navigation [ref=e7]:
+      - link "Services" [ref=e9] [cursor=pointer]:
+        - /url: /#services
+      - link "Work" [ref=e12] [cursor=pointer]:
+        - /url: /#portfolio
+      - link "Process" [ref=e13] [cursor=pointer]:
+        - /url: /#process
+      - link "About Us" [ref=e14] [cursor=pointer]:
+        - /url: /about-us
+    - link "Get in Touch arrow_forward" [ref=e16] [cursor=pointer]:
+      - /url: /#contact
+      - generic [ref=e17]: Get in Touch
+      - generic [ref=e18]: arrow_forward
+  - main [ref=e20]:
+    - generic [ref=e22]:
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - heading "Accelerate Growth with Next-Generation Digital Systems" [level=1] [ref=e25]:
+            - generic [ref=e26]: Accelerate Growth with
+            - generic [ref=e27]: Next-Generation Digital Systems
+          - paragraph [ref=e28]: We build high-performance websites and AI-powered systems designed to turn visitors into loyal customers.
+        - generic [ref=e29]:
+          - link "Get in Touch arrow_forward" [ref=e30] [cursor=pointer]:
+            - /url: /#contact
+            - text: Get in Touch
+            - generic [ref=e31]: arrow_forward
+          - link "play_arrow View Our Work" [ref=e33] [cursor=pointer]:
+            - /url: /#portfolio
+            - generic [ref=e34]: play_arrow
+            - text: View Our Work
+        - generic [ref=e37]:
+          - generic [ref=e38]:
+            - generic [ref=e39]: bolt
+            - generic [ref=e40]: Modern Tech Stack
+          - generic [ref=e41]: •
+          - generic [ref=e42]:
+            - generic [ref=e43]: handshake
+            - generic [ref=e44]: Startup Friendly
+          - generic [ref=e45]: •
+          - generic [ref=e46]:
+            - generic [ref=e47]: rocket_launch
+            - generic [ref=e48]: End-to-End Delivery
+      - figure [ref=e49]:
+        - generic [ref=e50]:
+          - generic [ref=e51]: "Client Showcase: Amara"
+          - img "Mobile responsive view" [ref=e66]
+          - generic [ref=e72]:
+            - generic [ref=e73]: Processing Speed
+            - generic [ref=e74]: Lightning-fast
+    - generic [ref=e86]:
+      - generic [ref=e87]:
+        - heading "Comprehensive services we provide" [level=2] [ref=e88]
+        - paragraph [ref=e89]: From web design to mobile apps, SEO, AI automation, digital marketing, and social media management—everything your business needs to thrive online.
+      - generic [ref=e90]:
+        - generic [ref=e93]:
+          - heading "Website Design & Development" [level=3] [ref=e99]
+          - paragraph [ref=e100]: Custom-built, responsive websites that showcase your brand and drive conversions with modern technologies.
+          - link "Learn more >" [ref=e102] [cursor=pointer]:
+            - /url: /services/web-development
+            - text: Learn more
+            - generic [ref=e103]: ">"
+        - generic [ref=e106]:
+          - heading "Mobile App Development" [level=3] [ref=e111]
+          - paragraph [ref=e112]: Native and cross-platform mobile applications built for performance, user engagement, and scalability.
+          - link "Learn more >" [ref=e114] [cursor=pointer]:
+            - /url: /services/mobile-app-development
+            - text: Learn more
+            - generic [ref=e115]: ">"
+        - generic [ref=e118]:
+          - heading "SEO Optimization" [level=3] [ref=e124]
+          - paragraph [ref=e125]: Strategic search engine optimization to boost your visibility, organic traffic, and online rankings.
+          - link "Learn more >" [ref=e127] [cursor=pointer]:
+            - /url: /services/technical-seo
+            - text: Learn more
+            - generic [ref=e128]: ">"
+        - generic [ref=e131]:
+          - heading "AI Automation" [level=3] [ref=e136]
+          - paragraph [ref=e137]: Tailored AI solutions and automated workflows designed to streamline operations, reduce manual errors, and boost efficiency.
+          - link "Learn more >" [ref=e139] [cursor=pointer]:
+            - /url: /services/automation-systems
+            - text: Learn more
+            - generic [ref=e140]: ">"
+        - generic [ref=e143]:
+          - heading "Digital Marketing" [level=3] [ref=e151]
+          - paragraph [ref=e152]: Results-driven marketing campaigns and funnel optimizations tailored to scale your brand and maximize acquisition ROI.
+          - link "Learn more >" [ref=e154] [cursor=pointer]:
+            - /url: /services/digital-marketing
+            - text: Learn more
+            - generic [ref=e155]: ">"
+        - generic [ref=e158]:
+          - heading "Social Media Management" [level=3] [ref=e167]
+          - paragraph [ref=e168]: Strategic content creation, community engagement, and brand optimization to build a powerful organic social media presence.
+          - link "Learn more >" [ref=e170] [cursor=pointer]:
+            - /url: /services/social-media-management
+            - text: Learn more
+            - generic [ref=e171]: ">"
+    - generic [ref=e172]:
+      - generic [ref=e183]:
+        - heading "Proven Results Across Industries" [level=2] [ref=e184]
+        - paragraph [ref=e185]: We've partnered with leading companies to build scalable, high-performance digital solutions. Here's a selection of recent client projects that delivered measurable impact.
+      - generic [ref=e186]:
+        - generic [ref=e191]:
+          - generic [ref=e192]: E-commerce
+          - heading "Riwaaz Ethnic" [level=3] [ref=e193]
+          - generic [ref=e194]:
+            - heading "Challenge" [level=4] [ref=e195]
+            - paragraph [ref=e196]: Legacy storefront suffered from slow load times, high mobile bounce rates, and limited design layout control.
+          - generic [ref=e197]:
+            - heading "Result" [level=4] [ref=e198]
+            - paragraph [ref=e199]: Lighthouse mobile score of 99/100, +38% conversion lift, and sub-second page transitions.
+          - generic [ref=e200]:
+            - generic [ref=e201]:
+              - generic [ref=e202]: Next.js
+              - generic [ref=e203]: React
+              - generic [ref=e204]: Tailwind CSS
+              - generic [ref=e205]: Framer Motion
+            - generic [ref=e206]:
+              - link "Case Study" [ref=e207] [cursor=pointer]:
+                - /url: /work/riwaaz-ethnic
+              - link "Demo open_in_new" [ref=e208] [cursor=pointer]:
+                - /url: https://riwaazethnic.vercel.app/
+                - text: Demo
+                - generic [ref=e209]: open_in_new
+        - generic [ref=e214]:
+          - generic [ref=e215]: Healthcare Logistics
+          - heading "Lab2Door" [level=3] [ref=e216]
+          - generic [ref=e217]:
+            - heading "Challenge" [level=4] [ref=e218]
+            - paragraph [ref=e219]: Confusing patient scheduling flow and manual routing overhead led to booking collisions and logistical delays.
+          - generic [ref=e220]:
+            - heading "Result" [level=4] [ref=e221]
+            - paragraph [ref=e222]: 50% reduction in booking friction, zero slot collisions, and 2.5x scheduled appointments growth.
+          - generic [ref=e223]:
+            - generic [ref=e224]:
+              - generic [ref=e225]: Next.js
+              - generic [ref=e226]: TypeScript
+              - generic [ref=e227]: React
+              - generic [ref=e228]: Supabase
+            - generic [ref=e229]:
+              - link "Case Study" [ref=e230] [cursor=pointer]:
+                - /url: /work/lab2door
+              - link "Demo open_in_new" [ref=e231] [cursor=pointer]:
+                - /url: https://lab2door.vercel.app/
+                - text: Demo
+                - generic [ref=e232]: open_in_new
+        - generic [ref=e234]:
+          - generic [ref=e236]:
+            - img "Restaurant Management screenshot 1" [ref=e237]
+            - img "Restaurant Management screenshot 2" [ref=e238]
+            - img "Restaurant Management screenshot 3" [ref=e239]
+            - img "Restaurant Management screenshot 4" [ref=e240]
+            - img "Restaurant Management screenshot 5" [ref=e241]
+          - generic [ref=e248]:
+            - generic [ref=e249]: Hospitality & POS
+            - heading "Restaurant Management" [level=3] [ref=e250]
+            - generic [ref=e251]:
+              - heading "Challenge" [level=4] [ref=e252]
+              - paragraph [ref=e253]: Legacy POS dining system had high sync latency and lacked touch-optimized waiter interfaces tableside.
+            - generic [ref=e254]:
+              - heading "Result" [level=4] [ref=e255]
+              - paragraph [ref=e256]: Sub-100ms kitchen sync latency, 22% faster table turnover, and full mobile optimization.
+            - generic [ref=e257]:
+              - generic [ref=e258]:
+                - generic [ref=e259]: Next.js
+                - generic [ref=e260]: React
+                - generic [ref=e261]: TypeScript
+                - generic [ref=e262]: Real-time Sync
+              - link "Case Study" [ref=e264] [cursor=pointer]:
+                - /url: /work/restaurant-management
+    - generic [ref=e266]:
+      - generic [ref=e267]:
+        - generic [ref=e268]: Client Testimonials
+        - heading "What Our Clients Say" [level=2] [ref=e275]
+        - paragraph [ref=e276]: Hear directly from the leaders and founders who partnered with us to transform their digital operations.
+      - generic [ref=e277]:
+        - generic [ref=e278]:
+          - generic [ref=e279] [cursor=pointer]: 2:34
+          - generic [ref=e285]:
+            - generic [ref=e286]:
+              - generic [ref=e287]:
+                - heading "Sarah Chen" [level=3] [ref=e288]
+                - paragraph [ref=e289]: VP Product, TechFlow Systems
+              - generic [ref=e290]: ”
+            - paragraph [ref=e291]: "\"TechMate4u transformed our onboarding experience. Within 3 months, we saw a 67% improvement in user retention and doubled our free-to-paid conversion rate.\""
+        - generic [ref=e292]:
+          - generic [ref=e293] [cursor=pointer]: 3:12
+          - generic [ref=e299]:
+            - generic [ref=e300]:
+              - generic [ref=e301]:
+                - heading "Michael Roberts" [level=3] [ref=e302]
+                - paragraph [ref=e303]: CEO, FinServe Solutions
+              - generic [ref=e304]: ”
+            - paragraph [ref=e305]: "\"The team delivered enterprise-grade solutions while keeping us involved at every step. Their technical expertise and communication were exceptional.\""
+        - generic [ref=e306]:
+          - generic [ref=e307] [cursor=pointer]: 2:45
+          - generic [ref=e313]:
+            - generic [ref=e314]:
+              - generic [ref=e315]:
+                - heading "Amita Desai" [level=3] [ref=e316]
+                - paragraph [ref=e317]: Founder, HealthConnect Pro
+              - generic [ref=e318]: ”
+            - paragraph [ref=e319]: "\"Building a HIPAA-compliant telemedicine platform is complex. TechMate4u not only delivered on time but exceeded our expectations on security and UX.\""
+    - generic [ref=e321]:
+      - generic [ref=e322]:
+        - generic [ref=e323]:
+          - generic [ref=e324]: ✦
+          - generic [ref=e327]: How We Work
+        - heading "Our Process" [level=2] [ref=e328]
+        - paragraph [ref=e329]: A rigorous, transparent timeline designed to ensure seamless delivery from initial concept to final launch.
+      - generic [ref=e330]:
+        - generic [ref=e334]:
+          - generic [ref=e335]: "01"
+          - heading "Discovery & Research" [level=3] [ref=e336]
+          - paragraph [ref=e337]: Analyzing your goals, target audience, and current technical landscape to define project requirements.
+        - generic [ref=e341]:
+          - generic [ref=e342]: "02"
+          - heading "Proposal & Quote" [level=3] [ref=e343]
+          - paragraph [ref=e344]: Delivering a comprehensive project scope, timeline, and transparent pricing structure.
+        - generic [ref=e348]:
+          - generic [ref=e349]: "03"
+          - heading "Agreement Signed" [level=3] [ref=e350]
+          - paragraph [ref=e351]: Finalizing contract terms and establishing clear project milestones and deliverables.
+        - generic [ref=e355]:
+          - generic [ref=e356]: "04"
+          - heading "Initial Payment" [level=3] [ref=e357]
+          - paragraph [ref=e358]: Securing resources, aligning our engineering team, and officially kicking off the project.
+        - generic [ref=e362]:
+          - generic [ref=e363]: "05"
+          - heading "Design Phase" [level=3] [ref=e364]
+          - paragraph [ref=e365]: Creating wireframes, user flows, and high-fidelity visual prototypes for your approval.
+        - generic [ref=e369]:
+          - generic [ref=e370]: "06"
+          - heading "Development" [level=3] [ref=e371]
+          - paragraph [ref=e372]: Building the solution using modern, scalable frameworks and rigorous coding standards.
+        - generic [ref=e376]:
+          - generic [ref=e377]: "07"
+          - heading "Revisions & Testing" [level=3] [ref=e378]
+          - paragraph [ref=e379]: Conducting quality assurance, performance testing, and iterative client feedback rounds.
+        - generic [ref=e383]:
+          - generic [ref=e384]: "08"
+          - heading "Final Delivery" [level=3] [ref=e385]
+          - paragraph [ref=e386]: Deploying to production, performing final code reviews, and handing over the keys.
+        - generic [ref=e390]:
+          - generic [ref=e391]: "09"
+          - heading "Support & Maintenance" [level=3] [ref=e392]
+          - paragraph [ref=e393]: Providing ongoing updates, uptime monitoring, and proactive technical support.
+    - generic [ref=e395]:
+      - generic [ref=e396]:
+        - generic [ref=e397]:
+          - img "TM4U Monogram" [ref=e401]
+          - generic [ref=e402]:
+            - generic [ref=e403]: We Build Digital Solutions
+            - heading "Let's Build Something Amazing." [level=2] [ref=e408]
+            - paragraph [ref=e409]: Whether you need a modern website, automation system, or digital marketing, we're here to bring your ideas to life.
+        - generic [ref=e410]:
+          - generic [ref=e416]:
+            - heading "Free 15-min consultation" [level=4] [ref=e417]
+            - paragraph [ref=e418]: Get expert advice with no strings attached.
+          - generic [ref=e425]:
+            - heading "No obligation" [level=4] [ref=e426]
+            - paragraph [ref=e427]: Explore your options with zero commitment.
+          - generic [ref=e432]:
+            - heading "Clear advice for your business" [level=4] [ref=e433]
+            - paragraph [ref=e434]: Technical insights tailored to your specific goals.
+          - generic [ref=e439]:
+            - heading "Fast & reliable communication" [level=4] [ref=e440]
+            - paragraph [ref=e441]: We typically respond to inquiries within a few hours.
+      - generic [ref=e445]:
+        - generic [ref=e446]:
+          - generic [ref=e447]:
+            - generic [ref=e448]: Full Name
+            - textbox "Full Name" [ref=e449]:
+              - /placeholder: John Doe
+          - generic [ref=e450]:
+            - generic [ref=e451]: Email Address
+            - textbox "Email Address" [ref=e452]:
+              - /placeholder: john@example.com
+        - generic [ref=e453]:
+          - generic [ref=e454]:
+            - generic [ref=e455]: Phone Number (Optional)
+            - textbox "Phone Number (Optional)" [ref=e456]:
+              - /placeholder: +1 (555) 000-0000
+          - generic [ref=e457]:
+            - generic [ref=e458]: Company (Optional)
+            - textbox "Company (Optional)" [ref=e459]:
+              - /placeholder: Acme Corp
+        - generic [ref=e460]:
+          - generic [ref=e461]: Project Details / Message
+          - textbox "Project Details / Message" [ref=e462]:
+            - /placeholder: Tell us about your project requirements...
+        - button "Send Message" [ref=e463] [cursor=pointer]
+  - contentinfo [ref=e464]:
+    - generic [ref=e466]:
+      - generic [ref=e467]:
+        - generic [ref=e468]:
+          - link "TechMate4u TechMate4u" [ref=e469] [cursor=pointer]:
+            - /url: /#home
+            - img "TechMate4u" [ref=e470]
+            - generic [ref=e471]: TechMate4u
+          - paragraph [ref=e472]: Full-cycle product studio for discovery, design, development, and deployment. We build what others only plan.
+          - generic [ref=e473]:
+            - link "Instagram" [ref=e474] [cursor=pointer]:
+              - /url: https://www.instagram.com/officialtechmate4u/
+            - link "LinkedIn" [ref=e478] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/techmate-4u
+            - link "Twitter / X" [ref=e481] [cursor=pointer]:
+              - /url: https://x.com/techmate4u
+        - generic [ref=e484]:
+          - heading "Navigation" [level=3] [ref=e485]
+          - list [ref=e486]:
+            - listitem [ref=e487]:
+              - link "→ Home" [ref=e488] [cursor=pointer]:
+                - /url: /#home
+                - generic [ref=e489]: →
+                - generic [ref=e490]: Home
+            - listitem [ref=e491]:
+              - link "→ About Us" [ref=e492] [cursor=pointer]:
+                - /url: /about-us
+                - generic [ref=e493]: →
+                - generic [ref=e494]: About Us
+            - listitem [ref=e495]:
+              - link "→ Services" [ref=e496] [cursor=pointer]:
+                - /url: /#services
+                - generic [ref=e497]: →
+                - generic [ref=e498]: Services
+            - listitem [ref=e499]:
+              - link "→ Portfolio" [ref=e500] [cursor=pointer]:
+                - /url: /#portfolio
+                - generic [ref=e501]: →
+                - generic [ref=e502]: Portfolio
+            - listitem [ref=e503]:
+              - link "→ Process" [ref=e504] [cursor=pointer]:
+                - /url: /#process
+                - generic [ref=e505]: →
+                - generic [ref=e506]: Process
+            - listitem [ref=e507]:
+              - link "→ Contact" [ref=e508] [cursor=pointer]:
+                - /url: /#contact
+                - generic [ref=e509]: →
+                - generic [ref=e510]: Contact
+        - generic [ref=e511]:
+          - heading "Services" [level=3] [ref=e512]
+          - list [ref=e513]:
+            - listitem [ref=e514]:
+              - link "Web Development" [ref=e515] [cursor=pointer]:
+                - /url: /#services
+            - listitem [ref=e522]:
+              - link "Technical SEO" [ref=e523] [cursor=pointer]:
+                - /url: /#services
+            - listitem [ref=e529]:
+              - link "Automation Systems" [ref=e530] [cursor=pointer]:
+                - /url: /#services
+            - listitem [ref=e536]:
+              - link "Mobile App Development" [ref=e537] [cursor=pointer]:
+                - /url: /#services
+            - listitem [ref=e542]:
+              - link "Digital Marketing" [ref=e543] [cursor=pointer]:
+                - /url: /#services
+        - generic [ref=e549]:
+          - heading "Get In Touch" [level=3] [ref=e550]
+          - generic [ref=e551]:
+            - link "info@techmate4u.com" [ref=e552] [cursor=pointer]:
+              - /url: mailto:info@techmate4u.com
+            - link "+91 93272 63267" [ref=e558] [cursor=pointer]:
+              - /url: tel:+919327263267
+            - generic [ref=e563]: Ahmedabad, Gujarat, India
+          - link "Email Us mail" [ref=e569] [cursor=pointer]:
+            - /url: mailto:info@techmate4u.com
+            - generic [ref=e570]: Email Us
+            - generic [ref=e571]: mail
+      - generic [ref=e574]:
+        - paragraph [ref=e575]: © 2026 TechMate4u. All rights reserved.
+        - navigation "Legal links" [ref=e576]:
+          - link "Privacy Policy" [ref=e577] [cursor=pointer]:
+            - /url: /privacy-policy
+          - link "Terms & Conditions" [ref=e578] [cursor=pointer]:
+            - /url: /terms-and-conditions
+          - link "Refund Policy" [ref=e579] [cursor=pointer]:
+            - /url: /refund-policy
+  - link "Chat on WhatsApp" [ref=e580] [cursor=pointer]:
+    - /url: https://wa.me/919327263267?text=Hello%20TechMate4u!%20I'm%20interested%20in%20web%20design%20%26%20development%20services.
+    - generic: Chat with us

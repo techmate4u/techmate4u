@@ -9,7 +9,7 @@ import tLogo from "../../public/assets/t-logo.webp";
 export default function CTA() {
   return (
     <section 
-      className="w-full py-20 lg:py-24 relative overflow-hidden cta-premium-section" 
+      className="w-full py-16 lg:py-24 relative overflow-hidden cta-premium-section" 
       id="contact"
     >
 

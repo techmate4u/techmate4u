@@ -141,7 +141,7 @@ export default function ClientVoice() {
   };
 
   return (
-    <section id="client-voice" className="w-full relative z-20 overflow-hidden pt-16 lg:pt-20 pb-16 lg:pb-24 testimonials-premium-section">
+    <section id="client-voice" className="w-full relative z-20 overflow-hidden py-16 lg:py-24 testimonials-premium-section">
       {/* Visual styles for the visualizer animation */}
       <style>{`
         @keyframes visualizerBounce {

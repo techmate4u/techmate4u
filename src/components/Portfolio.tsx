@@ -51,7 +51,7 @@ const projects: Project[] = [
 export default function Portfolio() {
     return (
         <section
-            className="w-full relative z-20 overflow-hidden -mt-10 lg:-mt-14 pt-6 lg:pt-8 portfolio-premium-section"
+            className="w-full relative z-20 overflow-hidden py-16 lg:py-24 portfolio-premium-section"
             id="portfolio"
         >
             
@@ -74,7 +74,7 @@ export default function Portfolio() {
                 </svg>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 pt-16 lg:pt-20 pb-8 relative z-10">
+            <div className="max-w-7xl mx-auto px-4 pb-8 relative z-10">
                 <div className="mb-4">
                     <h2 className="text-3xl lg:text-4xl font-bold tracking-tight font-[family-name:var(--font-outfit)] drop-shadow-md text-[var(--text)]">
                         Proven Results Across Industries
@@ -85,7 +85,7 @@ export default function Portfolio() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto px-4 pb-20 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto px-4 relative z-10">
                 {projects.map((project, i) => (
                     <ProjectCard key={i} {...project} />
                 ))}
