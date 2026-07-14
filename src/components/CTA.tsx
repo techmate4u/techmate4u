@@ -9,9 +9,33 @@ import tLogo from "../../public/assets/t-logo.webp";
 export default function CTA() {
   return (
     <section 
-      className="w-full py-16 lg:py-24 relative overflow-hidden cta-premium-section" 
+      className="w-full py-16 lg:py-24 relative overflow-hidden minimalist-grid-section" 
       id="contact"
     >
+      {/* Premium background design elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        {/* Pulsing blue glow orb */}
+        <div className="absolute bottom-[10%] right-[-10%] w-[360px] h-[360px] rounded-full bg-gradient-to-br from-blue-500/5 to-cyan-500/10 blur-[90px] animate-pulse" />
+        
+        {/* Faint rotating background network structure */}
+        <div className="absolute top-[10%] left-[-100px] w-80 h-80 opacity-40 hidden lg:block animate-[spin_70s_linear_infinite] text-blue-500/70">
+          <svg viewBox="0 0 100 100" fill="none" className="w-full h-full text-blue-500/70">
+            <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 4" />
+            <polygon points="50,15 80,35 80,65 50,85 20,65 20,35" stroke="currentColor" strokeWidth="0.25" />
+          </svg>
+        </div>
+
+        {/* Floating isometric rotating hexahedron */}
+        <div className="absolute bottom-[10%] right-[-80px] w-80 h-80 opacity-40 hidden lg:block animate-float-3">
+          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-cyan-500/60">
+            <path d="M 60 20 L 100 40 L 100 80 L 60 100 L 20 80 L 20 40 Z" stroke="currentColor" strokeWidth="0.5" className="animate-[spin_40s_linear_infinite] origin-center" />
+            <path d="M 60 20 L 60 100" stroke="currentColor" strokeWidth="0.5" className="animate-[spin_40s_linear_infinite] origin-center" />
+            <path d="M 20 40 L 100 80" stroke="currentColor" strokeWidth="0.5" className="animate-[spin_40s_linear_infinite] origin-center" />
+            <path d="M 100 40 L 20 80" stroke="currentColor" strokeWidth="0.5" className="animate-[spin_40s_linear_infinite] origin-center" />
+            <circle cx="60" cy="60" r="25" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" className="animate-[spin_20s_linear_infinite_reverse] origin-center" />
+          </svg>
+        </div>
+      </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-[1.3fr_1fr] gap-12 lg:gap-16 items-center">
 

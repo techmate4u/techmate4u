@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
 import Button from "@/components/ui/Button";
+import HeroVisual from "./HeroVisual";
 
 export default function Hero() {
     return (
         <section
-            className="w-full min-h-[85vh] pt-32 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-visible flex flex-col items-center hero-premium-section"
+            className="w-full min-h-[85vh] mt-8 sm:mt-12 lg:mt-16 pt-32 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-visible flex flex-col items-center"
             id="home"
         >
             {/* ── Background image — extends above section to sit behind the floating navbar ── */}
@@ -15,7 +18,7 @@ export default function Hero() {
                 className="absolute left-0 right-0 bottom-0 pointer-events-none"
                 style={{
                     top: "-120px",
-                    backgroundImage: "url('/assets/bg.png')",
+                    backgroundImage: "url('/assets/bg.png?v=2')",
                     backgroundSize: "cover",
                     backgroundPosition: "center top",
                     backgroundRepeat: "no-repeat",
@@ -25,8 +28,10 @@ export default function Hero() {
                 }}
             />
 
-            <div className="w-full max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-8 items-start relative z-10">
-                <header className="lg:col-span-7 flex flex-col gap-8 z-10 text-center lg:text-left items-center lg:items-start w-full relative">
+
+
+            <div className="w-full max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
+                <header className="lg:col-span-6 flex flex-col gap-8 z-10 text-center lg:text-left items-center lg:items-start w-full relative">
                     {/* ── Headline with staggered entrance ── */}
                     <div className="flex flex-col gap-6">
                         {/* Premium Typography styling inspired by Figma guidelines: Tighter tracking, specific leading, and balanced contrast */}
@@ -109,6 +114,30 @@ export default function Hero() {
                         </div>
                     </div>
                 </header>
+
+                <figure className="lg:col-span-6 relative w-full overflow-visible mt-12 lg:mt-0 flex items-center justify-center lg:justify-end z-10">
+                    <HeroVisual />
+                </figure>
+            </div>
+
+            {/* ── Scroll to Explore Indicator ── */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 pointer-events-none">
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)] opacity-60">
+                    Scroll to explore
+                </span>
+                <div className="w-5 h-8 rounded-full border-2 border-[var(--text-muted)] opacity-40 flex justify-center p-1">
+                    <motion.div
+                        animate={{
+                            y: [0, 8, 0],
+                        }}
+                        transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                        }}
+                        className="w-1.5 h-1.5 rounded-full bg-[var(--text-muted)]"
+                    />
+                </div>
             </div>
         </section>
     );

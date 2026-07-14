@@ -650,88 +650,67 @@ canvas {
   }
 }
 
-/* ===== Premium CTA Background Smooth Fade styling ===== */
-.cta-premium-section {
+/* ===== Premium Process Section Background Smooth Fade styling ===== */
+.process-premium-section {
   position: relative;
   overflow: hidden;
+  background-color: #f8fafc; /* Solid premium light slate background */
 }
 
-.cta-premium-section::before {
+.process-premium-section::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("/assets/cta_bg.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-image: none;
+  opacity: 0;
   z-index: 0;
   pointer-events: none;
-  /* Smooth opacity gradient mask on top and bottom to blend edges */
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 12%,
-    black 88%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 12%,
-    black 88%,
-    transparent 100%
-  );
 }
 
-/* ===== Premium Hero Section Background Smooth Fade styling ===== */
-.hero-premium-section {
-  position: relative;
-  overflow: visible;
-}
-
-/* ===== Premium Sections Background Smooth Fade styling ===== */
-.process-premium-section,
-.testimonials-premium-section,
-.services-premium-section,
-.portfolio-premium-section {
-  position: relative;
-  overflow: hidden;
-}
-
-.process-premium-section::before,
-.testimonials-premium-section::before,
-.services-premium-section::before,
-.portfolio-premium-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("/assets/process_bg.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 0;
-  pointer-events: none;
-  /* Smooth opacity gradient mask on top and bottom to blend edges */
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 12%,
-    black 88%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 12%,
-    black 88%,
-    transparent 100%
-  );
-}
-
-.process-premium-section > *,
-.testimonials-premium-section > *,
-.services-premium-section > *,
-.portfolio-premium-section > * {
+.process-premium-section > *:not(.absolute) {
   position: relative;
   z-index: 1;
 }
+
+/* ===== Premium Minimalist Grid Background styling ===== */
+.minimalist-grid-section {
+  position: relative;
+  overflow: hidden;
+  background-color: #ffffff; /* Solid pristine white background */
+}
+
+.minimalist-grid-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: none;
+  background-repeat: repeat;
+  background-size: auto;
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.minimalist-grid-section > *:not(.absolute) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hide any residual inline grid backgrounds within the non-hero sections */
+.minimalist-grid-section div[style*="linear-gradient"],
+.minimalist-grid-section-alt div[style*="linear-gradient"],
+.process-premium-section div[style*="linear-gradient"] {
+  display: none !important;
+}
+
+/* ===== Portfolio/Work Section Background styling ===== */
+.minimalist-grid-section-alt {
+  position: relative;
+  overflow: hidden;
+  background-color: #f0f4f8; /* Soft blue-slate background to match hero visual colors! */
+}
+
+.minimalist-grid-section-alt > *:not(.absolute) {
+  position: relative;
+  z-index: 1;
+}

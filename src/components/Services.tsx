@@ -5,40 +5,46 @@ import Link from 'next/link';
 import Card from "@/components/ui/Card";
 import SectionHeading from "@/components/sections/SectionHeading";
 import { SERVICES_DATA } from "@/components/servicesData";
+import { motion } from "framer-motion";
 
 export default function Services() {
   return (
-    <section className="w-full relative z-20 overflow-hidden py-16 lg:py-24 services-premium-section" id="services">
+    <section className="w-full relative z-20 overflow-hidden pt-16 pb-12 lg:pt-24 lg:pb-20 minimalist-grid-section" id="services">
       
 
       
 
-      {/* Background blueprint details */}
-      <div className="absolute inset-0 opacity-[0.05]"
-        style={{
-          backgroundImage:
-            "linear-gradient(var(--line-strong) 1px, transparent 1px), linear-gradient(90deg, var(--line-strong) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
+      {/* Premium background design elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        {/* Pulsing blue/cyan glow orb */}
+        <div className="absolute top-[10%] right-[-10%] w-[320px] h-[320px] rounded-full bg-gradient-to-br from-cyan-500/10 to-blue-500/10 blur-[80px] animate-pulse" />
+        
+        {/* Slow spinning tech ring */}
+        <div className="absolute top-[20%] right-[-100px] w-72 h-72 opacity-25 hidden lg:block animate-[spin_60s_linear_infinite]">
+          <svg viewBox="0 0 100 100" fill="none" className="w-full h-full text-cyan-500">
+            <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 6" />
+            <circle cx="50" cy="50" r="38" stroke="currentColor" strokeWidth="0.25" />
+          </svg>
+        </div>
+      </div>
 
       <div className="w-full relative overflow-hidden">
         {/* Left Interactive Decoration */}
-        <div className="absolute top-[30%] left-[-40px] w-32 h-64 opacity-30 hover:opacity-80 transition-all duration-700 hover:translate-x-[40px] z-0 hidden lg:block group">
-          <svg viewBox="0 0 100 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-slate-400 group-hover:text-blue-500 transition-colors duration-700 animate-float-1">
-            <circle cx="20" cy="100" r="80" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" />
+        <div className="absolute top-[30%] left-[-40px] w-32 h-64 opacity-40 hover:opacity-90 transition-all duration-700 hover:translate-x-[40px] z-0 hidden lg:block group">
+          <svg viewBox="0 0 100 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-blue-500/70 transition-colors duration-700 animate-float-1">
+            <circle cx="20" cy="100" r="80" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" className="animate-[spin_40s_linear_infinite] origin-center" />
             <circle cx="20" cy="100" r="60" stroke="currentColor" strokeWidth="1" />
             <path d="M 20 20 L 20 180" stroke="currentColor" strokeWidth="1" />
             <path d="M -60 100 L 100 100" stroke="currentColor" strokeWidth="0.5" />
-            <rect x="-10" y="85" width="30" height="30" stroke="currentColor" strokeWidth="2" className="group-hover:rotate-45 origin-center transition-transform duration-1000" />
+            <rect x="-10" y="85" width="30" height="30" stroke="currentColor" strokeWidth="2" className="animate-[spin_12s_linear_infinite] origin-center" />
           </svg>
         </div>
 
         {/* Right Interactive Decoration */}
-        <div className="absolute top-[60%] right-[-40px] w-32 h-64 opacity-30 hover:opacity-80 transition-all duration-700 hover:-translate-x-[40px] z-0 hidden lg:block group">
-          <svg viewBox="0 0 100 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-slate-400 group-hover:text-fuchsia-500 transition-colors duration-700 animate-float-2">
-            <path d="M 50 20 L 120 60 L 120 140 L 50 180 L -20 140 L -20 60 Z" stroke="currentColor" strokeWidth="1" />
-            <path d="M 50 50 L 90 75 L 90 125 L 50 150 L 10 125 L 10 75 Z" stroke="currentColor" strokeWidth="1.5" className="group-hover:rotate-180 origin-center transition-transform duration-1000" />
+        <div className="absolute top-[60%] right-[-40px] w-32 h-64 opacity-40 hover:opacity-90 transition-all duration-700 hover:-translate-x-[40px] z-0 hidden lg:block group">
+          <svg viewBox="0 0 100 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-fuchsia-500/70 transition-colors duration-700 animate-float-2">
+            <path d="M 50 20 L 120 60 L 120 140 L 50 180 L -20 140 L -20 60 Z" stroke="currentColor" strokeWidth="1" className="animate-[spin_35s_linear_infinite] origin-center" />
+            <path d="M 50 50 L 90 75 L 90 125 L 50 150 L 10 125 L 10 75 Z" stroke="currentColor" strokeWidth="1.5" className="animate-[spin_18s_linear_infinite_reverse] origin-center" />
           </svg>
         </div>
 
@@ -50,7 +56,13 @@ export default function Services() {
           />
 
           {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+          >
             {SERVICES_DATA.map((service) => {
               const Icon = service.icon;
               return (
@@ -90,7 +102,7 @@ export default function Services() {
                 </Card>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

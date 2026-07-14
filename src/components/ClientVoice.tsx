@@ -141,7 +141,7 @@ export default function ClientVoice() {
   };
 
   return (
-    <section id="client-voice" className="w-full relative z-20 overflow-hidden py-16 lg:py-24 testimonials-premium-section">
+    <section id="client-voice" className="w-full relative z-20 overflow-hidden py-16 lg:py-24 minimalist-grid-section">
       {/* Visual styles for the visualizer animation */}
       <style>{`
         @keyframes visualizerBounce {
@@ -156,14 +156,28 @@ export default function ClientVoice() {
         .bar-anim-6 { animation: visualizerBounce 0.6s ease-in-out infinite 0.1s; }
       `}</style>
 
-      {/* Background blueprint details */}
-      <div className="absolute inset-0 opacity-[0.015] pointer-events-none -z-10"
-        style={{
-          backgroundImage:
-            "linear-gradient(var(--line-strong) 1px, transparent 1px), linear-gradient(90deg, var(--line-strong) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
+      {/* Premium background design elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        {/* Pulsing fuchsia/cyan glow orb on the right side */}
+        <div className="absolute top-[20%] right-[-10%] w-[380px] h-[380px] rounded-full bg-gradient-to-tr from-fuchsia-500/5 to-cyan-500/10 blur-[100px] animate-pulse" />
+        
+        {/* Abstract floating soundwave outline */}
+        <div className="absolute bottom-[10%] left-[-60px] w-64 h-64 opacity-40 hidden lg:block animate-[spin_60s_linear_infinite] text-indigo-500/70">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-indigo-500/70">
+            <path d="M 10,50 L 25,20 L 40,80 L 55,10 L 70,90 L 85,30 L 95,50" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 3" />
+          </svg>
+        </div>
+
+        {/* Abstract floating concentric orbits */}
+        <div className="absolute top-[15%] right-[-60px] w-64 h-64 opacity-40 hidden lg:block animate-float-3">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-rose-500/70">
+            <circle cx="50" cy="50" r="40" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 8" className="animate-[spin_30s_linear_infinite] origin-center" />
+            <circle cx="50" cy="50" r="25" stroke="currentColor" strokeWidth="1" className="animate-[spin_15s_linear_infinite_reverse] origin-center" />
+            <path d="M 50 10 A 40 40 0 0 1 90 50" stroke="currentColor" strokeWidth="1.5" className="animate-[spin_8s_linear_infinite] origin-center" />
+            <circle cx="50" cy="10" r="3" fill="currentColor" className="animate-[spin_8s_linear_infinite] origin-center" />
+          </svg>
+        </div>
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header Block */}

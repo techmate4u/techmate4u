@@ -266,46 +266,62 @@ export default function AboutUsPage() {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {[
             {
-              name: "Founder 1",
+              name: "Manav Rajvansh",
               role: "FOUNDER & CHIEF TECHNOLOGY OFFICER",
-              desc: "With 15+ years in enterprise software development, Rajesh leads our technical vision. His expertise spans scalable backend systems, cloud infrastructure, and team leadership at Fortune 500 companies.",
+              desc: "With 15+ years in enterprise software development, Manav leads our technical vision. His expertise spans scalable backend systems, cloud infrastructure, and team leadership at Fortune 500 companies.",
               expertise: "System Design, Cloud Infrastructure, Team Leadership",
               icon: Zap,
               color: "text-blue-600",
               bg: "bg-blue-50 text-blue-700 border-blue-200/50",
-              panelBg: "from-blue-200/40 to-indigo-100/40 border-blue-200/20"
+              panelBg: "from-blue-200/40 to-indigo-100/40 border-blue-200/20",
+              image: "/assets/manav_rajvansh.png"
             },
             {
-              name: "Founder 2",
+              name: "Keyur Sonagara",
               role: "CO-FOUNDER & CHIEF STRATEGY OFFICER",
-              desc: "Priya brings deep domain expertise in digital transformation strategy. She's worked with industry leaders to chart their digital journeys and scale their operations from startup to enterprise.",
+              desc: "Keyur brings deep domain expertise in digital transformation strategy. He's worked with industry leaders to chart their digital journeys and scale their operations from startup to enterprise.",
               expertise: "Go-to-Market Strategy, Enterprise Sales, Operations",
               icon: Award,
               color: "text-teal-600",
               bg: "bg-teal-50 text-teal-700 border-teal-200/50",
-              panelBg: "from-teal-200/40 to-emerald-100/40 border-teal-200/20"
+              panelBg: "from-teal-200/40 to-emerald-100/40 border-teal-200/20",
+              image: "/assets/keyur_sonagara.png"
             },
             {
-              name: "Founder 3",
+              name: "Jay Patel",
               role: "HEAD OF PRODUCT & DESIGN",
-              desc: "Arjun combines design thinking with product management excellence. He's created user experiences for 20+ successful SaaS products and believes great design drives business results.",
+              desc: "Jay combines design thinking with product management excellence. He's created user experiences for 20+ successful SaaS products and believes great design drives business results.",
               expertise: "Product Strategy, UX/UI Design, User Experience",
               icon: Users,
               color: "text-emerald-600",
               bg: "bg-emerald-50 text-emerald-700 border-emerald-200/50",
-              panelBg: "from-emerald-200/40 to-teal-100/40 border-emerald-200/20"
+              panelBg: "from-emerald-200/40 to-teal-100/40 border-emerald-200/20",
+              image: "/assets/jay_patel.png"
             }
           ].map((member, i) => {
             const Icon = member.icon;
             return (
               <Card
                 key={i}
-                className="flex flex-col overflow-hidden p-0 relative transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                className="group flex flex-col overflow-hidden p-0 relative transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                 style={{ background: "var(--panel)", borderColor: "var(--line)" }}
               >
                 {/* Visual Panel Header */}
-                <div className={`w-full aspect-[4/3] flex items-center justify-center bg-gradient-to-br ${member.panelBg} border-b`} style={{ borderColor: "var(--line-soft)" }}>
-                  <Icon className={`h-12 w-12 ${member.color}`} />
+                <div className={`w-full aspect-[3/4] relative flex items-center justify-center border-b overflow-hidden ${member.image ? 'bg-white' : 'bg-[var(--surface-muted)]'}`} style={{ borderColor: "var(--line-soft)" }}>
+                  {member.image ? (
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      priority={i < 3}
+                    />
+                  ) : (
+                    <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br ${member.panelBg}`}>
+                      <Icon className={`h-12 w-12 ${member.color}`} />
+                    </div>
+                  )}
                 </div>
 
                 {/* Content Area */}

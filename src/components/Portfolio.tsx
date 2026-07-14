@@ -2,6 +2,7 @@
 
 import React from "react";
 import ProjectCard, { type Project } from "@/components/ui/ProjectCard";
+import { motion } from "framer-motion";
 
 const projects: Project[] = [
     {
@@ -51,26 +52,34 @@ const projects: Project[] = [
 export default function Portfolio() {
     return (
         <section
-            className="w-full relative z-20 overflow-hidden py-16 lg:py-24 portfolio-premium-section"
+            className="w-full relative z-20 overflow-hidden pt-12 pb-16 lg:pt-20 lg:pb-24 minimalist-grid-section-alt"
             id="portfolio"
         >
-            
+            {/* Premium background design elements */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+                {/* Pulsing purple/indigo glow orb on the left */}
+                <div className="absolute bottom-[10%] left-[-10%] w-[350px] h-[350px] rounded-full bg-gradient-to-tr from-purple-500/10 to-indigo-500/10 blur-[90px] animate-pulse" />
+                
+                {/* Slow spinning outline polygon */}
+                <div className="absolute bottom-[20%] left-[-80px] w-64 h-64 opacity-20 hidden lg:block animate-[spin_40s_linear_infinite_reverse]">
+                    <svg viewBox="0 0 100 100" fill="none" className="w-full h-full text-purple-500">
+                        <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" />
+                    </svg>
+                </div>
+            </div>
 
-            
-            {/* Background layers moved to src/app/page.tsx for centralized editing. */}
-
-            <div className="absolute top-[10%] left-[-20px] w-48 h-48 opacity-30 hover:opacity-80 transition-all duration-700 hover:translate-x-[30px] z-0 hidden lg:block group">
-                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-slate-400 group-hover:text-blue-500 transition-colors duration-700 animate-float-3">
-                    <rect x="20" y="20" width="60" height="60" stroke="currentColor" strokeWidth="1" className="group-hover:rotate-90 origin-center transition-transform duration-1000" />
-                    <rect x="35" y="35" width="30" height="30" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2" className="group-hover:-rotate-90 origin-center transition-transform duration-1000 delay-100" />
+            <div className="absolute top-[10%] left-[-20px] w-48 h-48 opacity-40 hover:opacity-90 transition-all duration-700 hover:translate-x-[30px] z-0 hidden lg:block group">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-indigo-500/70 transition-colors duration-700 animate-float-3">
+                    <rect x="20" y="20" width="60" height="60" stroke="currentColor" strokeWidth="1" className="animate-[spin_25s_linear_infinite] origin-center" />
+                    <rect x="35" y="35" width="30" height="30" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2" className="animate-[spin_15s_linear_infinite_reverse] origin-center" />
                     <circle cx="50" cy="50" r="5" fill="currentColor" />
                 </svg>
             </div>
 
-            <div className="absolute top-[40%] right-[-60px] w-64 h-64 opacity-20 hover:opacity-70 transition-all duration-700 hover:-translate-x-[50px] z-0 hidden lg:block group">
-                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-slate-400 group-hover:text-fuchsia-500 transition-colors duration-700 animate-float-1">
-                    <path d="M 50 10 L 90 90 L 10 90 Z" stroke="currentColor" strokeWidth="1" className="group-hover:rotate-12 origin-center transition-transform duration-[1200ms]" />
-                    <path d="M 50 30 L 70 80 L 30 80 Z" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 2" className="group-hover:-rotate-12 origin-center transition-transform duration-1000" />
+            <div className="absolute top-[40%] right-[-60px] w-64 h-64 opacity-30 hover:opacity-85 transition-all duration-700 hover:-translate-x-[50px] z-0 hidden lg:block group">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-purple-500/70 transition-colors duration-700 animate-float-1">
+                    <path d="M 50 10 L 90 90 L 10 90 Z" stroke="currentColor" strokeWidth="1" className="animate-[spin_30s_linear_infinite] origin-center" />
+                    <path d="M 50 30 L 70 80 L 30 80 Z" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 2" className="animate-[spin_20s_linear_infinite_reverse] origin-center" />
                 </svg>
             </div>
 
@@ -85,11 +94,17 @@ export default function Portfolio() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto px-4 relative z-10">
+            <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto px-4 relative z-10"
+            >
                 {projects.map((project, i) => (
                     <ProjectCard key={i} {...project} />
                 ))}
-            </div>
+            </motion.div>
         </section>
     );
 }
