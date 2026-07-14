@@ -29,26 +29,25 @@ export default function IntroLoader() {
   const handleFinish = () => {
     if (fade) return;
     setFade(true);
+    document.body.style.overflow = "unset";
     setTimeout(() => {
       sessionStorage.setItem("techmate-intro-played", "true");
       setShow(false);
-      document.body.style.overflow = "unset";
-    }, 1200);
+    }, 1500);
   };
 
   const handleTimeUpdate = () => {
     const videoEl = videoRef.current;
-    if (!videoEl || !videoEl.duration || fade) return;
+    if (!videoEl || fade) return;
 
-    // Start zoom-in transition 1.5 seconds before the video ends
-    const remainingTime = videoEl.duration - videoEl.currentTime;
-    if (remainingTime <= 1.5) {
+    // Start transition exactly at 9.0 seconds
+    if (videoEl.currentTime >= 9.0) {
       setFade(true);
+      document.body.style.overflow = "unset";
       setTimeout(() => {
         sessionStorage.setItem("techmate-intro-played", "true");
         setShow(false);
-        document.body.style.overflow = "unset";
-      }, 1200);
+      }, 1500);
     }
   };
 
@@ -64,9 +63,11 @@ export default function IntroLoader() {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex items-center justify-center select-none pointer-events-auto transition-colors duration-1000 ${
-        fade ? "bg-white/0 pointer-events-none" : "bg-black"
-      }`}
+      className="fixed inset-0 z-[9999] flex items-center justify-center select-none pointer-events-auto transition-all duration-[1500ms]"
+      style={{
+        backgroundColor: fade ? "rgba(255, 255, 255, 0)" : "rgba(0, 0, 0, 1)",
+        pointerEvents: fade ? "none" : "auto",
+      }}
     >
       {/* Background Video */}
       <video
@@ -77,11 +78,12 @@ export default function IntroLoader() {
         playsInline
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleFinish}
-        className="absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[1200ms] ease-in-out"
+        className="absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[1500ms]"
         style={{
-          transform: fade ? "scale(3.5)" : "scale(1)",
+          transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+          transform: fade ? "scale(4.5)" : "scale(1)",
           opacity: fade ? 0 : 1,
-          filter: fade ? "brightness(1.1) blur(6px)" : "brightness(0.9) blur(0px)",
+          filter: fade ? "brightness(1.15) blur(8px)" : "brightness(0.9) blur(0px)",
         }}
       />
 
