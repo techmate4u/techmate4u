@@ -29,7 +29,7 @@ export default function Services() {
     gsap.set(ringRef.current, { scale: 0, opacity: 0 });
     gsap.set(wave1Ref.current, { scale: 0, opacity: 0 });
     gsap.set(wave2Ref.current, { scale: 0, opacity: 0 });
-    gsap.set(cardsGridRef.current, { y: 120, opacity: 0.2, scale: 0.98 });
+    gsap.set(cardsGridRef.current, { y: 120, scale: 0.98 });
     gsap.set(glowOverlayRef.current, { opacity: 0, scale: 0.95 });
     gsap.set(headingRef.current, { y: 50, opacity: 0 });
 
@@ -67,7 +67,7 @@ export default function Services() {
 
     // Step 5: Services cards rise from below + heading fades in
     tl.to(headingRef.current, { y: 0, opacity: 1, duration: 0.8 }, "-=1.4")
-      .to(cardsGridRef.current, { y: 0, opacity: 1, scale: 1, duration: 1.2 }, "-=1.2");
+      .to(cardsGridRef.current, { y: 0, scale: 1, duration: 1.2 }, "-=1.2");
 
     // Step 6: Background glow expands and follows the rise of the cards (fully visible up to 0.95 opacity)
     tl.to(glowOverlayRef.current, { opacity: 0.95, scale: 1, duration: 1.2 }, "-=1.2");

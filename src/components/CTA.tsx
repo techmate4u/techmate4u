@@ -99,7 +99,7 @@ export default function CTA() {
                 <Timer className="w-5 h-5" style={{ color: "var(--primary)" }} />
               </div>
               <div>
-                <h4 className="font-bold text-sm leading-snug" style={{ color: "var(--cta-text)" }}>Free 15-min consultation</h4>
+                <h3 className="font-bold text-sm leading-snug" style={{ color: "var(--cta-text)" }}>Free 15-min consultation</h3>
                 <p className="text-xs opacity-75 mt-1" style={{ color: "var(--cta-muted)" }}>Get expert advice with no strings attached.</p>
               </div>
             </div>
@@ -109,7 +109,7 @@ export default function CTA() {
                 <ShieldX className="w-5 h-5" style={{ color: "var(--primary)" }} />
               </div>
               <div>
-                <h4 className="font-bold text-sm leading-snug" style={{ color: "var(--cta-text)" }}>No obligation</h4>
+                <h3 className="font-bold text-sm leading-snug" style={{ color: "var(--cta-text)" }}>No obligation</h3>
                 <p className="text-xs opacity-75 mt-1" style={{ color: "var(--cta-muted)" }}>Explore your options with zero commitment.</p>
               </div>
             </div>
@@ -119,7 +119,7 @@ export default function CTA() {
                 <Lightbulb className="w-5 h-5" style={{ color: "var(--primary)" }} />
               </div>
               <div>
-                <h4 className="font-bold text-sm leading-snug" style={{ color: "var(--cta-text)" }}>Clear advice for your business</h4>
+                <h3 className="font-bold text-sm leading-snug" style={{ color: "var(--cta-text)" }}>Clear advice for your business</h3>
                 <p className="text-xs opacity-75 mt-1" style={{ color: "var(--cta-muted)" }}>Technical insights tailored to your specific goals.</p>
               </div>
             </div>
@@ -129,7 +129,7 @@ export default function CTA() {
                 <Zap className="w-5 h-5" style={{ color: "var(--primary)" }} />
               </div>
               <div>
-                <h4 className="font-bold text-sm leading-snug" style={{ color: "var(--cta-text)" }}>Fast & reliable communication</h4>
+                <h3 className="font-bold text-sm leading-snug" style={{ color: "var(--cta-text)" }}>Fast & reliable communication</h3>
                 <p className="text-xs opacity-75 mt-1" style={{ color: "var(--cta-muted)" }}>We typically respond to inquiries within a few hours.</p>
               </div>
             </div>
