@@ -10,6 +10,7 @@ import ProjectCard, { type ThemeId } from "@/components/ui/ProjectCard";
 
 // Helper component for static slideshow inside Server Component
 import Slideshow from "./Slideshow";
+import LazyVideo from "@/components/ui/LazyVideo";
 
 interface CaseStudyData {
   slug: string;
@@ -215,12 +216,8 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         {/* Media Block Showcase */}
         <div className="w-full max-w-5xl mx-auto rounded-2xl overflow-hidden border border-[var(--line)] bg-[var(--panel)] shadow-2xl mb-24 aspect-video relative">
           {study.video ? (
-            <video
+            <LazyVideo
               src={study.video}
-              autoPlay
-              loop
-              muted
-              playsInline
               className="w-full h-full object-cover object-top"
             />
           ) : study.images ? (

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Card from "@/components/ui/Card";
+import { ArrowRight, FileText } from "lucide-react";
 
 export interface BlogPost {
   slug: string;
@@ -107,7 +108,7 @@ export default function BlogGrid({ posts, categories }: BlogGridProps) {
                     </span>
                     <span className="text-xs font-bold text-[var(--primary)] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                       Read Article
-                      <span className="material-symbols-outlined text-xs">arrow_forward</span>
+                      <ArrowRight className="h-3 w-3" />
                     </span>
                   </div>
                 </Card>
@@ -118,9 +119,7 @@ export default function BlogGrid({ posts, categories }: BlogGridProps) {
 
         {filteredPosts.length === 0 && (
           <div className="col-span-full py-20 text-center border border-dashed border-[var(--line)] rounded-2xl bg-[var(--surface-muted)]">
-            <span className="material-symbols-outlined text-4xl text-[var(--text-soft)] mb-4">
-              article
-            </span>
+            <FileText className="h-10 w-10 text-[var(--text-soft)] mb-4 mx-auto" />
             <p className="text-sm font-semibold text-[var(--text-muted)]">
               No articles found in this category.
             </p>

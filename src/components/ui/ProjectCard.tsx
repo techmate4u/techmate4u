@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Card from "@/components/ui/Card";
+import LazyVideo from "@/components/ui/LazyVideo";
+import { ExternalLink } from "lucide-react";
 
 export type ThemeId = "blue" | "purple" | "cyan" | "rose" | "emerald";
 
@@ -71,13 +73,8 @@ export default function ProjectCard({
           style={{ borderColor: "var(--line-soft)", background: "var(--surface-muted)" }}
         >
           {video ? (
-            <video
+            <LazyVideo
               src={video}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
               className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
             />
           ) : images && images.length > 0 ? (
@@ -178,7 +175,7 @@ export default function ProjectCard({
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 text-[11px] font-extrabold text-[var(--text-soft)] hover:text-[var(--text)] transition-colors"
                   >
-                    Demo <span className="material-symbols-outlined text-[12px]">open_in_new</span>
+                    Demo <ExternalLink className="h-3 w-3" />
                   </a>
                 )}
               </div>

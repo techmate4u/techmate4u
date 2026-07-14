@@ -184,9 +184,7 @@ export default function Footer() {
                             <span className="relative z-10 transition-transform duration-300 group-hover:-translate-x-0.5">
                                 Email Us
                             </span>
-                            <span className="material-symbols-outlined relative z-10 -translate-x-3 text-[16px] opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
-                                mail
-                            </span>
+                            <Mail className="h-4 w-4 relative z-10 -translate-x-3 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
                             <div className="absolute -left-full top-0 z-0 h-full w-1/2 skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[500%]" />
                         </a>
                     </div>

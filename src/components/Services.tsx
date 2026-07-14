@@ -167,6 +167,7 @@ export default function Services() {
           <img
             src="/assets/3d_character_wwdc.webp"
             alt="WWDC Character"
+            loading="lazy"
             className="w-full h-full object-contain pointer-events-none select-none rounded-full"
           />
         </div>

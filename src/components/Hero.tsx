@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Button from "@/components/ui/Button";
 import HeroVisual from "./HeroVisual";
+import { ArrowRight, Play, Zap, Handshake, Rocket } from "lucide-react";
 
 export default function Hero() {
     return (
@@ -58,7 +59,7 @@ export default function Hero() {
                             variant="primary"
                             href="/#contact"
                             className="h-12 rounded-full px-8 text-base font-bold shadow-lg"
-                            icon={<span className="material-symbols-outlined text-sm transition-all duration-300 group-hover:translate-x-0.5 text-white">arrow_forward</span>}
+                            icon={<ArrowRight className="h-4 w-4 transition-all duration-300 group-hover:translate-x-0.5 text-white" />}
                             iconPosition="right"
                         >
                             Get in Touch
@@ -68,7 +69,7 @@ export default function Hero() {
                             variant="secondary"
                             href="/#portfolio"
                             className="h-12 rounded-full px-8 text-base font-bold bg-white/70 backdrop-blur-sm"
-                            icon={<span className="material-symbols-outlined text-sm transition-all duration-300 group-hover:translate-x-0.5 text-[var(--primary)]">play_arrow</span>}
+                            icon={<Play className="h-4 w-4 transition-all duration-300 group-hover:translate-x-0.5 text-[var(--primary)]" />}
                             iconPosition="left"
                         >
                             View Our Work
@@ -79,36 +80,21 @@ export default function Hero() {
                     <div className="hidden sm:block hero-fade-up hero-stagger-5 pt-4 border-t mt-2 w-full" style={{ borderColor: "var(--line)" }}>
                         <div className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-3 sm:gap-4 text-[11px] sm:text-[13px] font-semibold tracking-wide uppercase text-[var(--text-muted)]">
                             <span className="flex items-center gap-1.5">
-                                <span
-                                    className="material-symbols-outlined"
-                                    style={{ fontSize: '18px', fontVariationSettings: "'FILL' 1, 'wght' 500", color: "var(--primary)" }}
-                                >
-                                    bolt
-                                </span>
+                                <Zap className="h-[18px] w-[18px] text-[var(--primary)]" />
                                 <span className="mt-[2px]">Modern Tech Stack</span>
                             </span>
 
                             <span className="hidden sm:inline" aria-hidden="true" style={{ color: "color-mix(in srgb, var(--primary) 42%, transparent)" }}>•</span>
 
                             <span className="flex items-center gap-1.5">
-                                <span
-                                    className="material-symbols-outlined"
-                                    style={{ fontSize: '18px', fontVariationSettings: "'FILL' 1, 'wght' 500", color: "var(--primary)" }}
-                                >
-                                    handshake
-                                </span>
+                                <Handshake className="h-[18px] w-[18px] text-[var(--primary)]" />
                                 <span className="mt-[2px]">Startup Friendly</span>
                             </span>
 
                             <span className="hidden sm:inline" aria-hidden="true" style={{ color: "color-mix(in srgb, var(--primary) 42%, transparent)" }}>•</span>
 
                             <span className="flex items-center gap-1.5">
-                                <span
-                                    className="material-symbols-outlined"
-                                    style={{ fontSize: '18px', fontVariationSettings: "'FILL' 1, 'wght' 500", color: "var(--primary)" }}
-                                >
-                                    rocket_launch
-                                </span>
+                                <Rocket className="h-[18px] w-[18px] text-[var(--primary)]" />
                                 <span className="mt-[2px]">End-to-End Delivery</span>
                             </span>
                         </div>

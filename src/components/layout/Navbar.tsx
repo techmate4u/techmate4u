@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
-import { Bot, Code2, Megaphone, Search, Smartphone, ChevronDown } from 'lucide-react';
+import { Bot, Code2, Megaphone, Search, Smartphone, ChevronDown, Menu, X, ArrowRight } from 'lucide-react';
 import logo from '../../../public/assets/logo.webp';
 
 import { SERVICES_DATA } from "@/components/servicesData";
@@ -336,7 +336,7 @@ export default function Navbar() {
                             style={{ background: "var(--primary)", boxShadow: "0 10px 24px -12px var(--theme-glow)" }}
                         >
                             <span className="relative z-10 transition-transform duration-300 group-hover:-translate-x-0.5">Get in Touch</span>
-                            <span className="material-symbols-outlined text-[16px] relative z-10 opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">arrow_forward</span>
+                            <ArrowRight className="h-4 w-4 relative z-10 opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
                             <div className="absolute top-0 -left-full w-1/2 h-full bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-[-20deg] group-hover:translate-x-[400%] transition-transform duration-1000 ease-out z-0" />
                         </Link>
                         <motion.button
@@ -346,7 +346,7 @@ export default function Navbar() {
                             className="md:hidden flex items-center justify-center size-11 rounded-full glass-card transition-all duration-300"
                             aria-label="Open navigation menu"
                         >
-                            <span className="material-symbols-outlined" style={{ fontSize: '24px', color: 'var(--text)' }}>menu</span>
+                            <Menu className="h-6 w-6 text-[var(--text)]" />
                         </motion.button>
                     </div>
                 </header>
@@ -373,7 +373,7 @@ export default function Navbar() {
                             className="flex items-center justify-center size-11 rounded-full glass-card transition-all duration-300" 
                             aria-label="Close navigation menu"
                         >
-                            <span className="material-symbols-outlined" style={{ fontSize: '24px', color: 'var(--text)' }}>close</span>
+                            <X className="h-6 w-6 text-[var(--text)]" />
                         </motion.button>
                     </div>
                     <nav className="flex flex-col gap-2 px-6 mt-12">
@@ -440,7 +440,7 @@ export default function Navbar() {
                             style={{ background: "var(--primary)", boxShadow: "0 14px 28px -16px var(--theme-glow)" }}
                         >
                             Get in Touch
-                            <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
+                            <ArrowRight className="h-5 w-5 text-white" />
                         </Link>
                     </div>
                 </div>

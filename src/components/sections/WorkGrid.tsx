@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ProjectCard, { type Project } from "@/components/ui/ProjectCard";
+import { FolderOpen } from "lucide-react";
 
 interface WorkGridProps {
   projects: Project[];
@@ -72,9 +73,7 @@ export default function WorkGrid({ projects, categories }: WorkGridProps) {
 
         {filteredProjects.length === 0 && (
           <div className="col-span-full py-20 text-center border border-dashed border-[var(--line)] rounded-2xl bg-[var(--surface-muted)]">
-            <span className="material-symbols-outlined text-4xl text-[var(--text-soft)] mb-4">
-              folder_open
-            </span>
+            <FolderOpen className="h-10 w-10 text-[var(--text-soft)] mb-4 mx-auto" />
             <p className="text-sm font-semibold text-[var(--text-muted)]">
               No projects found in this category.
             </p>
