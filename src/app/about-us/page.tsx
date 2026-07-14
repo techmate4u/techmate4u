@@ -104,8 +104,40 @@ const contrast = [
 ];
 
 export default function AboutUsPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "mainEntity": {
+      "@type": "ProfessionalService",
+      "name": "TechMate4u",
+      "url": "https://techmate4u.com",
+      "logo": "https://techmate4u.com/assets/t-logo.webp",
+      "founder": [
+        {
+          "@type": "Person",
+          "name": "Manav Rajvansh",
+          "jobTitle": "Founder & CTO"
+        },
+        {
+          "@type": "Person",
+          "name": "Keyur Sonagara",
+          "jobTitle": "Co-founder & CSO"
+        },
+        {
+          "@type": "Person",
+          "name": "Jay Patel",
+          "jobTitle": "Head of Product & Design"
+        }
+      ]
+    }
+  };
+
   return (
     <main className="relative flex min-h-screen flex-col overflow-x-clip bg-[var(--background)]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
       {/* ── Fixed background ── */}
       <div className="fixed inset-0 -z-20" style={{ background: "var(--hero-base)" }} />
@@ -254,7 +286,6 @@ export default function AboutUsPage() {
       ═══════════════════════════════════════════════════ */}
       <section className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8 border-b" style={{ borderColor: "var(--line-soft)" }}>
         <div className="mb-14 text-center flex flex-col items-center">
-          <Badge variant="primary" className="mb-4">LEADERSHIP</Badge>
           <h2 className="mx-auto mt-4 max-w-2xl font-[family-name:var(--font-outfit)] text-2xl font-bold tracking-tight text-[var(--text)] sm:text-3xl">
             Meet Our Founding Team
           </h2>
@@ -274,7 +305,8 @@ export default function AboutUsPage() {
               color: "text-blue-600",
               bg: "bg-blue-50 text-blue-700 border-blue-200/50",
               panelBg: "from-blue-200/40 to-indigo-100/40 border-blue-200/20",
-              image: "/assets/manav_rajvansh.png"
+              image: "/assets/manav_rajvansh.webp",
+              imgScale: "scale-[1.08] translate-y-1.5"
             },
             {
               name: "Keyur Sonagara",
@@ -285,7 +317,8 @@ export default function AboutUsPage() {
               color: "text-teal-600",
               bg: "bg-teal-50 text-teal-700 border-teal-200/50",
               panelBg: "from-teal-200/40 to-emerald-100/40 border-teal-200/20",
-              image: "/assets/keyur_sonagara.png"
+              image: "/assets/keyur_sonagara.webp",
+              imgScale: "scale-[1.08] translate-y-1.5"
             },
             {
               name: "Jay Patel",
@@ -296,7 +329,8 @@ export default function AboutUsPage() {
               color: "text-emerald-600",
               bg: "bg-emerald-50 text-emerald-700 border-emerald-200/50",
               panelBg: "from-emerald-200/40 to-teal-100/40 border-emerald-200/20",
-              image: "/assets/jay_patel.png"
+              image: "/assets/jay_patel.webp",
+              imgScale: "scale-[1.22] translate-y-4"
             }
           ].map((member, i) => {
             const Icon = member.icon;
@@ -304,19 +338,22 @@ export default function AboutUsPage() {
               <Card
                 key={i}
                 className="group flex flex-col overflow-hidden p-0 relative transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                style={{ background: "var(--panel)", borderColor: "var(--line)" }}
+                style={{ background: "var(--panel)", borderColor: "var(--line)", backdropFilter: "none", WebkitBackdropFilter: "none" }}
               >
                 {/* Visual Panel Header */}
                 <div className={`w-full aspect-[3/4] relative flex items-center justify-center border-b overflow-hidden ${member.image ? 'bg-white' : 'bg-[var(--surface-muted)]'}`} style={{ borderColor: "var(--line-soft)" }}>
                   {member.image ? (
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                      priority={i < 3}
-                    />
+                    <div className="w-full h-full relative transition-transform duration-500 group-hover:scale-105">
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className={`object-cover object-top ${member.imgScale}`}
+                        priority={i < 3}
+                        unoptimized
+                      />
+                    </div>
                   ) : (
                     <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br ${member.panelBg}`}>
                       <Icon className={`h-12 w-12 ${member.color}`} />

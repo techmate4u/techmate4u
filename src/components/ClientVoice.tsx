@@ -182,10 +182,7 @@ export default function ClientVoice() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header Block */}
         <div className="mb-14 text-center flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-4" style={{ borderColor: "color-mix(in srgb, var(--primary) 25%, transparent)", background: "color-mix(in srgb, var(--primary) 10%, transparent)" }}>
-            <Users className="w-4 h-4" style={{ color: "var(--primary)" }} />
-            <span className="text-[11px] font-bold tracking-widest uppercase" style={{ color: "var(--primary)" }}>Client Testimonials</span>
-          </div>
+
           <h2 className="mx-auto mt-4 max-w-2xl font-[family-name:var(--font-outfit)] text-3xl font-bold tracking-tight text-[var(--text)] sm:text-4xl">
             What Our Clients Say
           </h2>
@@ -262,9 +259,9 @@ export default function ClientVoice() {
 
             {/* Modal Box */}
             <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
               className="bg-[#0f172a] border border-slate-800 rounded-3xl w-full max-w-3xl overflow-hidden shadow-2xl relative z-10 flex flex-col"
             >
               {/* Top Bar / Client Header */}

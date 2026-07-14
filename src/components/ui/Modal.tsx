@@ -66,9 +66,9 @@ export default function Modal({
 
           {/* Modal Panel */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 15 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
             transition={{ type: "spring", duration: 0.4 }}
             className={`relative w-full rounded-2xl bg-[var(--surface)] p-6 shadow-2xl border border-[var(--line)] z-10 overflow-hidden ${getSizeClass()}`}
           >

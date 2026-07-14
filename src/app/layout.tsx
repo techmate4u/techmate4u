@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     description: "Accelerate your business with performance-driven code and beautiful web design.",
     images: [
       {
-        url: "/assets/hero-bg.png",
+        url: "/assets/hero-visual.webp",
         width: 1200,
         height: 630,
         alt: "TechMate4u Web Development Services",
@@ -84,7 +84,7 @@ export default function RootLayout({
               "name": "TechMate4u",
               "url": "https://techmate4u.com",
               "logo": "https://techmate4u.com/assets/t-logo.webp",
-              "image": "https://techmate4u.com/assets/hero-bg.png",
+              "image": "https://techmate4u.com/assets/hero-visual.webp",
               "description": "Full-cycle digital product studio engineering high-performance websites, automation systems, and custom mobile applications.",
               "address": {
                 "@type": "PostalAddress",

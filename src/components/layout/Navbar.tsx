@@ -257,9 +257,9 @@ export default function Navbar() {
                             <AnimatePresence>
                                 {servicesOpen && (
                                     <motion.div
-                                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                                        initial={{ opacity: 0, scale: 0.95 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.95 }}
                                         transition={{ duration: 0.15, ease: "easeOut" }}
                                         className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[420px] rounded-2xl glass-panel p-4 shadow-xl z-50 pointer-events-auto border"
                                         style={{

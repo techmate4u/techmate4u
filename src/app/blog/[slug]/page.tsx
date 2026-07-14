@@ -145,8 +145,36 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": article.title,
+    "description": article.excerpt,
+    "datePublished": new Date(article.date).toISOString().split('T')[0],
+    "author": {
+      "@type": "Person",
+      "name": article.author
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "TechMate4u",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://techmate4u.com/assets/t-logo.webp"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://techmate4u.com/blog/${article.slug}`
+    }
+  };
+
   return (
     <main className="min-h-screen pt-32 pb-0">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Background blueprint details */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none -z-10"
         style={{

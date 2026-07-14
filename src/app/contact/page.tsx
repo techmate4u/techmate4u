@@ -36,8 +36,26 @@ const STUDIO_COORDINATES = [
 ];
 
 export default function ContactPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact TechMate4u",
+    "description": "Have a project or design in mind? Drop us a message, schedule a call, or start a WhatsApp chat with TechMate4u engineers.",
+    "url": "https://techmate4u.com/contact",
+    "mainEntity": {
+      "@type": "ProfessionalService",
+      "name": "TechMate4u",
+      "telephone": "+919327263267",
+      "email": "support@techmate4u.com"
+    }
+  };
+
   return (
     <main className="min-h-screen pt-32 pb-0 relative overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       
 
       

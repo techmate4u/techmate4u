@@ -50,3 +50,6 @@ _agent/
 # .context files
 2day-action-plan.md
 redesign-context.md
+
+# custom scripts
+/scripts/

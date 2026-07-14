@@ -291,7 +291,7 @@ html[data-theme="teal"] .hero-white-overlay {
 @keyframes fade-up {
   0% {
     opacity: 0;
-    transform: translateY(28px);
+    transform: translateY(0);
   }
 
   100% {
@@ -397,7 +397,7 @@ html[data-theme="teal"] .hero-white-overlay {
 @keyframes nav-link-in {
   0% {
     opacity: 0;
-    transform: translateX(40px);
+    transform: translateX(0);
   }
 
   100% {
@@ -608,7 +608,7 @@ canvas {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("/assets/footer_wave.png");
+  background-image: url("/assets/footer_wave.webp");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100% 100%; /* Fit entire image inside footer to align top-right and bottom-left waves */

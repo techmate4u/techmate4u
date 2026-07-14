@@ -41,8 +41,8 @@ export default function CTA() {
 
         {/* Left Side: Monogram, Text, and Features */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="flex flex-col gap-8"
@@ -80,10 +80,7 @@ export default function CTA() {
 
             {/* Text & Header */}
             <div className="flex-1 flex flex-col items-center sm:items-start text-center sm:text-left">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-6" style={{ borderColor: "color-mix(in srgb, var(--primary) 25%, transparent)", background: "color-mix(in srgb, var(--primary) 10%, transparent)" }}>
-                <Sparkles className="w-4 h-4" style={{ color: "var(--primary)" }} />
-                <span className="text-[11px] font-bold tracking-widest uppercase" style={{ color: "var(--primary)" }}>We Build Digital Solutions</span>
-              </div>
+
 
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-5 tracking-tight leading-[1.15]" style={{ color: "var(--cta-text)" }}>
                 Let&apos;s Build <br className="hidden sm:block" /> Something <span style={{ color: "var(--primary)" }}>Amazing.</span>
@@ -141,8 +138,8 @@ export default function CTA() {
 
         {/* Right Side: Form Component */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
         >

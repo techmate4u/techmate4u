@@ -278,8 +278,27 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   const isSEO = slug === "technical-seo";
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": service.title,
+    "description": service.heroDescription,
+    "provider": {
+      "@type": "ProfessionalService",
+      "name": "TechMate4u",
+      "url": "https://techmate4u.com",
+      "logo": "https://techmate4u.com/assets/t-logo.webp"
+    },
+    "areaServed": "Worldwide",
+    "serviceType": service.eyebrow
+  };
+
   return (
     <main className="min-h-screen pt-32 pb-0 relative overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       
 
       
