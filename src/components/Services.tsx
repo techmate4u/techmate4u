@@ -98,48 +98,48 @@ export default function Services() {
         ref={glowOverlayRef}
         className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden bg-white origin-bottom"
       >
-        {/* Radial Blue Glow */}
+        {/* Radial Slate-Indigo Glow */}
         <div 
           className="absolute top-[-30%] left-[-15%] w-[85%] h-[85%] rounded-full blur-[130px]"
           style={{
-            background: "radial-gradient(circle, rgba(47, 107, 255, 0.45) 0%, transparent 70%)"
+            background: "radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%)"
           }}
         />
 
-        {/* Soft Purple Glow */}
+        {/* Soft Champagne Gold Glow */}
         <div 
           className="absolute bottom-[-15%] right-[-10%] w-[75%] h-[75%] rounded-full blur-[140px]"
           style={{
-            background: "radial-gradient(circle, rgba(168, 85, 247, 0.42) 0%, transparent 70%)"
+            background: "radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 70%)"
           }}
         />
 
-        {/* Radial Teal Glow */}
+        {/* Radial Mineral Teal Glow */}
         <div 
           className="absolute top-[25%] left-[-10%] w-[70%] h-[70%] rounded-full blur-[120px]"
           style={{
-            background: "radial-gradient(circle, rgba(20, 184, 166, 0.38) 0%, transparent 70%)"
+            background: "radial-gradient(circle, rgba(45, 212, 191, 0.08) 0%, transparent 70%)"
           }}
         />
 
-        {/* Radial Rose Glow */}
+        {/* Radial Dusty Rose Glow */}
         <div 
           className="absolute bottom-[35%] right-[-15%] w-[65%] h-[65%] rounded-full blur-[110px]"
           style={{
-            background: "radial-gradient(circle, rgba(244, 63, 94, 0.35) 0%, transparent 70%)"
+            background: "radial-gradient(circle, rgba(244, 63, 94, 0.1) 0%, transparent 70%)"
           }}
         />
 
         {/* Blurred Gradient Mesh */}
         <div 
-          className="absolute top-[15%] right-[10%] w-[380px] h-[380px] rounded-full blur-[110px] mix-blend-multiply opacity-65 bg-gradient-to-tr from-blue-300/30 via-purple-200/20 to-transparent"
+          className="absolute top-[15%] right-[10%] w-[380px] h-[380px] rounded-full blur-[110px] mix-blend-multiply opacity-50 bg-gradient-to-tr from-amber-100/20 via-rose-100/15 to-transparent"
         />
 
         {/* Light Beam from Top Left */}
         <div 
           className="absolute top-0 left-0 w-full h-[65%] pointer-events-none"
           style={{
-            background: "linear-gradient(135deg, rgba(47, 107, 255, 0.18) 0%, transparent 55%)"
+            background: "linear-gradient(135deg, rgba(99, 102, 241, 0.07) 0%, transparent 55%)"
           }}
         />
 
