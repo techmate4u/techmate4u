@@ -27,13 +27,29 @@ export default function IntroLoader() {
   }, []);
 
   const handleFinish = () => {
+    if (fade) return;
     setFade(true);
-    // Smooth transition matching the transition duration in JSX
     setTimeout(() => {
       sessionStorage.setItem("techmate-intro-played", "true");
       setShow(false);
       document.body.style.overflow = "unset";
-    }, 1000);
+    }, 1200);
+  };
+
+  const handleTimeUpdate = () => {
+    const videoEl = videoRef.current;
+    if (!videoEl || !videoEl.duration || fade) return;
+
+    // Start zoom-in transition 1.5 seconds before the video ends
+    const remainingTime = videoEl.duration - videoEl.currentTime;
+    if (remainingTime <= 1.5) {
+      setFade(true);
+      setTimeout(() => {
+        sessionStorage.setItem("techmate-intro-played", "true");
+        setShow(false);
+        document.body.style.overflow = "unset";
+      }, 1200);
+    }
   };
 
   const toggleMute = (e: React.MouseEvent) => {
@@ -48,8 +64,8 @@ export default function IntroLoader() {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-black transition-all duration-1000 ease-out select-none pointer-events-auto ${
-        fade ? "opacity-0 scale-[1.02] pointer-events-none" : "opacity-100 scale-100"
+      className={`fixed inset-0 z-[9999] flex items-center justify-center select-none pointer-events-auto transition-colors duration-1000 ${
+        fade ? "bg-white/0 pointer-events-none" : "bg-black"
       }`}
     >
       {/* Background Video */}
@@ -59,9 +75,14 @@ export default function IntroLoader() {
         autoPlay
         muted={isMuted}
         playsInline
+        onTimeUpdate={handleTimeUpdate}
         onEnded={handleFinish}
-        className="absolute inset-0 w-full h-full object-cover z-0"
-        style={{ filter: "brightness(0.9)" }}
+        className="absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[1200ms] ease-in-out"
+        style={{
+          transform: fade ? "scale(3.5)" : "scale(1)",
+          opacity: fade ? 0 : 1,
+          filter: fade ? "brightness(1.1) blur(6px)" : "brightness(0.9) blur(0px)",
+        }}
       />
 
       {/* Interface Overlay Controls */}
