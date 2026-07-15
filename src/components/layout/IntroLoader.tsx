@@ -40,8 +40,8 @@ export default function IntroLoader() {
     const videoEl = videoRef.current;
     if (!videoEl || fade) return;
 
-    // Start transition at 6.6s, right as it zooms to the white wall
-    if (videoEl.currentTime >= 6.6) {
+    // Start transition at 11.0s, right as it zooms to the white wall
+    if (videoEl.currentTime >= 11.0) {
       setFade(true);
       document.body.style.overflow = "unset";
       setTimeout(() => {
@@ -73,26 +73,28 @@ export default function IntroLoader() {
       {/* Background Video */}
       <video
         ref={videoRef}
-        src="/assets/intro_video.mp4"
+        src="/assets/Drone_flies_through_office_1080p_202607151346_gwr_video_mvp.mp4"
         autoPlay
         muted={isMuted}
         playsInline
+        preload="auto"
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleFinish}
         className="absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[400ms]"
         style={{
           transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-          transform: fade ? "scale(4.5)" : "scale(1)",
-          filter: fade ? "brightness(1.15) blur(8px)" : "brightness(0.9) blur(0px)",
+          transform: fade ? "scale(4.5) translate3d(0, 0, 0)" : "scale(1) translate3d(0, 0, 0)",
+          filter: fade ? "brightness(1.15) blur(8px)" : "none",
+          willChange: "transform, filter",
         }}
       />
 
       {/* Interface Overlay Controls */}
-      <div className="absolute inset-x-0 bottom-8 px-6 sm:px-12 flex items-center justify-between z-10 w-full max-w-7xl mx-auto pointer-events-none">
+      <div className="absolute inset-x-0 bottom-10 px-10 flex items-center justify-between z-10 w-full pointer-events-none">
         {/* Sound Toggle (Mute/Unmute) */}
         <button
           onClick={toggleMute}
-          className="pointer-events-auto flex items-center justify-center size-12 rounded-full border border-white/20 bg-black/40 text-white backdrop-blur-md transition-all hover:scale-105 hover:bg-black/60 active:scale-95 cursor-pointer"
+          className="pointer-events-auto flex items-center justify-center size-12 rounded-full border border-white/20 bg-black/90 text-white backdrop-blur-md transition-all hover:scale-105 hover:bg-black active:scale-95 cursor-pointer"
           aria-label={isMuted ? "Unmute Intro Video" : "Mute Intro Video"}
           title={isMuted ? "Unmute Sound" : "Mute Sound"}
         >
@@ -102,7 +104,7 @@ export default function IntroLoader() {
         {/* Skip Intro Button */}
         <button
           onClick={handleFinish}
-          className="pointer-events-auto flex items-center justify-center gap-2 h-12 px-6 rounded-full border border-white/20 bg-white/10 text-white text-sm font-bold tracking-wide uppercase backdrop-blur-md transition-all hover:scale-105 hover:bg-white/20 active:scale-95 cursor-pointer"
+          className="pointer-events-auto flex items-center justify-center gap-2 h-12 px-6 rounded-full border border-white/20 bg-black/90 text-white text-sm font-bold tracking-wide uppercase backdrop-blur-md transition-all hover:scale-105 hover:bg-black active:scale-95 cursor-pointer"
           aria-label="Skip Intro Video"
         >
           Skip Intro
