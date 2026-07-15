@@ -512,4 +512,5 @@ A comprehensive technical SEO implementation pass was completed on 2026-07-15:
 - **Graphic Alt Descriptions (`Services.tsx`)**: Changed placeholder `alt="WWDC Character"` on the 3D graphic to `"TechMate4u Custom Software Engineer Mascot"`.
 - **Dynamic Subpage Breadcrumbs**: Injected dynamic `BreadcrumbList` schemas into dynamic service details and dynamic blog post pages to build strong structural search indexing.
 - **Verification**: Executed `npm run build` locally; verified 100% successful static page compilation (30 paths) and sitemap path output.
+- **Google Analytics Integration**: Integrated the GA tracking tag (`G-FW1J903DLP`) inside `layout.tsx` using the Next.js `Script` component with `afterInteractive` strategy to track user conversion metrics without degrading site loading speeds.
 

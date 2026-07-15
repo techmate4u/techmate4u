@@ -3,6 +3,7 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({
@@ -71,6 +72,19 @@ export default function RootLayout({
   return (
     <html lang="en" className="light scroll-smooth" style={{ backgroundColor: '#ffffff' }}>
       <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-FW1J903DLP"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-FW1J903DLP');
+          `}
+        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
