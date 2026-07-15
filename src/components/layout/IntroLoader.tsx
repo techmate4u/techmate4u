@@ -33,21 +33,21 @@ export default function IntroLoader() {
     setTimeout(() => {
       sessionStorage.setItem("techmate-intro-played", "true");
       setShow(false);
-    }, 1500);
+    }, 400);
   };
 
   const handleTimeUpdate = () => {
     const videoEl = videoRef.current;
     if (!videoEl || fade) return;
 
-    // Start transition exactly at 9.0 seconds
-    if (videoEl.currentTime >= 9.0) {
+    // Start transition at 6.6s, right as it zooms to the white wall
+    if (videoEl.currentTime >= 6.6) {
       setFade(true);
       document.body.style.overflow = "unset";
       setTimeout(() => {
         sessionStorage.setItem("techmate-intro-played", "true");
         setShow(false);
-      }, 1500);
+      }, 400);
     }
   };
 
@@ -63,9 +63,10 @@ export default function IntroLoader() {
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center select-none pointer-events-auto transition-all duration-[1500ms]"
+      className="fixed inset-0 z-[9999] flex items-center justify-center select-none pointer-events-auto transition-opacity duration-[400ms]"
       style={{
-        backgroundColor: fade ? "rgba(255, 255, 255, 0)" : "rgba(0, 0, 0, 1)",
+        backgroundColor: "rgba(0, 0, 0, 1)",
+        opacity: fade ? 0 : 1,
         pointerEvents: fade ? "none" : "auto",
       }}
     >
@@ -78,11 +79,10 @@ export default function IntroLoader() {
         playsInline
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleFinish}
-        className="absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[1500ms]"
+        className="absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[400ms]"
         style={{
           transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
           transform: fade ? "scale(4.5)" : "scale(1)",
-          opacity: fade ? 0 : 1,
           filter: fade ? "brightness(1.15) blur(8px)" : "brightness(0.9) blur(0px)",
         }}
       />
