@@ -19,5 +19,5 @@ TechMate4u is a premium digital product studio and web engineering agency. We sp
 - **Restaurant Management**: Custom Hospitality & POS System
 
 ## Contact & Links
-- Website: https://techmate4u.com
-- Contact: https://techmate4u.com/#contact
+- Website: [TechMate4u Website](https://techmate4u.com)
+- Contact: [Contact Us](https://techmate4u.com/#contact)

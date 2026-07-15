@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import ProjectCard, { type Project } from "@/components/ui/ProjectCard";
 import { FolderOpen } from "lucide-react";
 
@@ -37,13 +36,6 @@ export default function WorkGrid({ projects, categories }: WorkGridProps) {
                 background: isActive ? "var(--primary)" : "",
               }}
             >
-              {isActive && (
-                <motion.span
-                  layoutId="activeFilterRing"
-                  className="absolute inset-0 rounded-full border-2 border-[var(--primary)] -m-[2px] pointer-events-none"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
               {cat}
             </button>
           );
@@ -51,25 +43,12 @@ export default function WorkGrid({ projects, categories }: WorkGridProps) {
       </div>
 
       {/* Project Grid */}
-      <motion.div
-        layout
-        className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 pb-24 max-w-6xl mx-auto"
-      >
-        <AnimatePresence mode="popLayout">
-          {filteredProjects.map((project) => (
-            <motion.div
-              layout
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3 }}
-              key={project.title}
-              className="h-full"
-            >
-              <ProjectCard {...project} />
-            </motion.div>
-          ))}
-        </AnimatePresence>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 pb-24 max-w-6xl mx-auto">
+        {filteredProjects.map((project) => (
+          <div key={project.title} className="h-full">
+            <ProjectCard {...project} />
+          </div>
+        ))}
 
         {filteredProjects.length === 0 && (
           <div className="col-span-full py-20 text-center border border-dashed border-[var(--line)] rounded-2xl bg-[var(--surface-muted)]">
@@ -79,7 +58,7 @@ export default function WorkGrid({ projects, categories }: WorkGridProps) {
             </p>
           </div>
         )}
-      </motion.div>
+      </div>
     </>
   );
 }

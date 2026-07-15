@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Send, Zap, Timer, ShieldX, Lightbulb, Sparkles } from "lucide-react";
 import ContactForm from "@/components/forms/ContactForm";
 import Image from "next/image";
@@ -40,25 +39,11 @@ export default function CTA() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-[1.3fr_1fr] gap-12 lg:gap-16 items-center">
 
         {/* Left Side: Monogram, Text, and Features */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex flex-col gap-8"
-        >
+        <div className="flex flex-col gap-8">
           {/* Top Row: Monogram Card and Text Content side-by-side on desktop/tablet */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8">
             {/* Floating Monogram Card */}
-            <motion.div
-              animate={{
-                y: [0, -6, 0],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
+            <div
               className="relative p-4 rounded-2xl border backdrop-blur-md shadow-lg flex items-center justify-center shrink-0 w-24 h-24 sm:w-28 sm:h-28"
               style={{
                 background: "var(--glass-bg)",
@@ -76,7 +61,7 @@ export default function CTA() {
                   style={{ filter: "sepia(1) saturate(300%) hue-rotate(190deg)" }}
                 />
               </div>
-            </motion.div>
+            </div>
 
             {/* Text & Header */}
             <div className="flex-1 flex flex-col items-center sm:items-start text-center sm:text-left">
@@ -134,21 +119,16 @@ export default function CTA() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Right Side: Form Component */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-        >
+        <div>
           <div className="border backdrop-blur-xl rounded-lg p-8 lg:p-10 shadow-2xl relative overflow-hidden" style={{ background: "var(--cta-panel)", borderColor: "color-mix(in srgb, var(--cta-text) 8%, transparent)" }}>
             {/* Soft inner glow */}
             <div className="absolute top-0 right-0 w-80 h-80 bg-primary/5 rounded-full blur-[100px]" />
             <ContactForm />
           </div>
-        </motion.div>
+        </div>
 
       </div>
     </section>

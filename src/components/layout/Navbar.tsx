@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
+// Removed framer-motion to eliminate rendering latency on load
 import { Bot, Code2, Megaphone, Search, Smartphone, ChevronDown, Menu, X, ArrowRight } from 'lucide-react';
 import logo from '../../../public/assets/logo.webp';
 
@@ -34,6 +34,7 @@ export default function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [servicesOpen, setServicesOpen] = useState(false);
     const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+    const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const standaloneActiveSection = NAV_SECTIONS.find(s => !s.href.startsWith('/#') && pathname === s.href)?.id;
     const currentActiveSection = standaloneActiveSection ?? activeSection;
 
@@ -43,55 +44,34 @@ export default function Navbar() {
     const scrolledRef = useRef(false);
 
     // ── Dot/pill indicator ──────────────────────────────────────────────────
-    const rawCx = useMotionValue(0);
-    const rawW = useMotionValue(DOT_W);
-    const cx = useSpring(rawCx, { stiffness: 280, damping: 28, mass: 1 });
-    const w = useSpring(rawW, { stiffness: 200, damping: 26, mass: 1 });
-    const left = useTransform(() => cx.get() - w.get() / 2);
+    const [pillLeft, setPillLeft] = useState(0);
+    const [pillWidth, setPillWidth] = useState(DOT_W);
 
-    const getCenterX = (id: string) => {
+    const updatePill = useCallback((id: string) => {
         const link = linkRefs.current[id];
         const nav = navInnerRef.current;
-        if (!link || !nav) return 0;
+        if (!link || !nav) return;
         const lr = link.getBoundingClientRect();
         const nr = nav.getBoundingClientRect();
-        return lr.left - nr.left + lr.width / 2;
-    };
+        setPillLeft(lr.left - nr.left);
+        setPillWidth(lr.width);
+    }, []);
 
-    const animateTo = useCallback((targetId: string) => {
-        const toCx = getCenterX(targetId);
-        const fromCx = rawCx.get();
-        rawCx.set((fromCx + toCx) / 2);
-        rawW.set(Math.max(Math.abs(toCx - fromCx) + DOT_W, DOT_W));
-        const t = setTimeout(() => { rawCx.set(toCx); rawW.set(DOT_W); }, 110);
-        return () => clearTimeout(t);
-    }, [rawCx, rawW]);
-
-    const snapTo = useCallback((id: string) => {
-        const v = getCenterX(id);
-        if (!v) return;
-        rawCx.set(v);
-        rawW.set(DOT_W);
-    }, [rawCx, rawW]);
-
-    const clickedRef = useRef(false);
     const handleLinkClick = useCallback((targetId: string) => {
-        clickedRef.current = true;
-        animateTo(targetId);
-        setTimeout(() => { clickedRef.current = false; }, 900);
-    }, [animateTo]);
+        updatePill(targetId);
+    }, [updatePill]);
 
     useEffect(() => {
-        if (!currentActiveSection || clickedRef.current) return;
-        const raf = requestAnimationFrame(() => snapTo(currentActiveSection));
+        if (!currentActiveSection) return;
+        const raf = requestAnimationFrame(() => updatePill(currentActiveSection));
         return () => cancelAnimationFrame(raf);
-    }, [currentActiveSection, snapTo]);
+    }, [currentActiveSection, updatePill]);
 
     useEffect(() => {
-        const onResize = () => { if (currentActiveSection) snapTo(currentActiveSection); };
+        const onResize = () => { if (currentActiveSection) updatePill(currentActiveSection); };
         window.addEventListener('resize', onResize);
         return () => window.removeEventListener('resize', onResize);
-    }, [currentActiveSection, snapTo]);
+    }, [currentActiveSection, updatePill]);
 
     // ── Scroll-progress border ──────────────────────────────────────────────
     useEffect(() => {
@@ -226,7 +206,7 @@ export default function Navbar() {
                             className="h-10 w-auto sm:h-10 transition-all duration-300 group-hover:scale-[1.02]"
                             style={{ filter: 'sepia(1) saturate(300%) hue-rotate(190deg)' }}
                         />
-                        <span className="hidden sm:inline font-extrabold text-xl tracking-[-0.03em] transition-colors duration-300 group-hover:text-[var(--primary)] select-none font-[family-name:var(--font-outfit)] text-[var(--text)]">
+                        <span className="inline font-extrabold text-xl tracking-[-0.03em] transition-colors duration-300 group-hover:text-[var(--primary)] select-none font-[family-name:var(--font-outfit)] text-[var(--text)]">
                             TechMate4u
                         </span>
                     </Link>
@@ -236,8 +216,13 @@ export default function Navbar() {
                         {/* Services Dropdown */}
                         <div
                             className="relative"
-                            onMouseEnter={() => setServicesOpen(true)}
-                            onMouseLeave={() => setServicesOpen(false)}
+                            onMouseEnter={() => {
+                                if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+                                setServicesOpen(true);
+                            }}
+                            onMouseLeave={() => {
+                                closeTimerRef.current = setTimeout(() => setServicesOpen(false), 150);
+                            }}
                         >
                             <Link
                                 href="/#services"
@@ -247,6 +232,8 @@ export default function Navbar() {
                                     setServicesOpen(false);
                                 }}
                                 onFocus={() => setServicesOpen(true)}
+                                aria-haspopup="true"
+                                aria-expanded={servicesOpen}
                                 className={`relative flex items-center gap-1 text-[14.5px] font-medium tracking-tight transition-colors duration-200 py-2 cursor-pointer drop-shadow-sm ${currentActiveSection === 'services' ? 'text-[var(--text)]' : 'text-[var(--text-muted)] hover:text-[var(--text)]'
                                     }`}
                             >
@@ -254,53 +241,49 @@ export default function Navbar() {
                                 <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${servicesOpen ? 'rotate-180 text-[var(--primary)]' : 'text-[var(--text-soft)]'}`} />
                             </Link>
 
-                            <AnimatePresence>
-                                {servicesOpen && (
-                                    <motion.div
-                                        initial={{ opacity: 0, scale: 0.95 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.95 }}
-                                        transition={{ duration: 0.15, ease: "easeOut" }}
-                                        className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[420px] rounded-2xl glass-panel p-4 shadow-xl z-50 pointer-events-auto border"
-                                        style={{
-                                            background: 'color-mix(in srgb, var(--panel) 98%, transparent)',
-                                            borderColor: 'var(--line)',
-                                        }}
-                                    >
-                                        <div className="grid gap-1">
-                                            {SERVICES_ITEMS.map((svc) => {
-                                                const Icon = svc.icon;
-                                                return (
-                                                    <Link
-                                                        key={svc.name}
-                                                        href={svc.href}
-                                                        onClick={() => setServicesOpen(false)}
-                                                        className="group flex items-start gap-3.5 rounded-xl p-2.5 transition-all duration-200 hover:bg-[var(--primary-soft)]"
-                                                    >
-                                                        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg border bg-[var(--surface)] text-[var(--text-soft)] group-hover:text-[var(--primary)] group-hover:border-[var(--primary-soft)] transition-colors duration-200" style={{ borderColor: 'var(--line-soft)' }}>
-                                                            <Icon className="h-4.5 w-4.5" />
-                                                        </div>
-                                                        <div className="flex flex-col gap-0.5 text-left">
-                                                            <span className="text-[13.5px] font-bold text-[var(--text)] group-hover:text-[var(--primary)] transition-colors duration-200">{svc.name}</span>
-                                                            <span className="text-[11.5px] leading-relaxed text-[var(--text-muted)]">{svc.desc}</span>
-                                                        </div>
-                                                    </Link>
-                                                );
-                                            })}
-                                        </div>
-                                        <div className="mt-3 pt-3 border-t flex justify-end" style={{ borderColor: 'var(--line-soft)' }}>
+                            <div
+                                className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[420px] rounded-2xl glass-panel p-4 shadow-xl z-50 border transition-all duration-200 origin-top ${
+                                    servicesOpen
+                                        ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+                                        : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+                                }`}
+                                style={{
+                                    background: 'color-mix(in srgb, var(--panel) 98%, transparent)',
+                                    borderColor: 'var(--line)',
+                                }}
+                            >
+                                <div className="grid gap-1">
+                                    {SERVICES_ITEMS.map((svc) => {
+                                        const Icon = svc.icon;
+                                        return (
                                             <Link
-                                                href="/#services"
+                                                key={svc.name}
+                                                href={svc.href}
                                                 onClick={() => setServicesOpen(false)}
-                                                className="text-[12.5px] font-bold text-[var(--primary)] hover:text-[var(--primary-strong)] flex items-center gap-1 transition-colors group/all"
+                                                className="group flex items-start gap-3.5 rounded-xl p-2.5 transition-all duration-200 hover:bg-[var(--primary-soft)]"
                                             >
-                                                View All Services
-                                                <span className="transition-transform group-hover/all:translate-x-0.5">→</span>
+                                                <div className="flex size-9 shrink-0 items-center justify-center rounded-lg border bg-[var(--surface)] text-[var(--text-soft)] group-hover:text-[var(--primary)] group-hover:border-[var(--primary-soft)] transition-colors duration-200" style={{ borderColor: 'var(--line-soft)' }}>
+                                                    <Icon className="h-4.5 w-4.5" />
+                                                </div>
+                                                <div className="flex flex-col gap-0.5 text-left">
+                                                    <span className="text-[13.5px] font-bold text-[var(--text)] group-hover:text-[var(--primary)] transition-colors duration-200">{svc.name}</span>
+                                                    <span className="text-[11.5px] leading-relaxed text-[var(--text-muted)]">{svc.desc}</span>
+                                                </div>
                                             </Link>
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                                        );
+                                    })}
+                                </div>
+                                <div className="mt-3 pt-3 border-t flex justify-end" style={{ borderColor: 'var(--line-soft)' }}>
+                                    <Link
+                                        href="/#services"
+                                        onClick={() => setServicesOpen(false)}
+                                        className="text-[12.5px] font-bold text-[var(--primary)] hover:text-[var(--primary-strong)] flex items-center gap-1 transition-colors group/all"
+                                    >
+                                        View All Services
+                                        <span className="transition-transform group-hover/all:translate-x-0.5">→</span>
+                                    </Link>
+                                </div>
+                            </div>
                         </div>
 
                         {/* Other Section Links */}
@@ -319,12 +302,12 @@ export default function Navbar() {
 
                         {/* Dot / pill indicator */}
                         {isVisible && (
-                            <motion.div
-                                className="absolute pointer-events-none z-0 overflow-visible"
-                                style={{ left, width: w, height: LINE_H, bottom: -4, borderRadius: 9999, background: "var(--primary)" }}
+                            <div
+                                className="absolute pointer-events-none z-0 overflow-visible transition-all duration-300 ease-out"
+                                style={{ left: `${pillLeft}px`, width: `${pillWidth}px`, height: LINE_H, bottom: -4, borderRadius: 9999, background: "var(--primary)" }}
                             >
                                 <div className="absolute inset-0 rounded-full" style={{ filter: 'blur(4px)', transform: 'scaleY(2.5) scaleX(1.1)', background: "var(--primary)", opacity: 0.5 }} />
-                            </motion.div>
+                            </div>
                         )}
                     </nav>
 
@@ -339,22 +322,26 @@ export default function Navbar() {
                             <ArrowRight className="h-4 w-4 relative z-10 opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
                             <div className="absolute top-0 -left-full w-1/2 h-full bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-[-20deg] group-hover:translate-x-[400%] transition-transform duration-1000 ease-out z-0" />
                         </Link>
-                        <motion.button
+                        <button
                             onClick={() => setMobileOpen(true)}
-                            whileHover={{ scale: 1.05, backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-                            whileTap={{ scale: 0.95 }}
-                            className="md:hidden flex items-center justify-center size-11 rounded-full glass-card transition-all duration-300"
+                            className="md:hidden flex items-center justify-center size-11 rounded-full glass-card hover:scale-105 active:scale-95 hover:bg-white/10 active:bg-white/5 transition-all duration-200"
                             aria-label="Open navigation menu"
                         >
                             <Menu className="h-6 w-6 text-[var(--text)]" />
-                        </motion.button>
+                        </button>
                     </div>
                 </header>
             </div>
 
             {/* ═══════════ Mobile Overlay ═══════════ */}
             {mobileOpen && (
-                <div className="fixed inset-0 z-[100] mobile-nav-overlay" style={{ background: 'var(--panel)' }}>
+                <div 
+                    role="dialog" 
+                    aria-modal="true" 
+                    aria-label="Mobile Navigation Menu" 
+                    className="fixed inset-0 z-[100] mobile-nav-overlay" 
+                    style={{ background: 'var(--panel)' }}
+                >
                     <div className="flex items-center justify-between px-6 pt-5">
                         <Link href="/#home" onClick={closeMobile} className="flex items-center gap-2 group">
                             <Image
@@ -364,59 +351,52 @@ export default function Navbar() {
                                 className="h-10 w-auto transition-all duration-300 group-hover:scale-[1.02]"
                                 style={{ filter: 'sepia(1) saturate(300%) hue-rotate(190deg)' }}
                             />
-                            <span className="hidden sm:inline font-extrabold text-lg tracking-[-0.03em] text-[var(--text)] group-hover:text-[var(--primary)] transition-colors duration-300">TechMate4u</span>
+                            <span className="inline font-extrabold text-lg tracking-[-0.03em] text-[var(--text)] group-hover:text-[var(--primary)] transition-colors duration-300">TechMate4u</span>
                         </Link>
-                        <motion.button 
+                        <button 
                             onClick={closeMobile} 
-                            whileHover={{ scale: 1.05, backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-                            whileTap={{ scale: 0.95 }}
-                            className="flex items-center justify-center size-11 rounded-full glass-card transition-all duration-300" 
+                            className="flex items-center justify-center size-11 rounded-full glass-card hover:scale-105 active:scale-95 hover:bg-white/10 active:bg-white/5 transition-all duration-200" 
                             aria-label="Close navigation menu"
                         >
                             <X className="h-6 w-6 text-[var(--text)]" />
-                        </motion.button>
+                        </button>
                     </div>
                     <nav className="flex flex-col gap-2 px-6 mt-12">
                         {/* Services accordion item */}
                         <div className="flex flex-col border-b" style={{ borderColor: 'var(--line-soft)' }}>
                             <button
                                 onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                                aria-expanded={mobileServicesOpen}
                                 className="flex items-center justify-between w-full text-3xl font-extrabold font-[family-name:var(--font-outfit)] tracking-tight text-[var(--text)] hover:text-[var(--primary)] transition-colors py-3 cursor-pointer"
                             >
                                 <span>Services</span>
                                 <ChevronDown className={`h-6 w-6 transition-transform duration-300 text-[var(--text-soft)] ${mobileServicesOpen ? 'rotate-180 text-[var(--primary)]' : ''}`} />
                             </button>
                             
-                            <AnimatePresence initial={false}>
-                                {mobileServicesOpen && (
-                                    <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: 'auto', opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.25, ease: 'easeInOut' }}
-                                        className="overflow-hidden pl-4 flex flex-col gap-1.5 pb-3 text-left"
+                            <div
+                                className={`overflow-hidden pl-4 flex flex-col gap-1.5 pb-3 text-left transition-all duration-300 ease-in-out ${
+                                    mobileServicesOpen ? "max-h-[500px] opacity-100 mt-2" : "max-h-0 opacity-0"
+                                }`}
+                            >
+                                {SERVICES_ITEMS.map((svc) => (
+                                    <Link
+                                        key={svc.name}
+                                        href={svc.href}
+                                        onClick={closeMobile}
+                                        className="text-[17px] font-bold text-[var(--text-muted)] hover:text-[var(--primary)] transition-colors py-2 border-b border-dashed"
+                                        style={{ borderColor: 'var(--line-soft)' }}
                                     >
-                                        {SERVICES_ITEMS.map((svc) => (
-                                            <Link
-                                                key={svc.name}
-                                                href={svc.href}
-                                                onClick={closeMobile}
-                                                className="text-[17px] font-bold text-[var(--text-muted)] hover:text-[var(--primary)] transition-colors py-2 border-b border-dashed"
-                                                style={{ borderColor: 'var(--line-soft)' }}
-                                            >
-                                                {svc.name}
-                                            </Link>
-                                        ))}
-                                        <Link
-                                            href="/#services"
-                                            onClick={closeMobile}
-                                            className="text-[16px] font-extrabold text-[var(--primary)] hover:text-[var(--primary-strong)] py-2 flex items-center gap-1 transition-colors"
-                                        >
-                                            View All Services →
-                                        </Link>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                                        {svc.name}
+                                    </Link>
+                                ))}
+                                <Link
+                                    href="/#services"
+                                    onClick={closeMobile}
+                                    className="text-[16px] font-extrabold text-[var(--primary)] hover:text-[var(--primary-strong)] py-2 flex items-center gap-1 transition-colors"
+                                >
+                                    View All Services →
+                                </Link>
+                            </div>
                         </div>
 
                         {/* Other sections */}

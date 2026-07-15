@@ -203,9 +203,10 @@ export default function ClientVoice() {
               }}
             >
               {/* Colored Video Box */}
-              <div
+              <button
                 onClick={() => openPlayer(index)}
-                className={`w-full aspect-[5/4] rounded-2xl relative overflow-hidden bg-gradient-to-br ${test.videoBg} shadow-inner flex items-center justify-center mb-5 cursor-pointer group`}
+                aria-label={`Play video testimonial from ${test.name}`}
+                className={`w-full aspect-[5/4] rounded-2xl relative overflow-hidden bg-gradient-to-br ${test.videoBg} shadow-inner flex items-center justify-center mb-5 cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--primary)]`}
               >
                 {/* Play Button */}
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -218,7 +219,7 @@ export default function ClientVoice() {
                 <div className="absolute bottom-3 right-3 bg-black/60 text-white text-[10px] font-bold px-2 py-0.5 rounded backdrop-blur-sm select-none">
                   {test.duration}
                 </div>
-              </div>
+              </button>
 
               {/* Client Info & Quote */}
               <div className="flex flex-col grow px-1">
@@ -312,6 +313,7 @@ export default function ClientVoice() {
                 {!isPlaying && (
                   <button
                     onClick={() => setIsPlaying(true)}
+                    aria-label="Play audio testimonial"
                     className="absolute inset-0 m-auto size-20 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:scale-105 hover:bg-white/20 transition-all duration-300 shadow-2xl"
                   >
                     <Play className="h-8 w-8 text-white fill-white ml-1" />
@@ -335,6 +337,11 @@ export default function ClientVoice() {
                     {formatTime(currentTime)}
                   </span>
                   <div
+                    role="slider"
+                    aria-label="Seek time"
+                    aria-valuemin={0}
+                    aria-valuemax={totalSeconds}
+                    aria-valuenow={currentTime}
                     onClick={handleSeek}
                     className="flex-grow h-1.5 rounded-full bg-slate-800 cursor-pointer relative overflow-hidden group/bar"
                   >
@@ -358,6 +365,7 @@ export default function ClientVoice() {
                     {/* Play/Pause Button */}
                     <button
                       onClick={() => setIsPlaying(!isPlaying)}
+                      aria-label={isPlaying ? "Pause" : "Play"}
                       className="text-white hover:text-slate-200 focus:outline-none transition-colors p-1"
                     >
                       {isPlaying ? <Pause className="h-5 w-5 fill-white" /> : <Play className="h-5 w-5 fill-white" />}
@@ -366,6 +374,7 @@ export default function ClientVoice() {
                     {/* Mute/Volume Button */}
                     <button
                       onClick={() => setIsMuted(!isMuted)}
+                      aria-label={isMuted ? "Unmute" : "Mute"}
                       className="text-white hover:text-slate-200 focus:outline-none transition-colors p-1"
                     >
                       {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}

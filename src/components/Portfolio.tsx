@@ -2,7 +2,6 @@
 
 import React from "react";
 import ProjectCard, { type Project } from "@/components/ui/ProjectCard";
-import { motion } from "framer-motion";
 
 const projects: Project[] = [
     {
@@ -94,17 +93,11 @@ export default function Portfolio() {
                 </div>
             </div>
 
-            <motion.div 
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto px-4 relative z-10"
-            >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto px-4 relative z-10">
                 {projects.map((project, i) => (
                     <ProjectCard key={i} {...project} />
                 ))}
-            </motion.div>
+            </div>
         </section>
     );
 }

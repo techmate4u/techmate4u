@@ -2,30 +2,66 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+// Removed framer-motion to eliminate loading latency
 import Button from "@/components/ui/Button";
-import HeroVisual from "./HeroVisual";
+import dynamic from "next/dynamic";
+
+// Dynamically import heavy graphics to completely exclude framer-motion from mobile load path
+const HeroVisual = dynamic(() => import("./HeroVisual"), {
+  ssr: false,
+});
+import { useState, useEffect } from "react";
 import { ArrowRight, Play, Zap, Handshake, Rocket } from "lucide-react";
 
 export default function Hero() {
+    const [isDesktop, setIsDesktop] = useState(false);
+
+    useEffect(() => {
+        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
+        checkSize();
+        window.addEventListener("resize", checkSize);
+        return () => window.removeEventListener("resize", checkSize);
+    }, []);
+
     return (
         <section
             className="w-full min-h-[85vh] mt-8 sm:mt-12 lg:mt-16 pt-32 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-visible flex flex-col items-center"
             id="home"
         >
-            {/* ── Background image — extends above section to sit behind the floating navbar ── */}
+            {/* Direct high-priority preload of static background asset (bypasses Next.js image optimizer server) - Desktop only */}
+            <link rel="preload" href="/assets/bg.webp" as="image" type="image/webp" media="(min-width: 1024px)" />
+
+            {/* ── Background image — extends above section to sit behind the floating navbar (Desktop only) ── */}
+            {isDesktop && (
+                <div
+                    aria-hidden="true"
+                    className="hidden lg:block absolute inset-x-0 bottom-0 pointer-events-none"
+                    style={{
+                        top: "-120px",
+                        zIndex: 0,
+                        maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+                        WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+                    }}
+                >
+                    <img
+                        src="/assets/bg.webp"
+                        alt="Background Mesh"
+                        className="absolute inset-0 w-full h-full object-cover object-top lg:animate-[pulse_8s_ease-in-out_infinite]"
+                        style={{ opacity: 0.85 }}
+                    />
+                </div>
+            )}
+
+            {/* ── CSS Radial/Linear Gradient Mesh (Mobile & Tablet only) — zero image payload, instant LCP ── */}
             <div
                 aria-hidden="true"
-                className="absolute left-0 right-0 bottom-0 pointer-events-none"
+                className="lg:hidden absolute inset-0 pointer-events-none"
                 style={{
                     top: "-120px",
-                    backgroundImage: "url('/assets/bg.webp')",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center top",
-                    backgroundRepeat: "no-repeat",
                     zIndex: 0,
-                    maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
-                    WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+                    background: "radial-gradient(circle at 50% 20%, rgba(99, 102, 241, 0.09) 0%, rgba(168, 85, 247, 0.04) 35%, transparent 70%)",
+                    maskImage: "linear-gradient(to bottom, black 85%, transparent 100%)",
+                    WebkitMaskImage: "linear-gradient(to bottom, black 85%, transparent 100%)",
                 }}
             />
 
@@ -101,7 +137,7 @@ export default function Hero() {
                     </div>
                 </header>
 
-                <figure className="lg:col-span-6 relative w-full overflow-visible mt-12 lg:mt-0 flex items-center justify-center lg:justify-end z-10">
+                <figure className="hidden lg:flex lg:col-span-6 relative w-full overflow-visible mt-12 lg:mt-0 items-center justify-center lg:justify-end z-10">
                     <HeroVisual />
                 </figure>
             </div>
@@ -112,17 +148,7 @@ export default function Hero() {
                     Scroll to explore
                 </span>
                 <div className="w-5 h-8 rounded-full border-2 border-[var(--text-muted)] opacity-40 flex justify-center p-1">
-                    <motion.div
-                        animate={{
-                            y: [0, 8, 0],
-                        }}
-                        transition={{
-                            duration: 1.5,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                        }}
-                        className="w-1.5 h-1.5 rounded-full bg-[var(--text-muted)]"
-                    />
+                    <div className="w-1.5 h-1.5 rounded-full bg-[var(--text-muted)] animate-scroll-bounce" />
                 </div>
             </div>
         </section>

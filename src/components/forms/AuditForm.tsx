@@ -58,7 +58,7 @@ export default function AuditForm() {
       <FormField
         id="audit-name"
         label="Full Name"
-        placeholder="John Doe"
+        placeholder="Your Name Here"
         error={errors.name?.message}
         {...register("name")}
       />
@@ -67,7 +67,7 @@ export default function AuditForm() {
         id="audit-email"
         label="Email Address"
         type="email"
-        placeholder="john@example.com"
+        placeholder="your@email.com"
         error={errors.email?.message}
         {...register("email")}
       />
@@ -75,7 +75,7 @@ export default function AuditForm() {
       <FormField
         id="audit-website"
         label="Website URL"
-        placeholder="https://example.com"
+        placeholder="https://yourwebsite.com"
         error={errors.websiteUrl?.message}
         {...register("websiteUrl")}
       />
@@ -84,7 +84,7 @@ export default function AuditForm() {
         id="audit-comments"
         label="Additional Comments (Optional)"
         isTextArea
-        placeholder="What specific issues are you facing with your current site?"
+        placeholder="Any specific concerns, pages you'd like us to focus on, or goals you have in mind..."
         error={errors.comments?.message}
         {...register("comments")}
       />

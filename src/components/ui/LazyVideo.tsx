@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 interface LazyVideoProps {
   src: string;
@@ -10,6 +10,7 @@ interface LazyVideoProps {
 
 export default function LazyVideo({ src, className, poster }: LazyVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const videoEl = videoRef.current;
@@ -19,18 +20,16 @@ export default function LazyVideo({ src, className, poster }: LazyVideoProps) {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            videoEl.play().catch((err) => {
-              // Ignore abort errors from play interrupts
-              if (err.name !== "AbortError") {
-                console.log("Lazy video play failed:", err);
-              }
-            });
+            setIsLoaded(true);
           } else {
-            videoEl.pause();
+            // Only pause if it has been loaded
+            if (videoEl.src) {
+              videoEl.pause();
+            }
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1, rootMargin: "200px" } // Load video 200px before it enters the viewport
     );
 
     observer.observe(videoEl);
@@ -40,14 +39,27 @@ export default function LazyVideo({ src, className, poster }: LazyVideoProps) {
     };
   }, [src]);
 
+  // Handle play when video is loaded in the DOM
+  useEffect(() => {
+    const videoEl = videoRef.current;
+    if (!videoEl || !isLoaded) return;
+
+    videoEl.play().catch((err) => {
+      // Ignore abort errors from play interrupts
+      if (err.name !== "AbortError") {
+        console.log("Lazy video play failed:", err);
+      }
+    });
+  }, [isLoaded]);
+
   return (
     <video
       ref={videoRef}
-      src={src}
+      src={isLoaded ? src : undefined}
       loop
       muted
       playsInline
-      preload="metadata"
+      preload={isLoaded ? "metadata" : "none"}
       poster={poster}
       className={className}
     />

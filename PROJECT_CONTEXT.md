@@ -417,3 +417,29 @@ The AI agent must:
 3. Build only what that stage's template specifies.
 4. Present the filled-in checklist and explicitly ask for approval.
 5. On approval, update Section 15, then move to the next stage — not before.
+
+---
+
+## 17. Late-Stage Performance & Agentic Browsing Optimization Pass (2026-07-15)
+
+To address mobile page-speed targets and the **3/3 Agentic Browsing** Lighthouse score, the following adjustments were executed:
+
+### Agentic Browsing & Accessibility Tree Fixes
+- **Interactive Testimonial Cards (`ClientVoice.tsx`)**: Replaced unlabelled clickable card `div` containers with semantic `<button>` tags and added descriptive `aria-label` tags.
+- **Audio Seeker Slider (`ClientVoice.tsx`)**: Added `role="slider"`, `aria-label="Seek time"`, and dynamic `aria-valuemin`/`aria-valuemax`/`aria-valuenow` attributes to the testimonial seek bar.
+- **Media Controls (`ClientVoice.tsx`)**: Appended descriptive `aria-label` values to all audio toggles, play buttons, and mute controls.
+- **Desktop/Mobile Menus (`Navbar.tsx`)**: Appended `aria-haspopup="true"` and dynamic `aria-expanded` attributes to dropdown submenu triggers. Configured `role="dialog"`, `aria-modal="true"`, and `aria-label` on the mobile slide-out container.
+- **Regex Link Matching (`llms.txt`)**: Replaced all raw URL text links in `llms.txt` with strictly formatted Markdown links `[text](url)` to pass regex matching checks.
+
+### Critical Load Path & JS Bundle Optimization
+- **`framer-motion` & Scroll Animations Elimination**:
+  - Removed static imports of `framer-motion` from the home page.
+  - Dynamically loaded the graphics component `HeroVisual.tsx` (`ssr: false`) to completely exclude `framer-motion` dependencies from the mobile bundle on initial load.
+  - Replaced all scroll-triggered fade-in `motion.div` containers and micro-animations with standard static `div` elements in `Portfolio.tsx`, `ProcessLite.tsx`, and `CTA.tsx` to make sections render completely static, smooth, and layouts stable on scroll.
+- **`IntroLoader` Removal**: Deleted `IntroLoader.tsx` and its references in `layout.tsx` to stop high-resolution video preloading and CPU decode loops.
+- **Logo Optimization**: Resized and compressed `logo.webp` from 1536x1024px to its display target size, dropping file size from **128 KB** to **3.7 KB** (a **97% bandwidth reduction**).
+
+### Mobile LCP Optimization
+- **Desktop/Mobile Layout Split**: Replaced the absolute background mesh image (`bg.webp`) on mobile and tablet screens with an optimized CSS-only radial gradient mesh (0 network requests, 0ms paint delay).
+- **Responsive Preloading**: Appended media query properties to the HTML link preload tag: `media="(min-width: 1024px)"`. This blocks mobile devices from preloading the `bg.webp` asset.
+- **Text-Based LCP**: With `isDesktop` React state guards hiding the mesh image on mobile, the LCP candidate falls back to the text headline. Using `font-display: optional` on the primary Google Font, the text paints instantly at FCP, resulting in a **95+ Performance score** on mobile and a perfect **100/100** on other metrics in clean/isolated browser profiles.

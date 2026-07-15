@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Card from "@/components/ui/Card";
 import LazyVideo from "@/components/ui/LazyVideo";
 import { ExternalLink } from "lucide-react";
@@ -80,11 +81,12 @@ export default function ProjectCard({
           ) : images && images.length > 0 ? (
             <div className="w-full h-full relative">
               {images.map((img, idx) => (
-                <img
+                <Image
                   key={img}
                   src={img}
                   alt={`${title} screenshot ${idx + 1}`}
-                  loading="lazy"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ${
                     idx === currentImageIndex ? "opacity-100" : "opacity-0"
                   }`}

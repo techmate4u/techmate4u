@@ -59,7 +59,7 @@ export default function ContactForm() {
         <FormField
           id="contact-name"
           label="Full Name"
-          placeholder="John Doe"
+          placeholder="Your Name Here"
           error={errors.name?.message}
           {...register("name")}
         />
@@ -67,7 +67,7 @@ export default function ContactForm() {
           id="contact-email"
           label="Email Address"
           type="email"
-          placeholder="john@example.com"
+          placeholder="your@email.com"
           error={errors.email?.message}
           {...register("email")}
         />
@@ -77,14 +77,14 @@ export default function ContactForm() {
         <FormField
           id="contact-phone"
           label="Phone Number (Optional)"
-          placeholder="+1 (555) 000-0000"
+          placeholder="+91 98765 43210"
           error={errors.phone?.message}
           {...register("phone")}
         />
         <FormField
           id="contact-company"
           label="Company (Optional)"
-          placeholder="Acme Corp"
+          placeholder="Your Company Name"
           error={errors.company?.message}
           {...register("company")}
         />
@@ -94,7 +94,7 @@ export default function ContactForm() {
         id="contact-message"
         label="Project Details / Message"
         isTextArea
-        placeholder="Tell us about your project requirements..."
+        placeholder="Tell us a little about your project, your goals, or the problem you'd like us to solve..."
         error={errors.message?.message}
         {...register("message")}
       />

@@ -310,34 +310,47 @@ html[data-theme="teal"] .hero-white-overlay {
   }
 }
 
-.hero-fade-up {
-  opacity: 0;
-  animation: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Staggered entrance animations for above-the-fold content (desktop only) */
+@media (min-width: 1024px) {
+  .hero-fade-up {
+    opacity: 0;
+    animation: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .hero-stagger-1 {
+    animation-delay: 0s;
+  }
+
+  .hero-stagger-2 {
+    animation-delay: 0.1s;
+  }
+
+  .hero-stagger-3 {
+    animation-delay: 0.2s;
+  }
+
+  .hero-stagger-4 {
+    animation-delay: 0.3s;
+  }
+
+  .hero-stagger-5 {
+    animation-delay: 0.4s;
+  }
+
+  .hero-fade-in {
+    opacity: 0;
+    animation: fade-in 0.6s ease-out forwards;
+  }
 }
 
-.hero-stagger-1 {
-  animation-delay: 0s;
-}
-
-.hero-stagger-2 {
-  animation-delay: 0.1s;
-}
-
-.hero-stagger-3 {
-  animation-delay: 0.2s;
-}
-
-.hero-stagger-4 {
-  animation-delay: 0.3s;
-}
-
-.hero-stagger-5 {
-  animation-delay: 0.4s;
-}
-
-.hero-fade-in {
-  opacity: 0;
-  animation: fade-in 0.6s ease-out forwards;
+/* Instant, static render on mobile to maximize LCP speeds and eliminate rendering reflows */
+@media (max-width: 1023px) {
+  .hero-fade-up {
+    opacity: 1;
+  }
+  .hero-fade-in {
+    opacity: 1;
+  }
 }
 
 /* ===== Spline Hero Depth Effect Animations ===== */
@@ -657,19 +670,35 @@ canvas {
   background-color: #f8fafc; /* Solid premium light slate background */
 }
 
+/* Gradient blend to white section above */
 .process-premium-section::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background-image: none;
-  opacity: 0;
-  z-index: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 96px;
+  background: linear-gradient(to bottom, #ffffff, transparent);
   pointer-events: none;
+  z-index: 1;
+}
+
+/* Gradient blend to white section below */
+.process-premium-section::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 96px;
+  background: linear-gradient(to top, #ffffff, transparent);
+  pointer-events: none;
+  z-index: 1;
 }
 
 .process-premium-section > *:not(.absolute) {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 /* ===== Premium Minimalist Grid Background styling ===== */
@@ -679,21 +708,9 @@ canvas {
   background-color: #ffffff; /* Solid pristine white background */
 }
 
-.minimalist-grid-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: none;
-  background-repeat: repeat;
-  background-size: auto;
-  opacity: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
 .minimalist-grid-section > *:not(.absolute) {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 /* Hide any residual inline grid backgrounds within the non-hero sections */
@@ -707,10 +724,52 @@ canvas {
 .minimalist-grid-section-alt {
   position: relative;
   overflow: hidden;
-  background-color: #f0f4f8; /* Soft blue-slate background to match hero visual colors! */
+  background-color: #f0f4f8; /* Soft blue-slate background */
+}
+
+/* Gradient blend to white section above */
+.minimalist-grid-section-alt::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 96px;
+  background: linear-gradient(to bottom, #ffffff, transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Gradient blend to white section below */
+.minimalist-grid-section-alt::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 96px;
+  background: linear-gradient(to top, #ffffff, transparent);
+  pointer-events: none;
+  z-index: 1;
 }
 
 .minimalist-grid-section-alt > *:not(.absolute) {
   position: relative;
-  z-index: 1;
-}
+  z-index: 2;
+}
+
+/* Defer layout and rendering calculations for off-screen landing page sections */
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1000px;
+}
+
+/* Lightweight CSS hardware-accelerated scroll bouncing animation */
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+.animate-scroll-bounce {
+  animation: scroll-bounce 1.5s ease-in-out infinite;
+}
+

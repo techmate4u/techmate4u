@@ -3,17 +3,18 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
-import IntroLoader from "@/components/layout/IntroLoader";
 import "./globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "optional",
 });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-outfit",
   subsets: ["latin"],
+  display: "optional",
 });
 
 export const metadata: Metadata = {
@@ -102,7 +103,6 @@ export default function RootLayout({
         style={{ backgroundColor: '#ffffff' }}
         suppressHydrationWarning
       >
-        <IntroLoader />
         <Navbar />
         {children}
         <Footer />

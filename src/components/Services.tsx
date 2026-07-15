@@ -2,11 +2,13 @@
 
 import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Card from "@/components/ui/Card";
 import SectionHeading from "@/components/sections/SectionHeading";
 import { SERVICES_DATA } from "@/components/servicesData";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import characterImage from '../../public/assets/3d_character_wwdc.webp';
 
 export default function Services() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -24,75 +26,73 @@ export default function Services() {
 
     if (!sectionRef.current) return;
 
-    // Set initial states for transition animations
-    gsap.set(characterRef.current, { x: 260, y: 30, rotate: 0, opacity: 0 });
-    gsap.set(ringRef.current, { scale: 0, opacity: 0 });
-    gsap.set(wave1Ref.current, { scale: 0, opacity: 0 });
-    gsap.set(wave2Ref.current, { scale: 0, opacity: 0 });
-    gsap.set(cardsGridRef.current, { y: 120, scale: 0.98 });
-    gsap.set(glowOverlayRef.current, { opacity: 0, scale: 0.95 });
-    gsap.set(headingRef.current, { y: 50, opacity: 0 });
+    // Use matchMedia to run heavy scroll animations only on desktop (lg breakpoint)
+    const mm = gsap.matchMedia();
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top bottom", // Trigger starts when top of services enters screen bottom
-        end: "center center", // Reaches completion when services center is at screen center
-        scrub: 1.5,
-      },
-      defaults: { ease: "power3.out" }
+    mm.add("(min-width: 1024px)", () => {
+      // Set initial states for transition animations (character elements only)
+      gsap.set(characterRef.current, { x: 260, y: 30, rotate: 0, opacity: 0 });
+      gsap.set(ringRef.current, { scale: 0, opacity: 0 });
+      gsap.set(wave1Ref.current, { scale: 0, opacity: 0 });
+      gsap.set(wave2Ref.current, { scale: 0, opacity: 0 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom", // Trigger starts when top of services enters screen bottom
+          end: "center center", // Reaches completion when services center is at screen center
+          scrub: 1.5,
+        },
+        defaults: { ease: "power3.out" }
+      });
+
+      // Step 1: Character walks in from the right
+      tl.to(characterRef.current, { x: 0, opacity: 1, duration: 1.2 })
+        .to(ringRef.current, { scale: 1, opacity: 1, duration: 0.4 }, "-=0.4");
+
+      // Step 2 & 3: Character looks down and touches the glowing ring
+      tl.to(characterRef.current, { rotate: -4, y: 45, duration: 0.8 })
+        .to(characterRef.current, { scaleX: 1.05, scaleY: 0.95, duration: 0.3 })
+        .to(ringRef.current, { scale: 1.2, borderColor: "rgba(47, 107, 255, 0.8)", boxShadow: "0 0 15px rgba(47, 107, 255, 0.5)", duration: 0.3 }, "-=0.3");
+
+      // Step 4: Large soft wave expands from touchpoint
+      tl.to(characterRef.current, { scaleX: 1, scaleY: 1, rotate: 2, duration: 0.5 })
+        .fromTo(wave1Ref.current, 
+          { scale: 0.2, opacity: 1 }, 
+          { scale: 8, opacity: 0, duration: 1.2 }, 
+          "-=0.5"
+        )
+        .fromTo(wave2Ref.current, 
+          { scale: 0.2, opacity: 0.8 }, 
+          { scale: 11, opacity: 0, duration: 1.5 }, 
+          "-=1.0"
+        );
+
+      // Step 7: Character waves (slow elegant head tilt / rotate back and forth)
+      tl.to(characterRef.current, { rotate: 5, y: 35, duration: 0.6 })
+        .to(characterRef.current, { rotate: -1, duration: 0.6 })
+        .to(characterRef.current, { rotate: 0, duration: 0.4 });
+
+      // Step 8: Walks away (slides back offscreen to the right and fades behind next scroll blocks)
+      tl.to(characterRef.current, { x: 260, opacity: 0, duration: 1.2 })
+        .to(ringRef.current, { scale: 0, opacity: 0, duration: 0.8 }, "-=1.2");
     });
-
-    // Step 1: Character walks in from the right
-    tl.to(characterRef.current, { x: 0, opacity: 1, duration: 1.2 })
-      .to(ringRef.current, { scale: 1, opacity: 1, duration: 0.4 }, "-=0.4");
-
-    // Step 2 & 3: Character looks down and touches the glowing ring
-    tl.to(characterRef.current, { rotate: -4, y: 45, duration: 0.8 })
-      .to(characterRef.current, { scaleX: 1.05, scaleY: 0.95, duration: 0.3 })
-      .to(ringRef.current, { scale: 1.2, borderColor: "rgba(47, 107, 255, 0.8)", boxShadow: "0 0 15px rgba(47, 107, 255, 0.5)", duration: 0.3 }, "-=0.3");
-
-    // Step 4: Large soft wave expands from touchpoint
-    tl.to(characterRef.current, { scaleX: 1, scaleY: 1, rotate: 2, duration: 0.5 })
-      .fromTo(wave1Ref.current, 
-        { scale: 0.2, opacity: 1 }, 
-        { scale: 8, opacity: 0, duration: 1.2 }, 
-        "-=0.5"
-      )
-      .fromTo(wave2Ref.current, 
-        { scale: 0.2, opacity: 0.8 }, 
-        { scale: 11, opacity: 0, duration: 1.5 }, 
-        "-=1.0"
-      );
-
-    // Step 5: Services cards rise from below + heading fades in
-    tl.to(headingRef.current, { y: 0, opacity: 1, duration: 0.8 }, "-=1.4")
-      .to(cardsGridRef.current, { y: 0, scale: 1, duration: 1.2 }, "-=1.2");
-
-    // Step 6: Background glow expands and follows the rise of the cards (fully visible up to 0.95 opacity)
-    tl.to(glowOverlayRef.current, { opacity: 0.95, scale: 1, duration: 1.2 }, "-=1.2");
-
-    // Step 7: Character waves (slow elegant head tilt / rotate back and forth)
-    tl.to(characterRef.current, { rotate: 5, y: 35, duration: 0.6 })
-      .to(characterRef.current, { rotate: -1, duration: 0.6 })
-      .to(characterRef.current, { rotate: 0, duration: 0.4 });
-
-    // Step 8: Walks away (slides back offscreen to the right and fades behind next scroll blocks)
-    tl.to(characterRef.current, { x: 260, opacity: 0, duration: 1.2 })
-      .to(ringRef.current, { scale: 0, opacity: 0, duration: 0.8 }, "-=1.2");
 
     // Clean up on unmount
     return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
+      mm.revert();
     };
   }, []);
 
   return (
     <section 
       ref={sectionRef} 
-      className="w-full relative z-20 overflow-hidden pt-20 pb-16 lg:pt-32 lg:pb-28 bg-white border-y border-[var(--line-soft)]" 
+      className="w-full relative z-20 overflow-hidden pt-20 pb-16 lg:pt-32 lg:pb-28 bg-white border-b border-[var(--line-soft)]" 
       id="services"
     >
+      {/* Top blend gradient overlay to transition smoothly from Hero */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white to-transparent pointer-events-none z-10" />
+
       {/* Premium Minimal Background Overlay */}
       <div 
         ref={glowOverlayRef}
@@ -164,11 +164,11 @@ export default function Services() {
           className="absolute right-[50px] top-[1%] w-[270px] h-[270px] pointer-events-none select-none z-20 flex items-center justify-center bg-white p-2 rounded-full border border-blue-500/10 shadow-[0_8px_30px_rgb(0,0,0,0.03)]"
           style={{ transformOrigin: "bottom center" }}
         >
-          <img
-            src="/assets/3d_character_wwdc.webp"
+          <Image
+            src={characterImage}
             alt="WWDC Character"
-            loading="lazy"
             className="w-full h-full object-contain pointer-events-none select-none rounded-full"
+            placeholder="blur"
           />
         </div>
 

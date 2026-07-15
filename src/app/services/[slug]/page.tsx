@@ -327,9 +327,6 @@ export default async function ServicePage({ params }: ServicePageProps) {
         {/* Hero Section */}
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-16 items-center mb-24">
           <div className="text-left items-start flex flex-col">
-            <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold tracking-wide bg-[var(--primary-soft)] text-[var(--primary)] border-[color-mix(in_srgb,var(--primary)_20%,transparent)] mb-4">
-              {service.eyebrow}
-            </span>
             <h1 className="font-[family-name:var(--font-outfit)] text-4xl font-black leading-[1.1] tracking-tight text-[var(--text)] sm:text-5xl lg:text-6xl max-w-2xl">
               {service.title}
             </h1>
