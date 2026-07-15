@@ -74,17 +74,17 @@ export default function Hero() {
                         {/* Premium Typography styling inspired by Figma guidelines: Tighter tracking, specific leading, and balanced contrast */}
                         <h1 className="text-3xl sm:text-4xl lg:text-[3.25rem] font-bold leading-[1.15] tracking-[-0.03em] font-[family-name:var(--font-outfit)] text-[var(--text)]">
                             <span className="hero-fade-up hero-stagger-1 block">
-                                Accelerate Growth with
+                                Custom Web Engineering &
                             </span>
                             <span className="hero-fade-up hero-stagger-2 block text-transparent bg-clip-text mt-1 pb-2" style={{ backgroundImage: "linear-gradient(135deg, var(--text) 0%, var(--primary) 52%, var(--accent) 100%)" }}>
-                                Next-Generation Digital Systems
+                                AI Automation Systems
                             </span>
                         </h1>
 
                         {/* Subheading — readable line-height, softer blue color */}
                         <p className="hero-fade-up hero-stagger-3 text-sm sm:text-base lg:text-[1.125rem] font-medium max-w-xl leading-[1.65] tracking-[-0.01em] text-[var(--text-muted)]">
-                            We build high-performance websites and AI-powered systems
-                            designed to turn visitors into loyal customers.
+                            We build high-performance Next.js websites and custom AI workflows 
+                            that automate manual business operations.
                         </p>
                     </div>
 

@@ -23,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'automation-systems',
     'mobile-app-development',
     'digital-marketing',
+    'social-media-management',
   ];
 
   const servicePages = serviceSlugs.map((slug) => ({
@@ -36,6 +37,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'riwaaz-ethnic',
     'lab2door',
     'restaurant-management',
+    'techflow-systems',
+    'finserve-solutions',
   ];
 
   const workPages = workSlugs.map((slug) => ({

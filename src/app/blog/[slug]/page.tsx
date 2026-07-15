@@ -169,11 +169,40 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     }
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://techmate4u.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://techmate4u.com/blog"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": article.title,
+        "item": `https://techmate4u.com/blog/${article.slug}`
+      }
+    ]
+  };
+
   return (
     <main className="min-h-screen pt-32 pb-0">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       {/* Background blueprint details */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none -z-10"

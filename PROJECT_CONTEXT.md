@@ -443,3 +443,73 @@ To address mobile page-speed targets and the **3/3 Agentic Browsing** Lighthouse
 - **Desktop/Mobile Layout Split**: Replaced the absolute background mesh image (`bg.webp`) on mobile and tablet screens with an optimized CSS-only radial gradient mesh (0 network requests, 0ms paint delay).
 - **Responsive Preloading**: Appended media query properties to the HTML link preload tag: `media="(min-width: 1024px)"`. This blocks mobile devices from preloading the `bg.webp` asset.
 - **Text-Based LCP**: With `isDesktop` React state guards hiding the mesh image on mobile, the LCP candidate falls back to the text headline. Using `font-display: optional` on the primary Google Font, the text paints instantly at FCP, resulting in a **95+ Performance score** on mobile and a perfect **100/100** on other metrics in clean/isolated browser profiles.
+
+---
+
+## 18. Post-Optimization Polish Pass (2026-07-15 Afternoon)
+
+A follow-up cleanup and UX polish pass after the core performance work was completed.
+
+### Animation Audit — All Pages
+
+A global `grep` across the entire `src/` tree was run to find every remaining `motion.*` usage. All scroll-triggered fade-in/fly-in animations were removed from every page and component:
+
+- **`WorkGrid.tsx`** (`/work` page): Removed `AnimatePresence` card fade-in, layout animation container (`motion.div`), and the spring-animated filter ring (`motion.span`). Removed `framer-motion` import entirely.
+- **`BlogGrid.tsx`** (`/blog` page): Same removal — filter ring, `AnimatePresence`, and per-card `motion.div` with `initial/animate/exit` removed. Removed `framer-motion` import entirely.
+- **`Portfolio.tsx`**, **`ProcessLite.tsx`**, **`CTA.tsx`**: Removed stale dead `import { motion } from "framer-motion"` lines left over from the previous animation removal pass.
+
+**Preserved (intentional, functional UI animations):**
+- `Modal.tsx` — modal open/close scale (user-triggered, not scroll-driven)
+- `FAQAccordion.tsx` — accordion height expand/collapse (functional UX)
+- `ClientVoice.tsx` — video player modal backdrop/scale (functional UX)
+- `HeroVisual.tsx` — the entire 3D floating hero canvas graphic
+
+### Navbar Services Dropdown Fix
+
+**Problem:** The "Services" hover dropdown was dismissing immediately when the cursor moved from the trigger link into the panel, because the 8px CSS `mt-2` gap between the two elements briefly put the cursor outside the parent container, firing `onMouseLeave`.
+
+**Fix (`Navbar.tsx`):**
+- Added a `closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)`.
+- `onMouseEnter` → immediately cancels any pending close timer and opens the dropdown.
+- `onMouseLeave` → schedules `setServicesOpen(false)` with a **150ms delay** instead of firing immediately.
+- If the cursor transitions into the dropdown panel within 150ms, `onMouseEnter` re-fires and cancels the timer — keeping the dropdown open stably.
+- This is the standard "grace period" pattern used by Radix UI and Headless UI.
+
+### Service Page Eyebrow Pill Removed
+
+The generic category label pill (e.g. "Engineering", "Optimization") that appeared above every service page `<h1>` was removed from `src/app/services/[slug]/page.tsx`. It was identified as a visual pattern associated with generic AI-generated page layouts and added no user value since the title itself is fully descriptive.
+
+### Form Placeholders & Validation Hardening
+
+**Placeholders (`ContactForm.tsx`, `AuditForm.tsx`):**
+- `"John Doe"` → `"Your Name Here"`
+- `"john@example.com"` → `"your@email.com"`
+- `"+1 (555) 000-0000"` → `"+91 98765 43210"` (region-appropriate)
+- `"Acme Corp"` → `"Your Company Name"`
+- `"https://example.com"` → `"https://yourwebsite.com"`
+- Message/comments text areas updated with warm, inviting, non-generic copy.
+
+**Validation hardening (`src/lib/schemas.ts`):**
+- **Name**: Unicode letter regex — blocks numeric strings, random symbols, all-same-character spam.
+- **Email**: Blocks `+alias` addressing (common bot evasion technique); max 254 chars enforced.
+- **Phone**: If provided, must match international format regex `^[+\d][\d\s\-().]{6,19}$`.
+- **Message**: Minimum 20 chars; requires at least 3 space-separated words; regex blocks repeated-character spam (`aaaaaaaaaa…`); max 2000 chars.
+- **Audit URL**: Must start with `https://` (not `http://` or bare domains); max 300 chars.
+- **Comments**: Max 1000 chars cap.
+- All reusable validators (`nameSchema`, `emailSchema`, `phoneSchema`, `messageSchema`) are defined once and shared across both `contactFormSchema` and `auditFormSchema`.
+
+### Step 13+ — SEO Quick-Wins & Technical Architecture Implementation
+
+A comprehensive technical SEO implementation pass was completed on 2026-07-15:
+
+- **Services Index Page (`/services`)**: Created `src/app/services/page.tsx` displaying all 6 core service modules in a responsive, pre-rendered Next.js page.
+- **Sitemap Mappings (`/sitemap.xml`)**: Updated `sitemap.ts` to include the missing `/services/social-media-management` slug and dynamic case studies (`techflow-systems`, `finserve-solutions`).
+- **Global Metadata & Local Schema (`layout.tsx`)**:
+  - Appended geographical geo-targeting metadata title anchors (`Ahmedabad, India`).
+  - Set default canonical link configurations matching the root.
+  - Expanded `ProfessionalService` JSON-LD schema with physical address details (Ashram Road), `priceRange` (`$$`), and corporate social entity handles (`sameAs` array mapping LinkedIn, Instagram, and WhatsApp profiles).
+- **Hero Copywriting Refinement (`Hero.tsx`)**: Optimized H1 headline to focus on target keywords: `"Custom Web Engineering & AI Automation Systems"`. Refined subheading to focus on Next.js websites and custom AI workflows.
+- **Graphic Alt Descriptions (`Services.tsx`)**: Changed placeholder `alt="WWDC Character"` on the 3D graphic to `"TechMate4u Custom Software Engineer Mascot"`.
+- **Dynamic Subpage Breadcrumbs**: Injected dynamic `BreadcrumbList` schemas into dynamic service details and dynamic blog post pages to build strong structural search indexing.
+- **Verification**: Executed `npm run build` locally; verified 100% successful static page compilation (30 paths) and sitemap path output.
+

@@ -166,7 +166,7 @@ export default function Services() {
         >
           <Image
             src={characterImage}
-            alt="WWDC Character"
+            alt="TechMate4u Custom Software Engineer Mascot"
             className="w-full h-full object-contain pointer-events-none select-none rounded-full"
             placeholder="blur"
           />

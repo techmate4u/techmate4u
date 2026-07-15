@@ -9,7 +9,7 @@ import FAQAccordion from "@/components/ui/FAQAccordion";
 import ContactForm from "@/components/forms/ContactForm";
 import AuditForm from "@/components/forms/AuditForm";
 
-interface ServiceData {
+export interface ServiceData {
   slug: string;
   title: string;
   eyebrow: string;
@@ -25,7 +25,7 @@ interface ServiceData {
   }[];
 }
 
-const SERVICES_DATA: Record<string, ServiceData> = {
+export const SERVICES_DATA: Record<string, ServiceData> = {
   "web-development": {
     slug: "web-development",
     title: "Web Development & Engineering",
@@ -293,11 +293,57 @@ export default async function ServicePage({ params }: ServicePageProps) {
     "serviceType": service.eyebrow
   };
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": service.faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://techmate4u.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Services",
+        "item": "https://techmate4u.com/services"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": service.title,
+        "item": `https://techmate4u.com/services/${slug}`
+      }
+    ]
+  };
+
   return (
     <main className="min-h-screen pt-32 pb-0 relative overflow-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       
 

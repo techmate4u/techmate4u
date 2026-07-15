@@ -19,21 +19,24 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://techmate4u.com"),
-  title: "TechMate4u | Digital Product Studio & Web Engineering",
+  title: "TechMate4u | Digital Product Studio & Web Engineering | Ahmedabad, India",
   description: "We engineer highly interactive, conversion-optimized websites and AI-integrated digital systems that accelerate business growth.",
-  keywords: ["web development", "AI automation", "Next.js applications", "digital product studio", "SaaS websites"],
+  keywords: ["web development", "AI automation", "Next.js applications", "digital product studio", "SaaS websites", "web development Ahmedabad", "AI automation India"],
   authors: [{ name: "TechMate4u" }],
   creator: "TechMate4u",
   icons: {
     icon: "/assets/t-logo.webp",
     apple: "/assets/t-logo.webp",
   },
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://techmate4u.com",
     siteName: "TechMate4u",
-    title: "TechMate4u | Next-Gen Digital Products",
+    title: "TechMate4u | Next-Gen Digital Products | Ahmedabad, India",
     description: "Accelerate your business with performance-driven code and beautiful web design.",
     images: [
       {
@@ -46,7 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "TechMate4u | Digital Product Studio",
+    title: "TechMate4u | Digital Product Studio | Ahmedabad, India",
     description: "We engineer highly interactive, conversion-optimized websites and AI-integrated digital systems that accelerate business growth.",
   },
   verification: {
@@ -79,10 +82,13 @@ export default function RootLayout({
               "logo": "https://techmate4u.com/assets/t-logo.webp",
               "image": "https://techmate4u.com/assets/hero-visual.webp",
               "description": "Full-cycle digital product studio engineering high-performance websites, automation systems, and custom mobile applications.",
+              "priceRange": "$$",
               "address": {
                 "@type": "PostalAddress",
+                "streetAddress": "402, Corporate House, Nr. Dinesh Hall, Ashram Road",
                 "addressLocality": "Ahmedabad",
                 "addressRegion": "Gujarat",
+                "postalCode": "380009",
                 "addressCountry": "IN"
               },
               "contactPoint": {
@@ -92,7 +98,9 @@ export default function RootLayout({
                 "email": "info@techmate4u.com"
               },
               "sameAs": [
-                "https://wa.me/919327263267"
+                "https://wa.me/919327263267",
+                "https://www.linkedin.com/company/techmate-4u",
+                "https://www.instagram.com/officialtechmate4u/"
               ]
             })
           }}

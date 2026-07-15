@@ -3,21 +3,94 @@
 > We engineer highly interactive, conversion-optimized websites and AI-integrated digital systems that accelerate business growth.
 
 ## About Us
-TechMate4u is a premium digital product studio and web engineering agency. We specialize in building next-generation digital systems, high-performance websites, custom ERP solutions, and modern restaurant POS systems. We focus on modern tech stacks, fast delivery, and startup-friendly models.
+
+TechMate4u is a premium digital product studio and web engineering agency based in Ahmedabad, Gujarat, India. We specialize in building next-generation digital systems, high-performance websites, custom ERP solutions, restaurant POS systems, and AI-powered automation tools. We work with startups, SMBs, and growing businesses worldwide using a startup-friendly, transparent engagement model.
+
+- Founded: Ahmedabad, India
+- Email: info@techmate4u.com
+- Phone: +91 93272 63267
+- WhatsApp: https://wa.me/919327263267
 
 ## Core Services
-- **Web Development**: High-performance, SEO-optimized frontends (Next.js, React).
-- **AI Automation & Integration**: Intelligent systems for business workflows.
-- **Custom ERP Software**: Enterprise management platforms designed to streamline operations.
-- **Restaurant Management & POS**: Modern systems for table handling, billing, and kitchen coordination.
-- **E-commerce Solutions**: Scalable architectures for online retail.
+
+### Website Design & Development
+Custom-built, responsive websites engineered with Next.js and React that showcase your brand and drive measurable conversions. We deliver 99+ Lighthouse performance, accessibility, and best-practices scores with React Server Components (RSC) for minimal client-bundle overhead.
+
+- Service page: [Web Development](https://techmate4u.com/services/web-development)
+
+### Mobile App Development
+Native and cross-platform mobile applications built for performance, user engagement, and scalability. We handle Android and iOS development with a focus on smooth animations, offline capability, and clean architecture.
+
+- Service page: [Mobile App Development](https://techmate4u.com/services/mobile-app-development)
+
+### Technical SEO & Site Speed
+Organic traffic optimization utilizing semantic HTML, JSON-LD schema markup, and Core Web Vitals refinement. We target sub-1.2s LCP, valid Structured Data for rich snippets, clean site architecture, and WCAG 2.2 AA accessibility compliance.
+
+- Service page: [Technical SEO](https://techmate4u.com/services/technical-seo)
+
+### AI Automation Systems
+Tailored AI solutions and automated workflows designed to streamline operations, reduce manual errors, and boost business efficiency. We build LLM-powered agents, document processing pipelines, and API-connected automation systems.
+
+- Service page: [Automation Systems](https://techmate4u.com/services/automation-systems)
+
+### Digital Marketing
+Results-driven marketing campaigns and funnel optimizations tailored to scale your brand and maximize acquisition ROI. Includes paid social, Google Ads management, landing page CRO, and performance reporting.
+
+- Service page: [Digital Marketing](https://techmate4u.com/services/digital-marketing)
+
+### Social Media Management
+Strategic content creation, community engagement, and brand optimization to build a powerful organic social media presence across LinkedIn, Instagram, X (Twitter), and TikTok.
+
+- Service page: [Social Media Management](https://techmate4u.com/services/social-media-management)
 
 ## Key Projects
-- **Amara**: Custom Client Showcase
-- **Riwaaz Ethnic**: Premium ethnic wear e-commerce platform
-- **Lab2Door**: Healthcare logistics and medical service platform
-- **Restaurant Management**: Custom Hospitality & POS System
+
+### Riwaaz Ethnic
+Premium ethnic wear e-commerce platform. Rebuilt a legacy storefront with Next.js, achieving a Lighthouse mobile score of 99/100, a +38% conversion lift, and sub-second page transitions.
+
+- Live: [riwaazethnic.vercel.app](https://riwaazethnic.vercel.app/)
+- Case study: [techmate4u.com/work/riwaaz-ethnic](https://techmate4u.com/work/riwaaz-ethnic)
+
+### Lab2Door
+Healthcare logistics platform for patient scheduling and medical lab routing. Delivered a 50% reduction in booking friction, zero slot collisions, and 2.5x growth in scheduled appointments.
+
+- Live: [lab2door.vercel.app](https://lab2door.vercel.app/)
+- Case study: [techmate4u.com/work/lab2door](https://techmate4u.com/work/lab2door)
+
+### Restaurant Management & POS
+Custom hospitality management system with real-time kitchen sync, touch-optimized waiter interfaces, and table-side ordering. Achieved sub-100ms kitchen sync latency and a 22% faster table turnover rate.
+
+- Case study: [techmate4u.com/work/restaurant-management](https://techmate4u.com/work/restaurant-management)
+
+## How We Work (Process)
+
+1. **Discovery & Research** — Analyzing your goals, target audience, and current technical landscape to define project requirements.
+2. **Proposal & Quote** — Delivering a comprehensive project scope, timeline, and transparent pricing structure.
+3. **Agreement Signed** — Finalizing contract terms and establishing clear milestones.
+4. **Initial Payment** — Securing resources, aligning our engineering team, and officially kicking off.
+5. **Design Phase** — Creating wireframes, user flows, and high-fidelity visual prototypes for your approval.
+6. **Development** — Building the solution using modern, scalable frameworks and rigorous coding standards.
+7. **Revisions & Testing** — QA, performance testing, and iterative client feedback rounds.
+8. **Final Delivery** — Deploying to production, final code review, and handover.
+9. **Support & Maintenance** — Ongoing updates, uptime monitoring, and proactive technical support.
+
+## Technology Stack
+
+- Frontend: Next.js, React, TypeScript, Tailwind CSS
+- Backend: Node.js, Supabase, PostgreSQL, MongoDB
+- CMS: Sanity, Contentful
+- Payments: Stripe
+- AI: OpenAI, Anthropic APIs, LangChain
+- Deployment: Vercel, AWS
 
 ## Contact & Links
-- Website: [TechMate4u Website](https://techmate4u.com)
-- Contact: [Contact Us](https://techmate4u.com/#contact)
+
+- Website: [TechMate4u](https://techmate4u.com)
+- Contact Form: [Get in Touch](https://techmate4u.com/#contact)
+- Free Audit: [Request a Free Website Audit](https://techmate4u.com/audit)
+- Blog: [TechMate4u Blog](https://techmate4u.com/blog)
+- Work Portfolio: [All Case Studies](https://techmate4u.com/work)
+- About Us: [About TechMate4u](https://techmate4u.com/about-us)
+- Instagram: [officialtechmate4u](https://www.instagram.com/officialtechmate4u/)
+- LinkedIn: [techmate-4u](https://www.linkedin.com/company/techmate-4u)
+- X/Twitter: [techmate4u](https://x.com/techmate4u)
