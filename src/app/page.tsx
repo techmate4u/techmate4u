@@ -15,8 +15,8 @@ const ClientVoice = dynamic(() => import(/* webpackPreload: false */ "@/componen
   loading: () => <div className="min-h-[400px] w-full bg-[var(--surface-muted)] opacity-0" />,
 });
 
-const ProcessLite = dynamic(() => import(/* webpackPreload: false */ "@/components/ProcessLite"), {
-  loading: () => <div className="min-h-[400px] w-full bg-white opacity-0" />,
+const FoundingTeam = dynamic(() => import(/* webpackPreload: false */ "@/components/sections/FoundingTeam"), {
+  loading: () => <div className="min-h-[500px] w-full bg-white opacity-0" />,
 });
 
 const CTA = dynamic(() => import(/* webpackPreload: false */ "@/components/CTA"), {
@@ -29,11 +29,11 @@ export default function Home() {
       <Hero />
       
       {/* Defer script hydration and DOM parsing of below-the-fold sections entirely */}
-      <LazyRender placeholderHeight={600} className="content-visibility-auto">
+      <LazyRender id="services" placeholderHeight={600} className="content-visibility-auto">
         <Services />
       </LazyRender>
 
-      <LazyRender placeholderHeight={850} className="content-visibility-auto">
+      <LazyRender id="portfolio" placeholderHeight={850} className="content-visibility-auto">
         <Portfolio />
       </LazyRender>
 
@@ -41,11 +41,11 @@ export default function Home() {
         <ClientVoice />
       </LazyRender>
 
-      <LazyRender placeholderHeight={600} className="content-visibility-auto">
-        <ProcessLite />
+      <LazyRender id="founder" placeholderHeight={700} className="content-visibility-auto">
+        <FoundingTeam />
       </LazyRender>
 
-      <LazyRender placeholderHeight={600} className="content-visibility-auto">
+      <LazyRender id="contact" placeholderHeight={600} className="content-visibility-auto">
         <CTA />
       </LazyRender>
     </main>

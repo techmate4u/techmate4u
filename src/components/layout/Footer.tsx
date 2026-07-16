@@ -8,18 +8,18 @@ import logo from "../../../public/assets/logo.webp";
 const navLinks = [
     { name: "Home", href: "/#home" },
     { name: "About Us", href: "/about-us" },
-    { name: "Services", href: "/#services" },
+    { name: "Services", href: "/services" },
     { name: "Portfolio", href: "/#portfolio" },
-    { name: "Process", href: "/#process" },
+    { name: "Process", href: "/about-us#process" },
     { name: "Contact", href: "/#contact" },
 ];
 
 const serviceLinks = [
-    { name: "Web Development", href: "/#services", icon: Code2 },
-    { name: "Technical SEO", href: "/#services", icon: Search },
-    { name: "Automation Systems", href: "/#services", icon: Bot },
-    { name: "Mobile App Development", href: "/#services", icon: Smartphone },
-    { name: "Digital Marketing", href: "/#services", icon: Megaphone },
+    { name: "Web Development", href: "/services/web-development", icon: Code2 },
+    { name: "Technical SEO", href: "/services/technical-seo", icon: Search },
+    { name: "Automation Systems", href: "/services/automation-systems", icon: Bot },
+    { name: "Mobile App Development", href: "/services/mobile-app-development", icon: Smartphone },
+    { name: "Digital Marketing", href: "/services/digital-marketing", icon: Megaphone },
 ];
 
 const legalLinks = [

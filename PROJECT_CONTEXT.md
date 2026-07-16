@@ -512,4 +512,23 @@ A comprehensive technical SEO implementation pass was completed on 2026-07-15:
 - **Graphic Alt Descriptions (`Services.tsx`)**: Changed placeholder `alt="WWDC Character"` on the 3D graphic to `"TechMate4u Custom Software Engineer Mascot"`.
 - **Dynamic Subpage Breadcrumbs**: Injected dynamic `BreadcrumbList` schemas into dynamic service details and dynamic blog post pages to build strong structural search indexing.
 - **Verification**: Executed `npm run build` locally; verified 100% successful static page compilation (30 paths) and sitemap path output.
-- **Google Analytics Integration**: Integrated the GA tracking tag (`G-FW1J903DLP`) inside `layout.tsx` using the Next.js `Script` component with `afterInteractive` strategy to track user conversion metrics without degrading site loading speeds
+- **Google Analytics Integration**: Integrated the GA tracking tag (`G-FW1J903DLP`) inside `layout.tsx` using the Next.js `Script` component with `afterInteractive` strategy to track user conversion metrics without degrading site loading speeds.
+
+---
+
+## 19. Contact Form Channel & Validation Upgrades (2026-07-16)
+
+To provide multi-channel conversion routes and secure contact form data handling, the following updates were implemented:
+
+### Contact Form Field & Validation Architecture
+- **Dropdown Services Select**: Extended the [FormField.tsx](file:///c:/Techmate4u/techmate-wb/src/components/forms/FormField.tsx) component to dynamically support select HTML components. Form configured a required dropdown selector listing the 6 core services, plus "Consultation" and "Other".
+- **Strict Optionality Mapping**: Refactored the form schemas in [schemas.ts](file:///c:/Techmate4u/techmate-wb/src/lib/schemas.ts) to define only "Project Details / Message" and "Company Name" as optional fields. All other fields (Full Name, Email Address, Phone Number, and Service Required) are strictly required.
+- **Form Button Rebrand & Dual Channels**:
+  - Replaced the generic "Send Message" action with a direct "Send Email" action button.
+  - Added a dedicated "Send Inquiry" button for WhatsApp, customized using the official brand color (`#25D366`), visual hover elevations, and the official WhatsApp vector logo SVG.
+  - Built form action routing in [ContactForm.tsx](file:///c:/Techmate4u/techmate-wb/src/components/forms/ContactForm.tsx) to record the lead via API, and then open a pre-filled WhatsApp window when "Send Inquiry" is clicked.
+
+### Cyber-Sec & Web Dev Hardened API Route
+- **Zod Server-Side Parsing**: Modified [route.ts](file:///c:/Techmate4u/techmate-wb/src/app/api/contact/route.ts) to parse incoming requests directly against the shared `contactFormSchema` object, guaranteeing 100% logic alignment between front-end and back-end constraints.
+- **XSS & HTML Injection Defense**: Implemented input sanitization on all text fields (`name`, `email`, `phone`, `company`, `service`, `message`) before formatting HTML bodies.
+- **Email Header Injection Prevention**: Applied a newline stripping filter (`\r` and `\n`) on all inputs referenced inside outbound mail headers (subject, reply-to fields), blocking header parsing exploits.

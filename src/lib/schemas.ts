@@ -15,30 +15,35 @@ const emailSchema = z
 
 const phoneSchema = z
   .string()
-  .optional()
-  .refine(
-    (val) => !val || /^[+\d][\d\s\-().]{6,19}$/.test(val),
-    { message: "Please enter a valid phone number (e.g. +91 98765 43210)." }
-  );
+  .min(1, { message: "Phone number is required." })
+  .regex(/^[+\d][\d\s\-().]{6,19}$/, { message: "Please enter a valid phone number (e.g. +91 98765 43210)." });
 
 const messageSchema = z
   .string()
-  .min(20, { message: "Please share a bit more detail — at least 20 characters." })
   .max(2000, { message: "Message is too long. Please keep it under 2000 characters." })
-  .refine(
-    (val) => !/^(.)\1{9,}/.test(val),
-    { message: "Message appears to be invalid. Please describe your project." }
-  )
-  .refine(
-    (val) => val.split(" ").length >= 3,
-    { message: "Please write at least a few words describing your needs." }
-  );
+  .optional()
+  .or(z.literal(""));
+
+const serviceSchema = z.enum(
+  [
+    "Web Development",
+    "Technical SEO",
+    "Automation Systems",
+    "Mobile App Development",
+    "Digital Marketing",
+    "Social Media Management",
+    "Consultation",
+    "Other"
+  ],
+  { message: "Please select a valid service or consultation." }
+);
 
 export const contactFormSchema = z.object({
   name: nameSchema,
   email: emailSchema,
   phone: phoneSchema,
-  company: z.string().max(100, { message: "Company name is too long." }).optional(),
+  company: z.string().max(100, { message: "Company name is too long." }).optional().or(z.literal("")),
+  service: serviceSchema,
   message: messageSchema,
 });
 

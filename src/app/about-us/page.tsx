@@ -12,14 +12,11 @@ import {
   Workflow,
   Check,
   X,
-  Zap,
-  Award,
-  Users,
 } from "lucide-react";
-import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CTABanner from "@/components/sections/CTABanner";
+import ProcessLite from "@/components/ProcessLite";
 
 export const metadata: Metadata = {
   title: "About Us | TechMate4u",
@@ -282,113 +279,9 @@ export default function AboutUsPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════
-          SECTION 2.5 — LEADERSHIP (Founding Team)
+          SECTION 2.5 — OUR PROCESS
       ═══════════════════════════════════════════════════ */}
-      <section className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8 border-b" style={{ borderColor: "var(--line-soft)" }}>
-        <div className="mb-14 text-center flex flex-col items-center">
-          <h2 className="mx-auto mt-4 max-w-2xl font-[family-name:var(--font-outfit)] text-2xl font-bold tracking-tight text-[var(--text)] sm:text-3xl">
-            Meet Our Founding Team
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-[var(--text-muted)]">
-            Decades of combined experience in technology, strategy, and design. We&apos;re obsessed with delivering results for our clients.
-          </p>
-        </div>
-
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {[
-            {
-              name: "Manav Rajvansh",
-              role: "FOUNDER & CHIEF TECHNOLOGY OFFICER",
-              desc: "With 15+ years in enterprise software development, Manav leads our technical vision. His expertise spans scalable backend systems, cloud infrastructure, and team leadership at Fortune 500 companies.",
-              expertise: "System Design, Cloud Infrastructure, Team Leadership",
-              icon: Zap,
-              color: "text-blue-600",
-              bg: "bg-blue-50 text-blue-700 border-blue-200/50",
-              panelBg: "from-blue-200/40 to-indigo-100/40 border-blue-200/20",
-              image: "/assets/manav_rajvansh.webp",
-              imgScale: "scale-[1.08] translate-y-1.5"
-            },
-            {
-              name: "Keyur Sonagara",
-              role: "CO-FOUNDER & CHIEF STRATEGY OFFICER",
-              desc: "Keyur brings deep domain expertise in digital transformation strategy. He's worked with industry leaders to chart their digital journeys and scale their operations from startup to enterprise.",
-              expertise: "Go-to-Market Strategy, Enterprise Sales, Operations",
-              icon: Award,
-              color: "text-teal-600",
-              bg: "bg-teal-50 text-teal-700 border-teal-200/50",
-              panelBg: "from-teal-200/40 to-emerald-100/40 border-teal-200/20",
-              image: "/assets/keyur_sonagara.webp",
-              imgScale: "scale-[1.08] translate-y-1.5"
-            },
-            {
-              name: "Jay Patel",
-              role: "HEAD OF PRODUCT & DESIGN",
-              desc: "Jay combines design thinking with product management excellence. He's created user experiences for 20+ successful SaaS products and believes great design drives business results.",
-              expertise: "Product Strategy, UX/UI Design, User Experience",
-              icon: Users,
-              color: "text-emerald-600",
-              bg: "bg-emerald-50 text-emerald-700 border-emerald-200/50",
-              panelBg: "from-emerald-200/40 to-teal-100/40 border-emerald-200/20",
-              image: "/assets/jay_patel.webp",
-              imgScale: "scale-[1.22] translate-y-4"
-            }
-          ].map((member, i) => {
-            const Icon = member.icon;
-            return (
-              <Card
-                key={i}
-                className="group flex flex-col overflow-hidden p-0 relative transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                style={{ background: "var(--panel)", borderColor: "var(--line)", backdropFilter: "none", WebkitBackdropFilter: "none" }}
-              >
-                {/* Visual Panel Header */}
-                <div className={`w-full aspect-[3/4] relative flex items-center justify-center border-b overflow-hidden ${member.image ? 'bg-white' : 'bg-[var(--surface-muted)]'}`} style={{ borderColor: "var(--line-soft)" }}>
-                  {member.image ? (
-                    <div className="w-full h-full relative transition-transform duration-500 group-hover:scale-105">
-                      <Image
-                        src={member.image}
-                        alt={member.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className={`object-cover object-top ${member.imgScale}`}
-                        priority={i < 3}
-                        unoptimized
-                      />
-                    </div>
-                  ) : (
-                    <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br ${member.panelBg}`}>
-                      <Icon className={`h-12 w-12 ${member.color}`} />
-                    </div>
-                  )}
-                </div>
-
-                {/* Content Area */}
-                <div className="p-6 md:p-8 flex flex-col grow">
-                  <h3 className="text-xl font-bold mb-1 font-[family-name:var(--font-outfit)] leading-tight text-[var(--text)]">
-                    {member.name}
-                  </h3>
-                  
-                  <span className={`text-[10px] font-bold tracking-wider uppercase mb-4 ${member.color}`}>
-                    {member.role}
-                  </span>
-
-                  <p className="text-[13px] leading-relaxed text-[var(--text-muted)] flex-grow">
-                    {member.desc}
-                  </p>
-
-                  <div className="mt-6 pt-4 border-t" style={{ borderColor: "var(--line-soft)" }}>
-                    <h4 className="text-[9.5px] font-extrabold tracking-wider uppercase text-[var(--text-soft)] mb-2">
-                      Expertise
-                    </h4>
-                    <p className="text-[12.5px] leading-relaxed text-[var(--text-muted)]">
-                      {member.expertise}
-                    </p>
-                  </div>
-                </div>
-              </Card>
-            );
-          })}
-        </div>
-      </section>
+      <ProcessLite />
 
       {/* ═══════════════════════════════════════════════════
           SECTION 3 — WHY TECHMATE4U (Values Grid)

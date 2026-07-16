@@ -9,7 +9,6 @@ export default function CTA() {
   return (
     <section 
       className="w-full py-16 lg:py-24 relative overflow-hidden minimalist-grid-section" 
-      id="contact"
     >
       {/* Premium background design elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">

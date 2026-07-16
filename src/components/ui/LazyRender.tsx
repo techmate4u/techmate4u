@@ -6,12 +6,14 @@ interface LazyRenderProps {
   children: React.ReactNode;
   placeholderHeight?: number;
   className?: string;
+  id?: string;
 }
 
 export default function LazyRender({
   children,
   placeholderHeight = 600,
   className = "",
+  id,
 }: LazyRenderProps) {
   const [isRendered, setIsRendered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -38,6 +40,7 @@ export default function LazyRender({
     <div
       ref={containerRef}
       className={className}
+      id={id}
       style={{ minHeight: isRendered ? "auto" : `${placeholderHeight}px` }}
     >
       {isRendered ? children : null}

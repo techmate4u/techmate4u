@@ -363,7 +363,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Link */}
         <Link
-          href="/#services"
+          href="/services"
           className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--primary)] hover:opacity-80 transition-opacity mb-8"
         >
           <ArrowLeft className="h-4.5 w-4.5" />

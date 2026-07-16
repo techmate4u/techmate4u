@@ -11,9 +11,9 @@ import logo from '../../../public/assets/logo.webp';
 import { SERVICES_DATA } from "@/components/servicesData";
 
 const NAV_SECTIONS = [
-    { name: 'Services', href: '/#services', id: 'services' },
+    { name: 'Services', href: '/services', id: 'services' },
     { name: 'Work', href: '/#portfolio', id: 'portfolio' },
-    { name: 'Process', href: '/#process', id: 'process' },
+    { name: 'Process', href: '/about-us#process', id: 'process' },
     { name: 'About Us', href: '/about-us', id: 'about-us' },
 ] as const;
 
@@ -225,7 +225,7 @@ export default function Navbar() {
                             }}
                         >
                             <Link
-                                href="/#services"
+                                href="/services"
                                 ref={(el) => { if (el) linkRefs.current['services'] = el; }}
                                 onClick={() => {
                                     handleLinkClick('services');
@@ -275,7 +275,7 @@ export default function Navbar() {
                                 </div>
                                 <div className="mt-3 pt-3 border-t flex justify-end" style={{ borderColor: 'var(--line-soft)' }}>
                                     <Link
-                                        href="/#services"
+                                        href="/services"
                                         onClick={() => setServicesOpen(false)}
                                         className="text-[12.5px] font-bold text-[var(--primary)] hover:text-[var(--primary-strong)] flex items-center gap-1 transition-colors group/all"
                                     >
@@ -390,7 +390,7 @@ export default function Navbar() {
                                     </Link>
                                 ))}
                                 <Link
-                                    href="/#services"
+                                    href="/services"
                                     onClick={closeMobile}
                                     className="text-[16px] font-extrabold text-[var(--primary)] hover:text-[var(--primary-strong)] py-2 flex items-center gap-1 transition-colors"
                                 >

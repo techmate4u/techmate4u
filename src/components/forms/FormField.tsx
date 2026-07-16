@@ -1,20 +1,28 @@
-import type { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
+import type { InputHTMLAttributes, TextareaHTMLAttributes, SelectHTMLAttributes } from "react";
 import FormError from "./FormError";
 
 interface BaseFieldProps {
   label: string;
   error?: string;
   isTextArea?: boolean;
+  isSelect?: boolean;
+  options?: { value: string; label: string }[];
 }
 
-type InputProps = BaseFieldProps & InputHTMLAttributes<HTMLInputElement> & TextareaHTMLAttributes<HTMLTextAreaElement>;
+type InputProps = BaseFieldProps & 
+  InputHTMLAttributes<HTMLInputElement> & 
+  TextareaHTMLAttributes<HTMLTextAreaElement> &
+  SelectHTMLAttributes<HTMLSelectElement>;
 
 export default function FormField({
   label,
   error,
   isTextArea = false,
+  isSelect = false,
+  options = [],
   className = "",
   id,
+  placeholder,
   ...props
 }: InputProps) {
   const fieldClasses = `w-full rounded-lg border px-4 py-3 text-sm transition-colors duration-200 outline-none font-medium text-[var(--text)] bg-[var(--cta-input)] ${
@@ -29,9 +37,18 @@ export default function FormField({
         {label}
       </label>
       {isTextArea ? (
-        <textarea id={id} className={fieldClasses} rows={4} {...props} />
+        <textarea id={id} className={fieldClasses} rows={4} placeholder={placeholder} {...props} />
+      ) : isSelect ? (
+        <select id={id} className={fieldClasses} defaultValue="" {...props}>
+          {placeholder && <option value="" disabled>{placeholder}</option>}
+          {options.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
       ) : (
-        <input id={id} className={fieldClasses} {...props} />
+        <input id={id} className={fieldClasses} placeholder={placeholder} {...props} />
       )}
       <FormError message={error} />
     </div>

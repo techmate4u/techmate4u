@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Cpu, Layout, Smartphone, Workflow, Search, Target, Share2 } from "lucide-react";
+import { ArrowRight, Cpu, Layout, Smartphone, Workflow, Search, Target, Share2, LucideIcon } from "lucide-react";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import SectionHeading from "@/components/sections/SectionHeading";
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, LucideIcon> = {
   "web-development": Layout,
   "technical-seo": Search,
   "automation-systems": Workflow,
@@ -130,7 +130,7 @@ export default function ServicesIndexPage() {
           </p>
           <div className="flex justify-center gap-4">
             <Button variant="primary" href="/contact">
-              Let's Talk
+              Let&apos;s Talk
             </Button>
             <Button variant="secondary" href="/#portfolio">
               Our Work

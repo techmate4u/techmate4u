@@ -4,28 +4,26 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Terminal, Shield, Cpu, Activity } from "lucide-react";
 
+// Dynamic simulated terminal logs
+const LOG_TEMPLATES = [
+  "allocating neural agents...",
+  "compiling high-performance bundle...",
+  "latency optimized to 14ms",
+  "CDN edge sync: [active]",
+  "verifying lighthouse matrix...",
+  "indexing SEO schemas...",
+  "serverless function deployment: OK",
+  "optimizing static assets...",
+];
+
 export default function HeroVisual() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [terminalLines, setTerminalLines] = useState<string[]>([]);
-
-  // Dynamic simulated terminal logs
-  const LOG_TEMPLATES = [
-    "allocating neural agents...",
-    "compiling high-performance bundle...",
-    "latency optimized to 14ms",
-    "CDN edge sync: [active]",
-    "verifying lighthouse matrix...",
-    "indexing SEO schemas...",
-    "serverless function deployment: OK",
-    "optimizing static assets...",
-  ];
+  const [terminalLines, setTerminalLines] = useState<string[]>([
+    "system_init: core launch",
+    "agent_status: searching nodes...",
+  ]);
 
   useEffect(() => {
-    setTerminalLines([
-      "system_init: core launch",
-      "agent_status: searching nodes...",
-    ]);
-
     const interval = setInterval(() => {
       const randomLog = LOG_TEMPLATES[Math.floor(Math.random() * LOG_TEMPLATES.length)];
       setTerminalLines(prev => {

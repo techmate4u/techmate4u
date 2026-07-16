@@ -88,7 +88,6 @@ export default function Services() {
     <section 
       ref={sectionRef} 
       className="w-full relative z-20 overflow-hidden pt-20 pb-16 lg:pt-32 lg:pb-28 bg-white border-b border-[var(--line-soft)]" 
-      id="services"
     >
       {/* Top blend gradient overlay to transition smoothly from Hero */}
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white to-transparent pointer-events-none z-10" />

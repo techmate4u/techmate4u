@@ -52,7 +52,6 @@ export default function Portfolio() {
     return (
         <section
             className="w-full relative z-20 overflow-hidden pt-12 pb-16 lg:pt-20 lg:pb-24 minimalist-grid-section-alt"
-            id="portfolio"
         >
             {/* Premium background design elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
