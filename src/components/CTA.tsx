@@ -123,9 +123,11 @@ export default function CTA() {
         {/* Right Side: Form Component */}
         <div>
           <div className="border backdrop-blur-xl rounded-lg p-8 lg:p-10 shadow-2xl relative overflow-hidden" style={{ background: "var(--cta-panel)", borderColor: "color-mix(in srgb, var(--cta-text) 8%, transparent)" }}>
-            {/* Soft inner glow */}
-            <div className="absolute top-0 right-0 w-80 h-80 bg-primary/5 rounded-full blur-[100px]" />
-            <ContactForm />
+            {/* Soft inner glow — must be pointer-events-none so it never blocks form inputs */}
+            <div className="absolute top-0 right-0 w-80 h-80 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+            <div className="relative z-10">
+              <ContactForm />
+            </div>
           </div>
         </div>
 
