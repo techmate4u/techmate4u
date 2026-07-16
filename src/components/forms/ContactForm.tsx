@@ -1,16 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { contactFormSchema, type ContactFormData } from "@/lib/schemas";
 import FormField from "./FormField";
 import Button from "@/components/ui/Button";
 
+// WhatsApp number for TechMate4u
+const WA_NUMBER = "919327263267";
+
+// Build a pre-filled WhatsApp message with all lead details
+function buildWhatsAppUrl(data: ContactFormData): string {
+  const text = [
+    "Hello TechMate4u! I'd like to get in touch.",
+    "",
+    `• Name: ${data.name}`,
+    `• Email: ${data.email}`,
+    `• Phone: ${data.phone}`,
+    `• Company: ${data.company || "N/A"}`,
+    `• Service: ${data.service}`,
+    "",
+    `Project Details: ${data.message || "N/A"}`,
+  ].join("\n");
+  return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+}
+
 export default function ContactForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
-  const [submitType, setSubmitType] = useState<"email" | "whatsapp">("email");
+  // useRef reads synchronously inside onSubmit — avoids React state batch race condition
+  const submitTypeRef = useRef<"email" | "whatsapp">("email");
 
   const {
     register,
@@ -24,6 +44,16 @@ export default function ContactForm() {
   const onSubmit = async (data: ContactFormData) => {
     setStatus("loading");
     setErrorMessage("");
+
+    const isWhatsApp = submitTypeRef.current === "whatsapp";
+
+    // ── WhatsApp channel: open immediately with pre-filled message ──
+    // Fires regardless of email API result so the lead is never lost.
+    if (isWhatsApp) {
+      window.open(buildWhatsAppUrl(data), "_blank");
+    }
+
+    // ── Email channel: always send lead to info@techmate4u.com ──
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -32,20 +62,20 @@ export default function ContactForm() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to send inquiry. Please try again later.");
+        throw new Error("Email delivery failed. Your WhatsApp message was still sent.");
       }
 
       setStatus("success");
       reset();
-
-      if (submitType === "whatsapp") {
-        const text = `Hello TechMate4u!\n\nMy details:\n• Name: ${data.name}\n• Email: ${data.email}\n• Phone: ${data.phone}\n• Company: ${data.company || "N/A"}\n• Service: ${data.service}\n\nProject Details:\n${data.message || "N/A"}`;
-        const whatsappUrl = `https://wa.me/919327263267?text=${encodeURIComponent(text)}`;
-        window.open(whatsappUrl, "_blank");
-      }
     } catch (err) {
-      setStatus("error");
-      setErrorMessage(err instanceof Error ? err.message : "An unexpected error occurred.");
+      // If WhatsApp was chosen, the lead was already sent — show partial success
+      if (isWhatsApp) {
+        setStatus("success");
+        reset();
+      } else {
+        setStatus("error");
+        setErrorMessage(err instanceof Error ? err.message : "An unexpected error occurred.");
+      }
     }
   };
 
@@ -133,22 +163,22 @@ export default function ContactForm() {
           variant="primary" 
           className="w-full h-12 cursor-pointer font-bold" 
           disabled={status === "loading"}
-          onClick={() => setSubmitType("email")}
+          onClick={() => { submitTypeRef.current = "email"; }}
         >
-          {status === "loading" && submitType === "email" ? "Sending..." : "Send Email"}
+          {status === "loading" ? "Sending..." : "Send Email"}
         </Button>
 
         <button
           type="submit"
           disabled={status === "loading"}
-          onClick={() => setSubmitType("whatsapp")}
+          onClick={() => { submitTypeRef.current = "whatsapp"; }}
           className="w-full h-12 rounded-lg flex items-center justify-center gap-2 font-bold text-white transition-all cursor-pointer hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
           style={{
             background: "#25D366",
             boxShadow: "0 4px 14px rgba(37, 211, 102, 0.25)"
           }}
         >
-          {status === "loading" && submitType === "whatsapp" ? (
+          {status === "loading" ? (
             "Processing..."
           ) : (
             <>
