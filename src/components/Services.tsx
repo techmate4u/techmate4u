@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Card from "@/components/ui/Card";
@@ -9,6 +9,8 @@ import { SERVICES_DATA } from "@/components/servicesData";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import characterImage from '../../public/assets/3d_character_wwdc.webp';
+import { ChevronLeft, ChevronRight, ChevronsRight, ArrowUpRight } from 'lucide-react';
+import Button from "@/components/ui/Button";
 
 export default function Services() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -16,9 +18,140 @@ export default function Services() {
   const ringRef = useRef<HTMLDivElement>(null);
   const wave1Ref = useRef<HTMLDivElement>(null);
   const wave2Ref = useRef<HTMLDivElement>(null);
-  const cardsGridRef = useRef<HTMLDivElement>(null);
   const glowOverlayRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft] = useState(true);
+  const [canScrollRight] = useState(true);
+  const [isAutoPlaying] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
+  const autoPlayTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    // Pause autoplay during button interaction
+    setIsHovered(true);
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsHovered(false);
+    }, 4000); // Resume autoplay after 4 seconds of inactivity
+
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const cardWidth = container.firstElementChild ? (container.firstElementChild as HTMLElement).offsetWidth : 300;
+      const gap = 24; // 1.5rem (gap-6)
+      const scrollAmount = direction === 'left' ? -(cardWidth + gap) : (cardWidth + gap);
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
+  const handleAutoScroll = () => {
+    if (scrollContainerRef.current && !isHovered && isAutoPlaying) {
+      const container = scrollContainerRef.current;
+      const cardWidth = container.firstElementChild ? (container.firstElementChild as HTMLElement).offsetWidth : 300;
+      const gap = 24; // 1.5rem (gap-6)
+      container.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
+    }
+  };
+
+  const handleMouseEnter = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsHovered(false);
+    }, 4000); // 4-second gap before resuming autoplay
+  };
+
+  const handleTouchStart = () => {
+    handleMouseEnter();
+  };
+
+  const handleTouchEnd = () => {
+    handleMouseLeave();
+  };
+
+  const handleWheel = () => {
+    setIsHovered(true);
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsHovered(false);
+    }, 4000);
+  };
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    let scrollTimeout: ReturnType<typeof setTimeout>;
+
+    const handleScroll = () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        if (container) {
+          const { scrollLeft } = container;
+          const cardWidth = container.firstElementChild ? (container.firstElementChild as HTMLElement).offsetWidth : 300;
+          const gap = 24;
+          const currentIndex = Math.round(scrollLeft / (cardWidth + gap));
+          
+          if (currentIndex >= 12) {
+            container.scrollTo({ left: (currentIndex - 6) * (cardWidth + gap), behavior: 'auto' });
+          } else if (currentIndex <= 5) {
+            container.scrollTo({ left: (currentIndex + 6) * (cardWidth + gap), behavior: 'auto' });
+          }
+        }
+      }, 150);
+    };
+
+    const initScroll = () => {
+      if (container) {
+        const firstCard = container.firstElementChild as HTMLElement;
+        if (firstCard) {
+          const cardWidth = firstCard.offsetWidth;
+          const gap = 24;
+          container.scrollLeft = 6 * (cardWidth + gap);
+        }
+      }
+    };
+
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+      // Run initial scroll positioning
+      requestAnimationFrame(initScroll);
+      setTimeout(initScroll, 60);
+      window.addEventListener('resize', initScroll);
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener('scroll', handleScroll);
+      }
+      window.removeEventListener('resize', initScroll);
+      clearTimeout(scrollTimeout);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isAutoPlaying && !isHovered) {
+      autoPlayTimerRef.current = setInterval(handleAutoScroll, 3000);
+    }
+    return () => {
+      if (autoPlayTimerRef.current) {
+        clearInterval(autoPlayTimerRef.current);
+      }
+    };
+  }, [isAutoPlaying, isHovered]);
 
   useEffect(() => {
     // Register GSAP ScrollTrigger on client-side
@@ -87,7 +220,7 @@ export default function Services() {
   return (
     <section 
       ref={sectionRef} 
-      className="w-full relative z-20 overflow-hidden pt-20 pb-16 lg:pt-32 lg:pb-28 bg-white border-b border-[var(--line-soft)]" 
+      className="w-full relative z-20 overflow-hidden pt-20 pb-10 lg:pt-32 lg:pb-28 bg-white border-b border-[var(--line-soft)]" 
     >
       {/* Top blend gradient overlay to transition smoothly from Hero */}
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white to-transparent pointer-events-none z-10" />
@@ -193,58 +326,148 @@ export default function Services() {
 
       <div className="w-full relative overflow-visible z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div ref={headingRef}>
-            <SectionHeading
-              title="Comprehensive services we provide"
-              subtitle="From web design to mobile apps, SEO, AI automation, digital marketing, and social media management—everything your business needs to thrive online."
-              align="left"
-            />
+          <div ref={headingRef} className="mb-14 text-center flex flex-col items-center">
+            <span className="inline-flex items-center gap-1.5 text-sm font-extrabold uppercase tracking-widest text-[var(--primary)] select-none">
+              <ChevronsRight className="h-4.5 w-4.5" /> Our Services
+            </span>
+            <h2 className="mx-auto mt-4 max-w-3xl font-[family-name:var(--font-outfit)] text-3xl font-bold tracking-tight text-[var(--text)] sm:text-4xl">
+              Comprehensive Services for <span className="text-[var(--primary)] bg-gradient-to-r from-[var(--primary)] to-indigo-500 bg-clip-text text-transparent">Every Business Need</span>
+            </h2>
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[var(--text-muted)] sm:text-lg">
+              From web design to mobile apps, SEO, AI automation, digital marketing, and social media management—everything your business needs to thrive online.
+            </p>
           </div>
 
-          {/* Services Grid */}
-          <div 
-            ref={cardsGridRef}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-12"
-          >
-            {SERVICES_DATA.map((service) => {
-              const Icon = service.icon;
-              return (
-                <Card
-                  key={service.slug}
-                  className="flex flex-col relative overflow-hidden group hover:border-[var(--primary)] transition-all duration-300"
-                >
-                  {/* Visual Glow */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+          {/* Services Carousel */}
+          <div className="relative max-w-6xl mx-auto px-4 sm:px-12 mt-8">
+            {/* Left Arrow Button */}
+            <button
+              onClick={() => scroll('left')}
+              disabled={!canScrollLeft}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              aria-label="Previous services"
+              className={`hidden md:flex absolute left-0 lg:left-[-12px] top-1/2 -translate-y-1/2 z-30 size-11 rounded-full border border-[var(--line-strong)] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md items-center justify-center shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] ${
+                canScrollLeft 
+                  ? 'opacity-100 hover:scale-105 hover:border-[var(--primary)] text-[var(--text)] hover:text-[var(--primary)] cursor-pointer' 
+                  : 'opacity-30 cursor-not-allowed text-[var(--text-muted)]'
+              }`}
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
 
-                  <div className="relative z-10 flex flex-col h-full">
-                    {/* Icon Header */}
-                    <div className="mb-6">
-                      <div className="w-12 h-12 flex items-center justify-center rounded-xl border border-[var(--line-strong)] bg-[var(--surface-muted)] text-[var(--primary)] group-hover:border-[var(--primary-soft)] transition-colors duration-300">
-                        <Icon className="h-6 w-6" />
+            {/* Right Arrow Button */}
+            <button
+              onClick={() => scroll('right')}
+              disabled={!canScrollRight}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              aria-label="Next services"
+              className={`hidden md:flex absolute right-0 lg:right-[-12px] top-1/2 -translate-y-1/2 z-30 size-11 rounded-full border border-[var(--line-strong)] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md items-center justify-center shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] ${
+                canScrollRight 
+                  ? 'opacity-100 hover:scale-105 hover:border-[var(--primary)] text-[var(--text)] hover:text-[var(--primary)] cursor-pointer' 
+                  : 'opacity-30 cursor-not-allowed text-[var(--text-muted)]'
+              }`}
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+
+            {/* Carousel Track Container */}
+            <div 
+              ref={scrollContainerRef}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              onWheel={handleWheel}
+              className="flex gap-6 overflow-x-auto scrollbar-none snap-x snap-mandatory pt-4 pb-6 px-1"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {[...SERVICES_DATA, ...SERVICES_DATA, ...SERVICES_DATA].map((service, index) => {
+                const Icon = service.icon;
+                return (
+                  <div
+                    key={`${service.slug}-${index}`}
+                    className="snap-start shrink-0 w-full md:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-2*1.5rem)/3)] flex flex-col"
+                  >
+                    <Card
+                      className="flex flex-col relative overflow-hidden group hover:border-[var(--primary)] transition-all duration-300 flex-1 p-6 md:p-8 cursor-pointer"
+                    >
+                      {/* Visual Glow */}
+                      <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+
+                      <div className="relative z-10 flex flex-col flex-1">
+                        {/* Icon */}
+                        <div className="text-[var(--primary)] mb-6 transition-transform duration-300 group-hover:scale-105">
+                          <Icon className="h-8 w-8" />
+                        </div>
+
+                        {/* Title & Desc */}
+                        <h3 className="text-xl font-bold font-[family-name:var(--font-outfit)] text-[var(--text)] group-hover:text-[var(--primary)] transition-colors duration-300 mb-3">
+                          {service.title}
+                        </h3>
+                        <p className="text-sm leading-relaxed text-[var(--text-muted)] mb-6 flex-grow">
+                          {service.description}
+                        </p>
+
+                        {/* CTA Button Link */}
+                        <div className="mt-auto z-20">
+                          <Button
+                            variant="text"
+                            href={`/services/${service.slug}`}
+                            icon={<ArrowUpRight className="h-4.5 w-4.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />}
+                            iconPosition="right"
+                            className="p-0 text-sm font-bold text-[var(--text)] group-hover:text-[var(--primary)] transition-colors duration-300 after:absolute after:inset-0 after:z-10 cursor-pointer"
+                          >
+                            Read More
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-
-                    {/* Title & Desc */}
-                    <h3 className="text-xl font-bold text-[var(--text)] group-hover:text-[var(--primary)] transition-colors duration-300 mb-3">
-                      {service.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-[var(--text-muted)] mb-6 flex-grow">
-                      {service.description}
-                    </p>
-
-                    {/* CTA link */}
-                    <div className="mt-auto">
-                      <Link
-                        href={`/services/${service.slug}`}
-                        className="inline-flex items-center gap-1 text-sm font-bold text-[var(--primary)] hover:opacity-80 transition-opacity cursor-pointer mt-auto"
-                      >
-                        Learn more <span className="transition-transform group-hover:translate-x-1">&gt;</span>
-                      </Link>
-                    </div>
+                    </Card>
                   </div>
-                </Card>
-              );
-            })}
+                );
+              })}
+            </div>
+
+            {/* Mobile Navigation Arrows */}
+            <div className="flex justify-center gap-4 mt-6 md:hidden">
+              <button
+                onClick={() => scroll('left')}
+                disabled={!canScrollLeft}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                aria-label="Previous services"
+                className={`size-11 rounded-full border border-[var(--line-strong)] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md flex items-center justify-center shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] ${
+                  canScrollLeft 
+                    ? 'opacity-100 text-[var(--text)] hover:text-[var(--primary)] hover:border-[var(--primary)]' 
+                    : 'opacity-30 cursor-not-allowed text-[var(--text-muted)]'
+                }`}
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={() => scroll('right')}
+                disabled={!canScrollRight}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                aria-label="Next services"
+                className={`size-11 rounded-full border border-[var(--line-strong)] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md flex items-center justify-center shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] ${
+                  canScrollRight 
+                    ? 'opacity-100 text-[var(--text)] hover:text-[var(--primary)] hover:border-[var(--primary)]' 
+                    : 'opacity-30 cursor-not-allowed text-[var(--text-muted)]'
+                }`}
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
           </div>
         </div>
       </div>

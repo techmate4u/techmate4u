@@ -532,3 +532,25 @@ To provide multi-channel conversion routes and secure contact form data handling
 - **Zod Server-Side Parsing**: Modified [route.ts](file:///c:/Techmate4u/techmate-wb/src/app/api/contact/route.ts) to parse incoming requests directly against the shared `contactFormSchema` object, guaranteeing 100% logic alignment between front-end and back-end constraints.
 - **XSS & HTML Injection Defense**: Implemented input sanitization on all text fields (`name`, `email`, `phone`, `company`, `service`, `message`) before formatting HTML bodies.
 - **Email Header Injection Prevention**: Applied a newline stripping filter (`\r` and `\n`) on all inputs referenced inside outbound mail headers (subject, reply-to fields), blocking header parsing exploits.
+
+---
+
+## 20. Testimonials Cleanup & Services Redesign Pass (2026-07-17)
+
+To clean up the testimonials page and redesign the services section using professional UI/UX standards, the following changes were executed:
+
+### Testimonials / Client Voice Section Cleanup
+- **Demo Records Pruning**: Removed the mock video/audio testimonials (Sarah Chen, Michael Roberts) from `src/components/ClientVoice.tsx`, retaining only the real client video testimonial (Dev Patel).
+- **Layout Alignment**: Centered the single remaining testimonial card on desktop viewports using grid column start offset `md:col-start-2` instead of stretching the card size.
+- **Unused Code Removal**: Cleaned up the local state, file references, subtitle formats, and modal components that supported the deleted audio player.
+
+### Services Section Redesign & Infinite Scroll Carousel
+- **Native Horizontal Carousel**: Converted the services block into a scroll-snap horizontal carousel utilizing custom Lucide outlines, card visual hover glows, and the shared project `Button` component.
+- **Top Clipping Fix**: Added top padding (`pt-4`) to the scroll container to give cards room for vertical hover lifts (`hover:-translate-y-2`) without hitting the container's top boundary. Offset spacing by reducing the parent margin (`mt-12` -> `mt-8`).
+- **Infinite Looping Effect**: Cloned the services dataset into three continuous groups (`[...SERVICES_DATA, ...SERVICES_DATA, ...SERVICES_DATA]`). Configured a debounced scroll listener that instantly resets the scroll position to the center group (`behavior: 'auto'`) when reaching the boundary zones.
+- **Interaction Pause & Delay Resume**:
+  - Implemented event handlers to temporarily pause autoplay loops during desktop hovers (`onMouseEnter`/`onMouseLeave`), mobile swipes (`onTouchStart`/`onTouchEnd`), and trackpad scrolls (`onWheel`).
+  - Added a `hoverTimeoutRef` scheduler that delays autoplay resumption by exactly 4 seconds once user interactions stop.
+  - Linked autoplay pauses directly to manual arrow clicks, resetting the 4-second resume timer on click instead of stopping autoplay permanently.
+- **Responsive Mobile Layout**: Hidden side overlay arrows on mobile devices (`hidden md:flex`) and added navigation controls directly below the cards container on mobile (`flex md:hidden`). Reduced mobile bottom padding (`pb-16` -> `pb-10`) to accommodate the arrows row without extending vertical page height.
+
