@@ -49,10 +49,9 @@ export default function ClientVoice() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [inlinePlayingIdx, setInlinePlayingIdx] = useState<number | null>(null);
 
   const activeTestimonial = activeIdx !== null ? testimonials[activeIdx] : null;
-  const isRealVideo = !!activeTestimonial?.videoSrc;
 
   const getSeconds = (durationStr: string) => {
     if (!durationStr.includes(":")) return 0;
@@ -105,7 +104,6 @@ export default function ClientVoice() {
   };
 
   useEffect(() => {
-    if (isRealVideo) return;
     let interval: NodeJS.Timeout;
     if (isPlaying && activeIdx !== null) {
       interval = setInterval(() => {
@@ -116,38 +114,18 @@ export default function ClientVoice() {
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [isPlaying, activeIdx, totalSeconds, isRealVideo]);
-
-  useEffect(() => {
-    if (!isRealVideo || !videoRef.current) return;
-    if (isPlaying) { videoRef.current.play().catch(() => setIsPlaying(false)); }
-    else { videoRef.current.pause(); }
-  }, [isPlaying, isRealVideo]);
-
-  useEffect(() => {
-    if (!isRealVideo || !videoRef.current) return;
-    videoRef.current.muted = isMuted;
-  }, [isMuted, isRealVideo]);
+  }, [isPlaying, activeIdx, totalSeconds]);
 
   const openPlayer = (idx: number) => { setActiveIdx(idx); setCurrentTime(0); setIsPlaying(true); };
 
   const closePlayer = () => {
-    if (videoRef.current) { videoRef.current.pause(); videoRef.current.currentTime = 0; }
     setActiveIdx(null); setIsPlaying(false); setCurrentTime(0);
   };
 
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const pct = (e.clientX - rect.left) / rect.width;
-    if (isRealVideo && videoRef.current) {
-      videoRef.current.currentTime = pct * videoRef.current.duration;
-    } else {
-      setCurrentTime(Math.floor(pct * totalSeconds));
-    }
-  };
-
-  const handleVideoTimeUpdate = () => {
-    if (videoRef.current) setCurrentTime(Math.floor(videoRef.current.currentTime));
+    setCurrentTime(Math.floor(pct * totalSeconds));
   };
 
   return (
@@ -188,44 +166,96 @@ export default function ClientVoice() {
               className="flex flex-col rounded-3xl p-5 border shadow-xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-md transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 h-full"
               style={{ borderColor: "color-mix(in srgb, var(--primary) 10%, transparent)", boxShadow: "0 15px 35px rgba(37,99,235,0.04)" }}
             >
-              <button
-                onClick={() => openPlayer(index)}
-                aria-label={`Play video testimonial from ${test.name}`}
-                className={`w-full aspect-[5/4] rounded-2xl relative overflow-hidden bg-gradient-to-br ${test.videoBg} shadow-inner flex items-center justify-center mb-5 cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--primary)]`}
+              {/* Video/Audio Box */}
+              <motion.div
+                layout
+                className={`w-full rounded-2xl relative overflow-hidden bg-black shadow-inner flex items-center justify-center mb-5 group transition-all duration-500 ease-in-out ${
+                  inlinePlayingIdx === index ? "aspect-[9/16]" : "aspect-square"
+                }`}
               >
-                {test.videoSrc && (
-                  <video
-                    src={test.videoSrc}
-                    className="absolute inset-0 w-full h-full object-cover opacity-80"
-                    muted playsInline preload="metadata"
-                    onLoadedMetadata={(e) => { (e.target as HTMLVideoElement).currentTime = 1; }}
-                  />
-                )}
-                {test.logoUrl && !test.videoSrc && (
-                  <img
-                    src={test.logoUrl}
-                    alt={`${test.name} Logo`}
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                  />
-                )}
-                {test.logoUrl && test.videoSrc && (
-                  <div className="absolute inset-0 flex items-center justify-center z-10 p-10 pointer-events-none">
-                    <img
-                      src={test.logoUrl}
-                      alt={`${test.name} Logo`}
-                      className="max-h-[60%] max-w-[60%] object-contain"
+                {test.videoSrc ? (
+                  <>
+                    <video
+                      src={test.videoSrc}
+                      className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${
+                        inlinePlayingIdx === index ? "blur-0 scale-100" : "blur-[4px] scale-[1.02] opacity-70"
+                      }`}
+                      playsInline
+                      controls={inlinePlayingIdx === index}
+                      onClick={(e) => {
+                        if (inlinePlayingIdx === index) {
+                          e.stopPropagation();
+                        }
+                      }}
+                      onPlay={() => setInlinePlayingIdx(index)}
+                      onPause={() => setInlinePlayingIdx(null)}
+                      onEnded={() => setInlinePlayingIdx(null)}
                     />
-                  </div>
+
+                    {inlinePlayingIdx !== index && (
+                      <>
+                        {test.logoUrl ? (
+                          <div className="absolute inset-0 flex items-center justify-center z-10 p-10 pointer-events-none">
+                            <img
+                              src={test.logoUrl}
+                              alt={`${test.name} Logo`}
+                              className="max-h-[60%] max-w-[60%] object-contain"
+                            />
+                          </div>
+                        ) : null}
+
+                        {/* Play Button */}
+                        <div className="absolute inset-0 flex items-center justify-center z-20">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const videoEl = e.currentTarget.closest('.group')?.querySelector('video');
+                              if (videoEl) {
+                                videoEl.play().catch((err) => console.log(err));
+                              }
+                            }}
+                            aria-label={`Play video testimonial from ${test.name}`}
+                            className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-white/30 shadow-2xl cursor-pointer"
+                          >
+                            <Play className="h-5 w-5 text-white fill-white ml-0.5" />
+                          </button>
+                        </div>
+
+                        {/* Duration Badge */}
+                        <div className="absolute bottom-3 right-3 bg-black/60 text-white text-[10px] font-bold px-2 py-0.5 rounded backdrop-blur-sm select-none z-10">
+                          {test.duration}
+                        </div>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <button
+                    onClick={() => openPlayer(index)}
+                    aria-label={`Play audio testimonial from ${test.name}`}
+                    className={`absolute inset-0 w-full h-full bg-gradient-to-br ${test.videoBg} flex items-center justify-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--primary)]`}
+                  >
+                    {test.logoUrl ? (
+                      <img
+                        src={test.logoUrl}
+                        alt={`${test.name} Logo`}
+                        className="absolute inset-0 w-full h-full object-cover z-0"
+                      />
+                    ) : null}
+
+                    {/* Play Button */}
+                    <div className="absolute inset-0 flex items-center justify-center z-10">
+                      <div className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-white/25 shadow-xl">
+                        <Play className="h-5 w-5 text-white fill-white ml-0.5" />
+                      </div>
+                    </div>
+
+                    {/* Duration Badge */}
+                    <div className="absolute bottom-3 right-3 bg-black/60 text-white text-[10px] font-bold px-2 py-0.5 rounded backdrop-blur-sm select-none z-10">
+                      {test.duration}
+                    </div>
+                  </button>
                 )}
-                <div className="absolute inset-0 flex items-center justify-center z-10">
-                  <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-white/35 shadow-xl">
-                    <Play className="h-5 w-5 text-white fill-white ml-0.5" />
-                  </div>
-                </div>
-                <div className="absolute bottom-3 right-3 bg-black/60 text-white text-[10px] font-bold px-2 py-0.5 rounded backdrop-blur-sm select-none z-10">
-                  {test.duration}
-                </div>
-              </button>
+              </motion.div>
 
               <div className="flex flex-col grow px-1">
                 <div className="flex justify-between items-start gap-4 mb-3">
@@ -269,51 +299,38 @@ export default function ClientVoice() {
               </div>
 
               <div className="w-full aspect-[16/10] bg-black relative flex flex-col justify-between overflow-hidden select-none">
-                {isRealVideo ? (
-                  <div className="absolute inset-0 w-full h-full z-0">
-                    <video ref={videoRef} src={activeTestimonial.videoSrc} className="w-full h-full object-contain" playsInline muted={isMuted} onTimeUpdate={handleVideoTimeUpdate} onEnded={() => setIsPlaying(false)} onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)} />
-                    {!isPlaying && (
-                      <button onClick={() => setIsPlaying(true)} aria-label="Play video" className="absolute inset-0 m-auto size-20 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:scale-105 hover:bg-white/20 transition-all duration-300 shadow-2xl z-10">
-                        <Play className="h-8 w-8 text-white fill-white ml-1" />
-                      </button>
-                    )}
-                  </div>
-                ) : (
-                  <>
-                    <div className={`absolute inset-0 bg-gradient-to-br ${activeTestimonial.videoBg} z-0`} />
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                      {isPlaying ? (
-                        <div className="flex items-end gap-2.5 h-16 transform origin-bottom">
-                          <div className="w-1.5 bg-white/40 rounded-full bar-anim-1 h-12" />
-                          <div className="w-1.5 bg-white/50 rounded-full bar-anim-2 h-16" />
-                          <div className="w-1.5 bg-white/75 rounded-full bar-anim-3 h-14" />
-                          <div className="w-1.5 bg-white/80 rounded-full bar-anim-4 h-16" />
-                          <div className="w-1.5 bg-white/55 rounded-full bar-anim-5 h-10" />
-                          <div className="w-1.5 bg-white/40 rounded-full bar-anim-6 h-12" />
-                        </div>
-                      ) : (
-                        <div className="flex items-end gap-2.5 h-16 opacity-30">
-                          <div className="w-1.5 bg-white/40 rounded-full h-3" />
-                          <div className="w-1.5 bg-white/40 rounded-full h-4" />
-                          <div className="w-1.5 bg-white/40 rounded-full h-3" />
-                          <div className="w-1.5 bg-white/40 rounded-full h-5" />
-                          <div className="w-1.5 bg-white/40 rounded-full h-2" />
-                          <div className="w-1.5 bg-white/40 rounded-full h-3" />
-                        </div>
-                      )}
+                <div className={`absolute inset-0 bg-gradient-to-br ${activeTestimonial.videoBg} z-0`} />
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+                  {isPlaying ? (
+                    <div className="flex items-end gap-2.5 h-16 transform origin-bottom">
+                      <div className="w-1.5 bg-white/40 rounded-full bar-anim-1 h-12" />
+                      <div className="w-1.5 bg-white/50 rounded-full bar-anim-2 h-16" />
+                      <div className="w-1.5 bg-white/75 rounded-full bar-anim-3 h-14" />
+                      <div className="w-1.5 bg-white/80 rounded-full bar-anim-4 h-16" />
+                      <div className="w-1.5 bg-white/55 rounded-full bar-anim-5 h-10" />
+                      <div className="w-1.5 bg-white/40 rounded-full bar-anim-6 h-12" />
                     </div>
-                    {!isPlaying && (
-                      <button onClick={() => setIsPlaying(true)} aria-label="Play audio testimonial" className="absolute inset-0 m-auto size-20 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:scale-105 hover:bg-white/20 transition-all duration-300 shadow-2xl z-20">
-                        <Play className="h-8 w-8 text-white fill-white ml-1" />
-                      </button>
-                    )}
-                  </>
+                  ) : (
+                    <div className="flex items-end gap-2.5 h-16 opacity-30">
+                      <div className="w-1.5 bg-white/40 rounded-full h-3" />
+                      <div className="w-1.5 bg-white/40 rounded-full h-4" />
+                      <div className="w-1.5 bg-white/40 rounded-full h-3" />
+                      <div className="w-1.5 bg-white/40 rounded-full h-5" />
+                      <div className="w-1.5 bg-white/40 rounded-full h-2" />
+                      <div className="w-1.5 bg-white/40 rounded-full h-3" />
+                    </div>
+                  )}
+                </div>
+                {!isPlaying && (
+                  <button onClick={() => setIsPlaying(true)} aria-label="Play audio testimonial" className="absolute inset-0 m-auto size-20 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:scale-105 hover:bg-white/20 transition-all duration-300 shadow-2xl z-20">
+                    <Play className="h-8 w-8 text-white fill-white ml-1" />
+                  </button>
                 )}
 
                 {/* Subtitle track */}
                 <div className="w-full mt-auto mb-4 text-center z-20 px-4 md:px-8 min-h-[50px] flex items-center justify-center pointer-events-none">
                   <p className="text-white text-sm md:text-base font-medium drop-shadow-md text-center bg-black/50 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/10">
-                    {getSubtitle(activeIdx, currentTime) || (isRealVideo ? "[Video Playing...]" : "[Simulating Audio Testimonial Playback...]")}
+                    {getSubtitle(activeIdx, currentTime) || "[Simulating Audio Testimonial Playback...]"}
                   </p>
                 </div>
               </div>
@@ -321,11 +338,11 @@ export default function ClientVoice() {
               <div className="bg-[#0b0f19] px-6 py-5 flex flex-col gap-4">
                 <div className="flex items-center gap-3">
                   <span className="text-xs font-semibold text-slate-400 select-none w-10">{formatTime(currentTime)}</span>
-                  <div role="slider" aria-label="Seek time" aria-valuemin={0} aria-valuemax={isRealVideo ? (videoRef.current?.duration ?? 0) : totalSeconds} aria-valuenow={currentTime} onClick={handleSeek} className="flex-grow h-1.5 rounded-full bg-slate-800 cursor-pointer relative overflow-hidden group/bar">
-                    <div className="h-full bg-white transition-all duration-300 rounded-full" style={{ width: isRealVideo ? `${(currentTime / (videoRef.current?.duration ?? 1)) * 100}%` : `${(currentTime / (totalSeconds || 1)) * 100}%` }} />
-                    <div className="absolute top-1/2 -translate-y-1/2 size-3 rounded-full bg-white shadow opacity-0 group-hover/bar:opacity-100 transition-opacity" style={{ left: isRealVideo ? `calc(${(currentTime / (videoRef.current?.duration ?? 1)) * 100}% - 6px)` : `calc(${(currentTime / (totalSeconds || 1)) * 100}% - 6px)` }} />
+                  <div role="slider" aria-label="Seek time" aria-valuemin={0} aria-valuemax={totalSeconds} aria-valuenow={currentTime} onClick={handleSeek} className="flex-grow h-1.5 rounded-full bg-slate-800 cursor-pointer relative overflow-hidden group/bar">
+                    <div className="h-full bg-white transition-all duration-300 rounded-full" style={{ width: `${(currentTime / (totalSeconds || 1)) * 100}%` }} />
+                    <div className="absolute top-1/2 -translate-y-1/2 size-3 rounded-full bg-white shadow opacity-0 group-hover/bar:opacity-100 transition-opacity" style={{ left: `calc(${(currentTime / (totalSeconds || 1)) * 100}% - 6px)` }} />
                   </div>
-                  <span className="text-xs font-semibold text-slate-400 select-none w-10 text-right">{isRealVideo ? formatTime(videoRef.current?.duration ?? 0) : activeTestimonial.duration}</span>
+                  <span className="text-xs font-semibold text-slate-400 select-none w-10 text-right">{activeTestimonial.duration}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
@@ -336,7 +353,7 @@ export default function ClientVoice() {
                       {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
                     </button>
                   </div>
-                  <span className="text-[10px] text-slate-500 font-extrabold tracking-wider uppercase select-none">{isRealVideo ? "TechMate4u Client" : "Simulated Experience"}</span>
+                  <span className="text-[10px] text-slate-500 font-extrabold tracking-wider uppercase select-none">Simulated Experience</span>
                 </div>
               </div>
             </motion.div>
