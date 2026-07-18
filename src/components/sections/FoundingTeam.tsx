@@ -83,10 +83,10 @@ export default function FoundingTeam() {
             <path d="M 10 10 L 90 90" stroke="currentColor" strokeWidth="0.25" />
             <path d="M 90 10 L 10 90" stroke="currentColor" strokeWidth="0.25" />
             <circle cx="50" cy="50" r="4" fill="currentColor" />
-            <circle cx="10 10" r="3" fill="currentColor" />
-            <circle cx="90 10" r="3" fill="currentColor" />
-            <circle cx="90 90" r="3" fill="currentColor" />
-            <circle cx="10 90" r="3" fill="currentColor" />
+            <circle cx="10" cy="10" r="3" fill="currentColor" />
+            <circle cx="90" cy="10" r="3" fill="currentColor" />
+            <circle cx="90" cy="90" r="3" fill="currentColor" />
+            <circle cx="10" cy="90" r="3" fill="currentColor" />
           </svg>
         </div>
 

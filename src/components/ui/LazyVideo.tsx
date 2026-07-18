@@ -12,6 +12,13 @@ export default function LazyVideo({ src, className, poster }: LazyVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  const [inView, setInView] = useState(false);
+
+  // Reset load state when source changes
+  useEffect(() => {
+    setIsLoaded(false);
+  }, [src]);
+
   useEffect(() => {
     const videoEl = videoRef.current;
     if (!videoEl) return;
@@ -19,13 +26,9 @@ export default function LazyVideo({ src, className, poster }: LazyVideoProps) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          setInView(entry.isIntersecting);
           if (entry.isIntersecting) {
             setIsLoaded(true);
-          } else {
-            // Only pause if it has been loaded
-            if (videoEl.src) {
-              videoEl.pause();
-            }
           }
         });
       },
@@ -37,20 +40,23 @@ export default function LazyVideo({ src, className, poster }: LazyVideoProps) {
     return () => {
       observer.unobserve(videoEl);
     };
-  }, [src]);
+  }, []);
 
-  // Handle play when video is loaded in the DOM
+  // Manage play/pause state dynamically based on intersection visibility
   useEffect(() => {
     const videoEl = videoRef.current;
     if (!videoEl || !isLoaded) return;
 
-    videoEl.play().catch((err) => {
-      // Ignore abort errors from play interrupts
-      if (err.name !== "AbortError") {
-        console.log("Lazy video play failed:", err);
-      }
-    });
-  }, [isLoaded]);
+    if (inView) {
+      videoEl.play().catch((err) => {
+        if (err.name !== "AbortError") {
+          console.log("Lazy video play failed:", err);
+        }
+      });
+    } else {
+      videoEl.pause();
+    }
+  }, [inView, isLoaded]);
 
   return (
     <video

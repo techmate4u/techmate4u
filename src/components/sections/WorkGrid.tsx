@@ -43,10 +43,10 @@ export default function WorkGrid({ projects, categories }: WorkGridProps) {
       </div>
 
       {/* Project Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 pb-24 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 pb-24 max-w-6xl mx-auto">
         {filteredProjects.map((project) => (
           <div key={project.title} className="h-full">
-            <ProjectCard {...project} />
+            <ProjectCard {...project} variant="compact" />
           </div>
         ))}
 

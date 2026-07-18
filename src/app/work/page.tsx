@@ -5,12 +5,60 @@ import CTABanner from "@/components/sections/CTABanner";
 import type { Project } from "@/components/ui/ProjectCard";
 
 export const metadata: Metadata = {
-  title: "Selected Work | TechMate4u",
+  title: "Our Work & Portfolio | TechMate4u — Case Studies",
   description:
     "A curated deck of custom web applications, headless e-commerce, and high-performance design systems engineered by TechMate4u.",
+  alternates: {
+    canonical: "/work",
+  },
+  openGraph: {
+    title: "TechMate4u Portfolio | Web Apps, E-commerce & AI Systems",
+    description:
+      "Selected case studies from TechMate4u: headless e-commerce, Next.js web apps, AI automation systems — all with real outcome metrics.",
+    url: "https://techmate4u.com/work",
+    type: "website",
+    siteName: "TechMate4u",
+    images: [
+      {
+        url: "/assets/hero-visual.webp",
+        width: 1200,
+        height: 630,
+        alt: "TechMate4u Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TechMate4u Portfolio | Selected Work",
+    description:
+      "Case studies with real outcome numbers — conversion lifts, Lighthouse scores, and delivery timelines.",
+  },
 };
 
 const PROJECTS: Project[] = [
+  {
+    title: "Rapture Tech Website Redesign",
+    category: "Web Application",
+    challenge: "Migrating a legacy Django-based product portal into a headless Next.js static site to solve hosting overhead, layout shifts, and search engine indexing bottlenecks.",
+    resultBold: "Sub-second page speeds, ",
+    resultText: "with 100% SEO sitemap indexing, direct WhatsApp inquiry channels, and secure image-download deterrence.",
+    tags: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
+    themeId: "cyan",
+    video: "/assets/rapturetech-web.webm",
+    slug: "rapturetech-website-redesign",
+    link: "https://rapturetech.co.in/"
+  },
+  {
+    title: "Offline POS & Weighbridge System",
+    category: "Enterprise Software",
+    challenge: "Developing a 100% offline billing and receipt management application that interfaces directly with thermal printing hardware in a zero-network warehouse environment.",
+    resultBold: "100% offline operational reliability, ",
+    resultText: "with background SQLite backup syncs and native AIDL hardware print integration.",
+    tags: ["React Native", "Kotlin", "SQLite", "Drizzle ORM"],
+    themeId: "blue",
+    images: ["/assets/POS_App.webp"],
+    slug: "offline-pos-weighbridge"
+  },
   {
     title: "Riwaaz Ethnic",
     category: "E-commerce",
@@ -54,7 +102,7 @@ const PROJECTS: Project[] = [
   }
 ];
 
-const CATEGORIES = ["All", "E-commerce", "Healthcare Logistics", "Hospitality & POS"];
+const CATEGORIES = ["All", "Web Application", "Enterprise Software", "E-commerce", "Healthcare Logistics", "Hospitality & POS"];
 
 export default function WorkPage() {
   return (
@@ -76,7 +124,6 @@ export default function WorkPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Portfolio"
           title="Selected Digital Products & Architectures"
           subtitle="A curated deck of custom web applications, automation pipelines, and high-performance design systems we've shipped."
           align="center"

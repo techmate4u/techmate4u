@@ -198,7 +198,17 @@ export default function Navbar() {
                     </svg>
 
                     {/* Logo */}
-                    <Link href="/#home" className="flex items-center gap-1 sm:gap-1.5 relative z-30 group drop-shadow-sm">
+                    <Link
+                        href="/#home"
+                        onClick={(e) => {
+                            if (pathname === '/') {
+                                e.preventDefault();
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                                window.history.pushState(null, '', '/');
+                            }
+                        }}
+                        className="flex items-center gap-1 sm:gap-1.5 relative z-30 group drop-shadow-sm"
+                    >
                         <Image
                             src={logo}
                             alt="TechMate4u"
@@ -343,7 +353,18 @@ export default function Navbar() {
                     style={{ background: 'var(--panel)' }}
                 >
                     <div className="flex items-center justify-between px-6 pt-5">
-                        <Link href="/#home" onClick={closeMobile} className="flex items-center gap-2 group">
+                        <Link
+                            href="/#home"
+                            onClick={(e) => {
+                                closeMobile();
+                                if (pathname === '/') {
+                                    e.preventDefault();
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    window.history.pushState(null, '', '/');
+                                }
+                            }}
+                            className="flex items-center gap-2 group"
+                        >
                             <Image
                                 src={logo}
                                 alt="TechMate4u"

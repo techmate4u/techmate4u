@@ -23,7 +23,28 @@ export default function HeroVisual() {
     "agent_status: searching nodes...",
   ]);
 
+  const [inView, setInView] = useState(true);
+
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!inView) return;
+
     const interval = setInterval(() => {
       const randomLog = LOG_TEMPLATES[Math.floor(Math.random() * LOG_TEMPLATES.length)];
       setTerminalLines(prev => {
@@ -34,7 +55,7 @@ export default function HeroVisual() {
     }, 2200);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [inView]);
 
   // Motion mouse tilt tracking
   const x = useMotionValue(0);

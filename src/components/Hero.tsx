@@ -138,7 +138,7 @@ export default function Hero() {
                 </header>
 
                 <figure className="hidden lg:flex lg:col-span-6 relative w-full overflow-visible mt-12 lg:mt-0 items-center justify-center lg:justify-end z-10">
-                    <HeroVisual />
+                    {isDesktop && <HeroVisual />}
                 </figure>
             </div>
 

@@ -19,11 +19,33 @@ import CTABanner from "@/components/sections/CTABanner";
 import ProcessLite from "@/components/ProcessLite";
 
 export const metadata: Metadata = {
-  title: "About Us | TechMate4u",
+  title: "About Us | TechMate4u — Engineering-First Web Studio",
   description:
     "Meet TechMate4u, a full-cycle digital product studio building high-performance websites, automation systems, SEO infrastructure, and mobile apps.",
   alternates: {
     canonical: "/about-us",
+  },
+  openGraph: {
+    title: "About TechMate4u | Engineering-First Web Studio, Ahmedabad",
+    description:
+      "Meet the team behind TechMate4u — engineers in Ahmedabad building Next.js products, AI automation, and SEO systems for startups worldwide.",
+    url: "https://techmate4u.com/about-us",
+    type: "website",
+    siteName: "TechMate4u",
+    images: [
+      {
+        url: "/assets/hero-visual.webp",
+        width: 1200,
+        height: 630,
+        alt: "TechMate4u Studio — About Us",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About TechMate4u | Web & AI Studio, Ahmedabad",
+    description:
+      "Engineering-first studio. 3 people. No handoffs to juniors. Next.js, AI automation, and technical SEO.",
   },
 };
 

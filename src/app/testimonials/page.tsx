@@ -8,6 +8,30 @@ export const metadata: Metadata = {
   title: "Client Reviews & Testimonials | TechMate4u",
   description:
     "Read honest reviews from founders, product managers, and developers who partner with TechMate4u for high-performance software engineering.",
+  alternates: {
+    canonical: "/testimonials",
+  },
+  openGraph: {
+    title: "Client Testimonials | TechMate4u Web & AI Studio",
+    description:
+      "Honest reviews from founders and product teams who built with TechMate4u. Real outcomes, real projects.",
+    url: "https://techmate4u.com/testimonials",
+    type: "website",
+    siteName: "TechMate4u",
+    images: [
+      {
+        url: "/assets/hero-visual.webp",
+        width: 1200,
+        height: 630,
+        alt: "TechMate4u Client Testimonials",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Client Testimonials | TechMate4u",
+    description: "Real reviews from founders who built with TechMate4u.",
+  },
 };
 
 interface Testimonial {

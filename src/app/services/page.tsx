@@ -13,6 +13,28 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/services",
   },
+  openGraph: {
+    title: "TechMate4u Services | Next.js, AI Automation & Technical SEO",
+    description:
+      "Six core engineering services: custom web development, AI automation, technical SEO, mobile apps, digital marketing, and social media — built by engineers, not templates.",
+    url: "https://techmate4u.com/services",
+    type: "website",
+    siteName: "TechMate4u",
+    images: [
+      {
+        url: "/assets/hero-visual.webp",
+        width: 1200,
+        height: 630,
+        alt: "TechMate4u Services",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TechMate4u Services | Next.js, AI & SEO",
+    description:
+      "Engineering services for startups: web development, AI automation, technical SEO, and mobile apps.",
+  },
 };
 
 const iconMap: Record<string, LucideIcon> = {

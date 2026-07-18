@@ -5,17 +5,41 @@ import Card from "@/components/ui/Card";
 import ContactForm from "@/components/forms/ContactForm";
 
 export const metadata: Metadata = {
-  title: "Get in Touch | TechMate4u",
+  title: "Contact Us | TechMate4u — Web Development Studio, Ahmedabad",
   description:
-    "Have a project or design in mind? Drop us a message, schedule a call, or start a WhatsApp chat with TechMate4u engineers.",
+    "Have a project in mind? Drop us a message, schedule a call, or start a WhatsApp chat with TechMate4u engineers. We respond within 24 hours.",
+  alternates: {
+    canonical: "/contact",
+  },
+  openGraph: {
+    title: "Contact TechMate4u | Web & AI Development Studio",
+    description:
+      "Start your project with TechMate4u. Email, WhatsApp, or fill the form — our lead engineer responds within 4 hours.",
+    url: "https://techmate4u.com/contact",
+    type: "website",
+    siteName: "TechMate4u",
+    images: [
+      {
+        url: "/assets/hero-visual.webp",
+        width: 1200,
+        height: 630,
+        alt: "Contact TechMate4u",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact TechMate4u | Web & AI Studio",
+    description: "Start your project. We respond within 4 hours.",
+  },
 };
 
 const STUDIO_COORDINATES = [
   {
     icon: Mail,
     label: "Email directly",
-    value: "support@techmate4u.com",
-    href: "mailto:support@techmate4u.com",
+    value: "info@techmate4u.com",
+    href: "mailto:info@techmate4u.com",
   },
   {
     icon: MessageSquare,
@@ -31,7 +55,7 @@ const STUDIO_COORDINATES = [
   {
     icon: MapPin,
     label: "Studio hub",
-    value: "Gujarat, India (Serving Globally)",
+    value: "Ahmedabad, Gujarat, India (Serving Globally)",
   },
 ];
 

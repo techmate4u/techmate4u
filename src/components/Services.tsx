@@ -140,16 +140,36 @@ export default function Services() {
     };
   }, []);
 
+  const [inView, setInView] = useState(false);
+
   useEffect(() => {
-    if (isAutoPlaying && !isHovered) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { threshold: 0.05 } // Trigger when at least 5% of the section is visible
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isAutoPlaying && !isHovered && inView) {
       autoPlayTimerRef.current = setInterval(handleAutoScroll, 3000);
     }
     return () => {
       if (autoPlayTimerRef.current) {
         clearInterval(autoPlayTimerRef.current);
+        autoPlayTimerRef.current = null;
       }
     };
-  }, [isAutoPlaying, isHovered]);
+  }, [isAutoPlaying, isHovered, inView]);
 
   useEffect(() => {
     // Only load GSAP on desktop screens to minimize mobile bundle size and eliminate unused JS

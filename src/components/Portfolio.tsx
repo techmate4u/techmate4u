@@ -1,9 +1,33 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import ProjectCard, { type Project } from "@/components/ui/ProjectCard";
 
 const projects: Project[] = [
+    {
+        title: "Rapture Tech Website Redesign",
+        category: "Web Application",
+        challenge: "Migrating a legacy Django-based product portal into a headless Next.js static site to solve hosting overhead, layout shifts, and search engine indexing bottlenecks.",
+        resultBold: "Sub-second page speeds, ",
+        resultText: "with 100% SEO sitemap indexing, direct WhatsApp inquiry channels, and secure image-download deterrence.",
+        tags: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
+        themeId: "cyan",
+        video: "/assets/rapturetech-web.webm",
+        slug: "rapturetech-website-redesign",
+        link: "https://rapturetech.co.in/"
+    },
+    {
+        title: "Offline POS & Weighbridge System",
+        category: "Enterprise Software",
+        challenge: "Developing a 100% offline billing and receipt management application that interfaces directly with thermal printing hardware in a zero-network warehouse environment.",
+        resultBold: "100% offline operational reliability, ",
+        resultText: "with background SQLite backup syncs and native AIDL hardware print integration.",
+        tags: ["React Native", "Kotlin", "SQLite", "Drizzle ORM"],
+        themeId: "blue",
+        images: ["/assets/POS_App.webp"],
+        slug: "offline-pos-weighbridge"
+    },
     {
         title: "Riwaaz Ethnic",
         category: "E-commerce",
@@ -82,18 +106,28 @@ export default function Portfolio() {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 pb-8 relative z-10">
-                <div className="mb-4">
-                    <h2 className="text-3xl lg:text-4xl font-bold tracking-tight font-[family-name:var(--font-outfit)] drop-shadow-md text-[var(--text)]">
-                        Proven Results Across Industries
-                    </h2>
-                    <p className="text-base text-[var(--text-muted)] mt-2">
-                        We&apos;ve partnered with leading companies to build scalable, high-performance digital solutions. Here&apos;s a selection of recent client projects that delivered measurable impact.
-                    </p>
+                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                    <div className="max-w-2xl">
+                        <h2 className="text-3xl lg:text-4xl font-bold tracking-tight font-[family-name:var(--font-outfit)] drop-shadow-md text-[var(--text)]">
+                            Proven Results Across Industries
+                        </h2>
+                        <p className="text-base text-[var(--text-muted)] mt-2">
+                            We&apos;ve partnered with leading companies to build scalable, high-performance digital solutions. Here&apos;s a selection of recent client projects that delivered measurable impact.
+                        </p>
+                    </div>
+                    
+                    <Link
+                        href="/work"
+                        className="group inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full border border-[var(--line-strong)] text-sm font-bold text-[var(--text)] bg-[var(--surface-muted)] hover:bg-[var(--primary-soft)] hover:text-[var(--primary)] hover:border-[var(--primary-soft)] transition-all duration-300 shadow-sm shrink-0 w-fit"
+                    >
+                        See All Projects
+                        <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                    </Link>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto px-4 relative z-10">
-                {projects.map((project, i) => (
+                {projects.slice(0, 3).map((project, i) => (
                     <ProjectCard key={i} {...project} />
                 ))}
             </div>

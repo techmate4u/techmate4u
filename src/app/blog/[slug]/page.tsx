@@ -132,8 +132,31 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const article = ARTICLES[slug];
   if (!article) return { title: "Article Not Found" };
   return {
-    title: `${article.title} | Blog | TechMate4u`,
+    title: `${article.title} | TechMate4u Blog`,
     description: article.excerpt,
+    alternates: {
+      canonical: `/blog/${slug}`,
+    },
+    openGraph: {
+      title: article.title,
+      description: article.excerpt,
+      url: `https://techmate4u.com/blog/${slug}`,
+      type: "article",
+      siteName: "TechMate4u",
+      images: [
+        {
+          url: "/assets/hero-visual.webp",
+          width: 1200,
+          height: 630,
+          alt: article.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt,
+    },
   };
 }
 
@@ -225,7 +248,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Article Meta Header */}
         <div className="border-b pb-8 mb-12" style={{ borderColor: "var(--line)" }}>
-          <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold tracking-wide bg-[var(--primary-soft)] text-[var(--primary)] border-[color-mix(in_srgb,var(--primary)_20%,transparent)] mb-4">
+          <span className="text-xs font-extrabold tracking-wider uppercase text-[var(--primary)] mb-3 block">
             {article.category}
           </span>
           <h1 className="font-[family-name:var(--font-outfit)] text-3xl font-black leading-[1.15] tracking-tight text-[var(--text)] sm:text-4xl lg:text-5xl mb-6">

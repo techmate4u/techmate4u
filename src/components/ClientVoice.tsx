@@ -76,6 +76,7 @@ export default function ClientVoice() {
                         inlinePlayingIdx === index ? "blur-0 scale-100" : "blur-[4px] scale-[1.02] opacity-70"
                       }`}
                       playsInline
+                      preload="none"
                       controls={inlinePlayingIdx === index}
                       onClick={(e) => {
                         if (inlinePlayingIdx === index) {

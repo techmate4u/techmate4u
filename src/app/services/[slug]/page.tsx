@@ -265,6 +265,29 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
   return {
     title: `${service.title} | TechMate4u`,
     description: service.heroDescription,
+    alternates: {
+      canonical: `/services/${slug}`,
+    },
+    openGraph: {
+      title: `${service.title} | TechMate4u`,
+      description: service.heroDescription,
+      url: `https://techmate4u.com/services/${slug}`,
+      type: "website",
+      siteName: "TechMate4u",
+      images: [
+        {
+          url: "/assets/hero-visual.webp",
+          width: 1200,
+          height: 630,
+          alt: `${service.title} — TechMate4u`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${service.title} | TechMate4u`,
+      description: service.heroDescription,
+    },
   };
 }
 

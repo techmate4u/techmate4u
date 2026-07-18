@@ -4,9 +4,33 @@ import BlogGrid, { type BlogPost } from "@/components/sections/BlogGrid";
 import CTABanner from "@/components/sections/CTABanner";
 
 export const metadata: Metadata = {
-  title: "Engineering Journal & Insights | TechMate4u",
+  title: "Engineering Journal & Insights | TechMate4u Blog",
   description:
     "Technical articles, architectural insights, and headless commerce blueprints compiled by the TechMate4u engineering team.",
+  alternates: {
+    canonical: "/blog",
+  },
+  openGraph: {
+    title: "TechMate4u Engineering Journal | Web Dev, AI & SEO Insights",
+    description:
+      "In-depth technical articles on Next.js, AI automation, technical SEO, and headless commerce from the TechMate4u team.",
+    url: "https://techmate4u.com/blog",
+    type: "website",
+    siteName: "TechMate4u",
+    images: [
+      {
+        url: "/assets/hero-visual.webp",
+        width: 1200,
+        height: 630,
+        alt: "TechMate4u Engineering Journal",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TechMate4u Engineering Journal",
+    description: "Technical articles on Next.js, AI, and SEO from the TechMate4u team.",
+  },
 };
 
 const POSTS: BlogPost[] = [

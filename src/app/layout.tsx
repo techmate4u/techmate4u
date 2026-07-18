@@ -37,7 +37,6 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://techmate4u.com",
     siteName: "TechMate4u",
     title: "TechMate4u | Next-Gen Digital Products | Ahmedabad, India",
     description: "Accelerate your business with performance-driven code and beautiful web design.",

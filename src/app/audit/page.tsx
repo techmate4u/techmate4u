@@ -5,9 +5,33 @@ import Card from "@/components/ui/Card";
 import AuditForm from "@/components/forms/AuditForm";
 
 export const metadata: Metadata = {
-  title: "Request a Free Website Audit | TechMate4u",
+  title: "Free Website Audit | TechMate4u — Technical SEO & Performance Review",
   description:
     "Get a free, comprehensive technical SEO audit of your site. We evaluate speed metrics, Core Web Vitals, crawl errors, and mobile performance.",
+  alternates: {
+    canonical: "/audit",
+  },
+  openGraph: {
+    title: "Free Website Audit | TechMate4u",
+    description:
+      "Request a free technical SEO and Core Web Vitals audit. Get a 15-page actionable report within 48 hours.",
+    url: "https://techmate4u.com/audit",
+    type: "website",
+    siteName: "TechMate4u",
+    images: [
+      {
+        url: "/assets/hero-visual.webp",
+        width: 1200,
+        height: 630,
+        alt: "Free Website Audit — TechMate4u",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Free Website Audit | TechMate4u",
+    description: "Technical SEO and Core Web Vitals audit — free, no strings attached.",
+  },
 };
 
 const AUDIT_STAGES = [

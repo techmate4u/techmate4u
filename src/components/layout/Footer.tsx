@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Bot, Code2, Megaphone, Mail, MapPin, Phone, Search, Smartphone, Instagram } from "lucide-react";
 import logo from "../../../public/assets/logo.webp";
 
@@ -62,6 +63,7 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+    const pathname = usePathname();
     return (
         <footer className="relative w-full overflow-hidden premium-footer" style={{ background: "var(--surface-muted)" }}>
 
@@ -78,7 +80,17 @@ export default function Footer() {
             <div className="mx-auto max-w-7xl px-6 pb-8 pt-14 sm:px-8 lg:px-12 relative z-10">
                 <div className="grid grid-cols-2 gap-10 lg:grid-cols-[1.25fr_0.8fr_1fr_1.2fr] lg:gap-8">
                     <div className="col-span-2 lg:col-span-1 flex flex-col gap-4">
-                        <Link href="/#home" className="group flex w-fit items-center gap-2.5">
+                        <Link
+                            href="/#home"
+                            onClick={(e) => {
+                                if (pathname === '/') {
+                                    e.preventDefault();
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    window.history.pushState(null, '', '/');
+                                }
+                            }}
+                            className="group flex w-fit items-center gap-2.5"
+                        >
                             <Image
                                 src={logo}
                                 alt="TechMate4u"
