@@ -19,6 +19,12 @@ export default function LazyRender({
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // 1. Render immediately if a hash is present on mount to avoid scroll shifts
+    if (typeof window !== "undefined" && window.location.hash) {
+      setIsRendered(true);
+      return;
+    }
+
     const el = containerRef.current;
     if (!el) return;
 
@@ -33,7 +39,19 @@ export default function LazyRender({
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+
+    // 2. Render immediately if any hash link is clicked to allow correct scroll targeting
+    const handleHashChange = () => {
+      if (window.location.hash) {
+        setIsRendered(true);
+      }
+    };
+    window.addEventListener("hashchange", handleHashChange);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("hashchange", handleHashChange);
+    };
   }, []);
 
   return (

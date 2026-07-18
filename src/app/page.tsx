@@ -41,7 +41,7 @@ export default function Home() {
         <ClientVoice />
       </LazyRender>
 
-      <LazyRender id="founder" placeholderHeight={700} className="content-visibility-auto">
+      <LazyRender id="founding-team" placeholderHeight={700} className="content-visibility-auto scroll-mt-24">
         <FoundingTeam />
       </LazyRender>
 

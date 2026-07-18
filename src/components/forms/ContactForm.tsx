@@ -190,7 +190,7 @@ export default function ContactForm() {
             "Processing..."
           ) : (
             <>
-              <FaWhatsapp className="h-5 w-5" />
+              <WhatsAppIcon />
               Send Inquiry
             </>
           )}

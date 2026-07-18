@@ -44,8 +44,7 @@ export default function FoundingTeam() {
 
   return (
     <section
-      id="founding-team"
-      className="w-full relative z-20 overflow-hidden py-24 border-b scroll-mt-24"
+      className="w-full relative z-20 overflow-hidden py-24 border-b"
       style={{
         borderColor: "var(--line-soft)",
         background: "linear-gradient(180deg, #ffffff 0%, var(--surface-muted) 50%, #ffffff 100%)"
