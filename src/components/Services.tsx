@@ -6,8 +6,6 @@ import Image from 'next/image';
 import Card from "@/components/ui/Card";
 import SectionHeading from "@/components/sections/SectionHeading";
 import { SERVICES_DATA } from "@/components/servicesData";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import characterImage from '../../public/assets/3d_character_wwdc.webp';
 import { ChevronLeft, ChevronRight, ChevronsRight, ArrowUpRight } from 'lucide-react';
 import Button from "@/components/ui/Button";
@@ -154,66 +152,76 @@ export default function Services() {
   }, [isAutoPlaying, isHovered]);
 
   useEffect(() => {
-    // Register GSAP ScrollTrigger on client-side
-    gsap.registerPlugin(ScrollTrigger);
+    // Only load GSAP on desktop screens to minimize mobile bundle size and eliminate unused JS
+    if (window.innerWidth < 1024) return;
 
-    if (!sectionRef.current) return;
+    let mm: any;
 
-    // Use matchMedia to run heavy scroll animations only on desktop (lg breakpoint)
-    const mm = gsap.matchMedia();
+    Promise.all([
+      import("gsap"),
+      import("gsap/ScrollTrigger")
+    ]).then(([{ gsap }, { ScrollTrigger }]) => {
+      gsap.registerPlugin(ScrollTrigger);
 
-    mm.add("(min-width: 1024px)", () => {
-      // Set initial states for transition animations (character elements only)
-      gsap.set(characterRef.current, { x: 260, y: 30, rotate: 0, opacity: 0 });
-      gsap.set(ringRef.current, { scale: 0, opacity: 0 });
-      gsap.set(wave1Ref.current, { scale: 0, opacity: 0 });
-      gsap.set(wave2Ref.current, { scale: 0, opacity: 0 });
+      if (!sectionRef.current) return;
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom", // Trigger starts when top of services enters screen bottom
-          end: "center center", // Reaches completion when services center is at screen center
-          scrub: 1.5,
-        },
-        defaults: { ease: "power3.out" }
+      mm = gsap.matchMedia();
+
+      mm.add("(min-width: 1024px)", () => {
+        // Set initial states for transition animations (character elements only)
+        gsap.set(characterRef.current, { x: 260, y: 30, rotate: 0, opacity: 0 });
+        gsap.set(ringRef.current, { scale: 0, opacity: 0 });
+        gsap.set(wave1Ref.current, { scale: 0, opacity: 0 });
+        gsap.set(wave2Ref.current, { scale: 0, opacity: 0 });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top bottom", // Trigger starts when top of services enters screen bottom
+            end: "center center", // Reaches completion when services center is at screen center
+            scrub: 1.5,
+          },
+          defaults: { ease: "power3.out" }
+        });
+
+        // Step 1: Character walks in from the right
+        tl.to(characterRef.current, { x: 0, opacity: 1, duration: 1.2 })
+          .to(ringRef.current, { scale: 1, opacity: 1, duration: 0.4 }, "-=0.4");
+
+        // Step 2 & 3: Character looks down and touches the glowing ring
+        tl.to(characterRef.current, { rotate: -4, y: 45, duration: 0.8 })
+          .to(characterRef.current, { scaleX: 1.05, scaleY: 0.95, duration: 0.3 })
+          .to(ringRef.current, { scale: 1.2, borderColor: "rgba(47, 107, 255, 0.8)", boxShadow: "0 0 15px rgba(47, 107, 255, 0.5)", duration: 0.3 }, "-=0.3");
+
+        // Step 4: Large soft wave expands from touchpoint
+        tl.to(characterRef.current, { scaleX: 1, scaleY: 1, rotate: 2, duration: 0.5 })
+          .fromTo(wave1Ref.current, 
+            { scale: 0.2, opacity: 1 }, 
+            { scale: 8, opacity: 0, duration: 1.2 }, 
+            "-=0.5"
+          )
+          .fromTo(wave2Ref.current, 
+            { scale: 0.2, opacity: 0.8 }, 
+            { scale: 11, opacity: 0, duration: 1.5 }, 
+            "-=1.0"
+          );
+
+        // Step 7: Character waves (slow elegant head tilt / rotate back and forth)
+        tl.to(characterRef.current, { rotate: 5, y: 35, duration: 0.6 })
+          .to(characterRef.current, { rotate: -1, duration: 0.6 })
+          .to(characterRef.current, { rotate: 0, duration: 0.4 });
+
+        // Step 8: Walks away (slides back offscreen to the right and fades behind next scroll blocks)
+        tl.to(characterRef.current, { x: 260, opacity: 0, duration: 1.2 })
+          .to(ringRef.current, { scale: 0, opacity: 0, duration: 0.8 }, "-=1.2");
       });
-
-      // Step 1: Character walks in from the right
-      tl.to(characterRef.current, { x: 0, opacity: 1, duration: 1.2 })
-        .to(ringRef.current, { scale: 1, opacity: 1, duration: 0.4 }, "-=0.4");
-
-      // Step 2 & 3: Character looks down and touches the glowing ring
-      tl.to(characterRef.current, { rotate: -4, y: 45, duration: 0.8 })
-        .to(characterRef.current, { scaleX: 1.05, scaleY: 0.95, duration: 0.3 })
-        .to(ringRef.current, { scale: 1.2, borderColor: "rgba(47, 107, 255, 0.8)", boxShadow: "0 0 15px rgba(47, 107, 255, 0.5)", duration: 0.3 }, "-=0.3");
-
-      // Step 4: Large soft wave expands from touchpoint
-      tl.to(characterRef.current, { scaleX: 1, scaleY: 1, rotate: 2, duration: 0.5 })
-        .fromTo(wave1Ref.current, 
-          { scale: 0.2, opacity: 1 }, 
-          { scale: 8, opacity: 0, duration: 1.2 }, 
-          "-=0.5"
-        )
-        .fromTo(wave2Ref.current, 
-          { scale: 0.2, opacity: 0.8 }, 
-          { scale: 11, opacity: 0, duration: 1.5 }, 
-          "-=1.0"
-        );
-
-      // Step 7: Character waves (slow elegant head tilt / rotate back and forth)
-      tl.to(characterRef.current, { rotate: 5, y: 35, duration: 0.6 })
-        .to(characterRef.current, { rotate: -1, duration: 0.6 })
-        .to(characterRef.current, { rotate: 0, duration: 0.4 });
-
-      // Step 8: Walks away (slides back offscreen to the right and fades behind next scroll blocks)
-      tl.to(characterRef.current, { x: 260, opacity: 0, duration: 1.2 })
-        .to(ringRef.current, { scale: 0, opacity: 0, duration: 0.8 }, "-=1.2");
     });
 
     // Clean up on unmount
     return () => {
-      mm.revert();
+      if (mm) {
+        mm.revert();
+      }
     };
   }, []);
 
@@ -279,13 +287,6 @@ export default function Services() {
         <div className="absolute top-[20%] left-[22%] w-[120px] h-[120px] rounded-full bg-blue-300/20 blur-[35px] backdrop-filter" />
         <div className="absolute bottom-[30%] right-[25%] w-[170px] h-[170px] rounded-full bg-purple-300/15 blur-[45px] backdrop-filter" />
 
-        {/* Very Light Noise Texture */}
-        <div 
-          className="absolute inset-0 opacity-[0.06]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.25'/%3E%3C/svg%3E")`
-          }}
-        />
       </div>
 
       {/* Floating 3D WWDC Character & Scroll Interactions (Right Side) */}
