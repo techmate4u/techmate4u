@@ -1,4 +1,4 @@
-"use client";
+// Server Component — no interactivity, state, or browser APIs required
 
 const steps = [
   {

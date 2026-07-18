@@ -13,7 +13,7 @@ import { SERVICES_DATA } from "@/components/servicesData";
 const NAV_SECTIONS = [
     { name: 'Services', href: '/services', id: 'services' },
     { name: 'Work', href: '/#portfolio', id: 'portfolio' },
-    { name: 'Process', href: '/about-us#process', id: 'process' },
+    { name: 'Our Team', href: '/#founding-team', id: 'founding-team' },
     { name: 'About Us', href: '/about-us', id: 'about-us' },
 ] as const;
 

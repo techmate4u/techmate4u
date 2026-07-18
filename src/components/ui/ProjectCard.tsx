@@ -145,43 +145,39 @@ export default function ProjectCard({
             </p>
           </div>
 
-          {/* Divider and Tags/Links Footer */}
-          <div className="mt-auto pt-4 border-t flex flex-row items-center justify-between gap-4" style={{ borderColor: "var(--line-soft)" }}>
-            <div className="flex flex-wrap gap-1.5">
-              {tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-[10.5px] font-bold text-[var(--text-soft)] bg-[var(--surface-muted)] border px-2 py-0.5 rounded-md"
-                  style={{ borderColor: "var(--line-soft)" }}
+          {/* Action Buttons Footer — Case Study & Demo */}
+          <div className="mt-auto pt-4 border-t" style={{ borderColor: "var(--line-soft)" }}>
+            <div className="flex w-full gap-3">
+              {slug ? (
+                <Link
+                  href={`/work/${slug}`}
+                  className="flex-1 flex items-center justify-center gap-2 h-12 rounded-xl text-sm font-bold text-white transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 active:scale-[0.98] shadow-md"
+                  style={{ background: "var(--primary)", boxShadow: "0 8px 20px -8px var(--theme-glow)" }}
                 >
-                  {tag}
-                </span>
-              ))}
-            </div>
+                  Case Study
+                </Link>
+              ) : (
+                <div className="flex-1 flex items-center justify-center h-12 rounded-xl text-sm font-bold text-[var(--text-muted)] bg-[var(--surface-muted)] opacity-40 cursor-not-allowed select-none">
+                  Case Study
+                </div>
+              )}
 
-            {/* Read Case Study Button */}
-            {(slug || link) && (
-              <div className="shrink-0 flex items-center gap-4">
-                {slug && (
-                  <Link
-                    href={`/work/${slug}`}
-                    className="inline-flex items-center gap-1 text-[12px] font-extrabold text-[var(--primary)] hover:opacity-80 transition-opacity"
-                  >
-                    Case Study
-                  </Link>
-                )}
-                {link && link !== "#" && (
-                  <a
-                    href={link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[11px] font-extrabold text-[var(--text-soft)] hover:text-[var(--text)] transition-colors"
-                  >
-                    Demo <ExternalLink className="h-3 w-3" />
-                  </a>
-                )}
-              </div>
-            )}
+              {link && link !== "#" ? (
+                <a
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-2 h-12 rounded-xl text-sm font-bold transition-all duration-200 hover:bg-[var(--surface)] hover:-translate-y-0.5 active:scale-[0.98] border"
+                  style={{ borderColor: "var(--line-strong)", color: "var(--text)", background: "var(--surface-muted)" }}
+                >
+                  Demo <ExternalLink className="h-3.5 w-3.5" />
+                </a>
+              ) : (
+                <div className="flex-1 flex items-center justify-center h-12 rounded-xl text-sm font-bold text-[var(--text-muted)] bg-[var(--surface-muted)] opacity-40 cursor-not-allowed select-none border" style={{ borderColor: "var(--line-soft)" }}>
+                  Demo
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </Card>

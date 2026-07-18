@@ -423,7 +423,7 @@ export default function Services() {
                             iconPosition="right"
                             className="p-0 text-sm font-bold text-[var(--text)] group-hover:text-[var(--primary)] transition-colors duration-300 after:absolute after:inset-0 after:z-10 cursor-pointer"
                           >
-                            Read More
+                            Explore {service.title}
                           </Button>
                         </div>
                       </div>

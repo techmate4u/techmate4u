@@ -378,6 +378,8 @@ export default function AboutUsPage() {
         </div>
       </section>
 
+
+
       <CTABanner
         title="You tell us what needs to get built. We'll tell you exactly what it takes."
         description="No 40-page proposals. No discovery phase that costs half the budget. A clear scope, a fixed timeline, and a price — within 48 hours of your first message."

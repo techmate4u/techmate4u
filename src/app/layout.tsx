@@ -26,7 +26,9 @@ export const metadata: Metadata = {
   authors: [{ name: "TechMate4u" }],
   creator: "TechMate4u",
   icons: {
-    icon: "/assets/t-logo.webp",
+    icon: [
+      { url: "/assets/t-logo.webp", type: "image/webp" },
+    ],
     apple: "/assets/t-logo.webp",
   },
   alternates: {
