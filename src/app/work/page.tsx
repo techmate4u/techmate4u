@@ -46,7 +46,7 @@ const PROJECTS: Project[] = [
     themeId: "cyan",
     video: "/assets/rapturetech-web.webm",
     slug: "rapturetech-website-redesign",
-    link: "https://rapturetech.co.in/"
+    link: "https://new.rapturetech.co.in/"
   },
   {
     title: "Offline POS & Weighbridge System",
@@ -107,11 +107,11 @@ const CATEGORIES = ["All", "Web Application", "Enterprise Software", "E-commerce
 export default function WorkPage() {
   return (
     <main className="min-h-screen pt-32 pb-0 relative overflow-hidden">
-      
 
-      
 
-      
+
+
+
 
       {/* Background blueprint details grid */}
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none -z-10"

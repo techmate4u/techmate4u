@@ -49,7 +49,7 @@ const CASE_STUDIES: Record<string, CaseStudyData> = {
       { value: "Zero", label: "Hosting Overhead" }
     ],
     video: "/assets/rapturetech-web.webm",
-    link: "https://rapturetech.co.in/",
+    link: "https://new.rapturetech.co.in/",
     logo: "/assets/rapturetech-logo.webp"
   },
   "offline-pos-weighbridge": {
@@ -251,30 +251,30 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           </div>
 
 
-            {/* Tech Stack Chips */}
-            <div className="flex flex-wrap gap-2 mb-8">
-              {study.techStack.map((tech) => (
-                <span
-                  key={tech}
-                  className="text-[10px] font-bold uppercase tracking-wider px-3.5 py-1.5 border rounded-md border-[var(--line)] bg-[var(--surface-muted)] text-[var(--text-soft)]"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
+          {/* Tech Stack Chips */}
+          <div className="flex flex-wrap gap-2 mb-8">
+            {study.techStack.map((tech) => (
+              <span
+                key={tech}
+                className="text-[10px] font-bold uppercase tracking-wider px-3.5 py-1.5 border rounded-md border-[var(--line)] bg-[var(--surface-muted)] text-[var(--text-soft)]"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
 
-            {/* Mockup Showcase */}
-            <div className="w-full max-w-5xl mx-auto rounded-2xl overflow-hidden border border-[var(--line)] bg-[var(--panel)] shadow-2xl p-4 sm:p-6 mb-24 relative">
-              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-slate-950 border border-slate-800">
-                <Image
-                  src="/assets/POS_App.webp"
-                  alt="Offline POS & Weighbridge System Main View"
-                  fill
-                  priority
-                  className="object-cover object-top"
-                />
-              </div>
+          {/* Mockup Showcase */}
+          <div className="w-full max-w-5xl mx-auto rounded-2xl overflow-hidden border border-[var(--line)] bg-[var(--panel)] shadow-2xl p-4 sm:p-6 mb-24 relative">
+            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-slate-950 border border-slate-800">
+              <Image
+                src="/assets/POS_App.webp"
+                alt="Offline POS & Weighbridge System Main View"
+                fill
+                priority
+                className="object-cover object-top"
+              />
             </div>
+          </div>
 
 
           {/* Project Overview & Business Challenge */}
@@ -547,11 +547,11 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
   return (
     <main className="min-h-screen pt-32 pb-0 relative overflow-hidden">
-      
 
-      
 
-      
+
+
+
 
       {/* Background blueprint details grid */}
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none -z-10"
@@ -592,29 +592,29 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           )}
         </div>
 
-          {/* Tech Stack Tags */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {study.techStack.map((tech) => (
-              <span
-                key={tech}
-                className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 border rounded-md border-[var(--line)] bg-[var(--surface-muted)] text-[var(--text-soft)]"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-
-          {study.link && (
-            <a
-              href={study.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-bold text-[var(--primary)] hover:opacity-80 transition-opacity mt-2"
+        {/* Tech Stack Tags */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {study.techStack.map((tech) => (
+            <span
+              key={tech}
+              className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 border rounded-md border-[var(--line)] bg-[var(--surface-muted)] text-[var(--text-soft)]"
             >
-              View Live Deployment
-              <ExternalLink className="h-4 w-4" />
-            </a>
-          )}
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        {study.link && (
+          <a
+            href={study.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-bold text-[var(--primary)] hover:opacity-80 transition-opacity mt-2"
+          >
+            View Live Deployment
+            <ExternalLink className="h-4 w-4" />
+          </a>
+        )}
 
         {/* Media Block Showcase */}
         <div className="w-full max-w-5xl mx-auto rounded-2xl overflow-hidden border border-[var(--line)] bg-[var(--panel)] shadow-2xl mb-24 aspect-video relative">

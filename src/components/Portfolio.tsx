@@ -15,7 +15,7 @@ const projects: Project[] = [
         themeId: "cyan",
         video: "/assets/rapturetech-web.webm",
         slug: "rapturetech-website-redesign",
-        link: "https://rapturetech.co.in/"
+        link: "https://new.rapturetech.co.in/"
     },
     {
         title: "Offline POS & Weighbridge System",
@@ -81,7 +81,7 @@ export default function Portfolio() {
             <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
                 {/* Pulsing purple/indigo glow orb on the left */}
                 <div className="absolute bottom-[10%] left-[-10%] w-[350px] h-[350px] rounded-full bg-gradient-to-tr from-purple-500/10 to-indigo-500/10 blur-[90px] animate-pulse" />
-                
+
                 {/* Slow spinning outline polygon */}
                 <div className="absolute bottom-[20%] left-[-80px] w-64 h-64 opacity-20 hidden lg:block animate-[spin_40s_linear_infinite_reverse]">
                     <svg viewBox="0 0 100 100" fill="none" className="w-full h-full text-purple-500">
@@ -115,7 +115,7 @@ export default function Portfolio() {
                             We&apos;ve partnered with leading companies to build scalable, high-performance digital solutions. Here&apos;s a selection of recent client projects that delivered measurable impact.
                         </p>
                     </div>
-                    
+
                     <Link
                         href="/work"
                         className="group inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full border border-[var(--line-strong)] text-sm font-bold text-[var(--text)] bg-[var(--surface-muted)] hover:bg-[var(--primary-soft)] hover:text-[var(--primary)] hover:border-[var(--primary-soft)] transition-all duration-300 shadow-sm shrink-0 w-fit"
