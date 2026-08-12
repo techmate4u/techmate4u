@@ -56,6 +56,18 @@ export default function ContactForm() {
   const [errorMessage, setErrorMessage] = useState("");
   // useRef reads synchronously inside onSubmit — avoids React state batch race condition
   const submitTypeRef = useRef<"email" | "whatsapp">("email");
+  const formStartedRef = useRef(false);
+
+  const trackFormStart = () => {
+    if (formStartedRef.current) return;
+    formStartedRef.current = true;
+
+    if (typeof window.fbq !== "function") return;
+
+    window.fbq("trackCustom", "ContactFormStart", {
+      content_category: "Service Inquiry",
+    });
+  };
 
   const {
     register,
@@ -164,7 +176,7 @@ export default function ContactForm() {
   ];
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} onFocusCapture={trackFormStart} className="space-y-6">
       {status === "success" && (
         <div className="rounded-lg bg-green-50 p-4 border border-green-200 text-sm font-semibold text-green-700">
           Inquiry sent successfully! We will get back to you shortly.
