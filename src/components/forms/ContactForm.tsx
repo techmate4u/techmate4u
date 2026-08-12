@@ -123,7 +123,11 @@ export default function ContactForm() {
       });
 
       if (!response.ok) {
-        throw new Error("Email delivery failed. Your WhatsApp message was still sent.");
+        throw new Error(
+          isWhatsApp
+            ? "Email delivery failed, but your WhatsApp message was sent."
+            : "Failed to send email inquiry. Please check your connection or use the WhatsApp option."
+        );
       }
 
       setStatus("success");
