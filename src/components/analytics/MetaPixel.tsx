@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-const META_PIXEL_ID = "2595696040773118";
+const META_PIXEL_ID = "2596569040773118";
 
 export default function MetaPixel() {
   return (
