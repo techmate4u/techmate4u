@@ -3,6 +3,7 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
+import MetaPixel from "@/components/analytics/MetaPixel";
 import Script from "next/script";
 import "./globals.css";
 
@@ -135,6 +136,7 @@ export default function RootLayout({
         style={{ backgroundColor: '#ffffff' }}
         suppressHydrationWarning
       >
+        <MetaPixel />
         <Navbar />
         {children}
         <Footer />
