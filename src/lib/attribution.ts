@@ -9,17 +9,38 @@ export interface UtmAttribution {
 }
 
 const STORAGE_KEY = "tm4u_utm_attribution";
+const EXPIRATION_DAYS = 30;
+const EXPIRATION_MS = EXPIRATION_DAYS * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+
+/**
+ * Checks if a captured_at timestamp is older than 30 days.
+ */
+function isExpired(capturedAt?: string): boolean {
+  if (!capturedAt) return false;
+  const capturedTime = new Date(capturedAt).getTime();
+  if (isNaN(capturedTime)) return false;
+  return Date.now() - capturedTime > EXPIRATION_MS;
+}
 
 /**
  * Retrieves the stored first-touch UTM attribution from browser storage.
+ * Automatically purges attribution if older than 30 days.
  */
 export function getStoredAttribution(): UtmAttribution {
   if (typeof window === "undefined") return {};
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      return JSON.parse(raw);
+    if (!raw) return {};
+
+    const parsed: UtmAttribution = JSON.parse(raw);
+
+    // Purge expired attribution (> 30 days)
+    if (parsed.captured_at && isExpired(parsed.captured_at)) {
+      localStorage.removeItem(STORAGE_KEY);
+      return {};
     }
+
+    return parsed;
   } catch (e) {
     console.error("Failed to read stored UTM attribution:", e);
   }
@@ -28,15 +49,19 @@ export function getStoredAttribution(): UtmAttribution {
 
 /**
  * Captures UTM parameters from URL search params and stores them in browser storage.
- * Enforces first-touch attribution: existing stored attribution is never overwritten.
+ * Enforces first-touch attribution within a 30-day window:
+ * - If valid unexpired attribution exists, it is preserved (NOT overwritten).
+ * - If no attribution exists or existing attribution expired (> 30 days), new parameters are saved.
+ * - Direct/organic visits without UTM parameters do NOT overwrite existing valid attribution.
  */
 export function captureUtmAttribution(params: Record<string, string>): UtmAttribution {
   if (typeof window === "undefined") return {};
 
   try {
     const existing = getStoredAttribution();
-    // Preserve first-touch attribution: do NOT overwrite if already set
-    if (Object.keys(existing).length > 0) {
+
+    // Preserve valid first-touch attribution: do NOT overwrite if already set & unexpired
+    if (Object.keys(existing).length > 0 && existing.captured_at && !isExpired(existing.captured_at)) {
       return existing;
     }
 
@@ -60,6 +85,7 @@ export function captureUtmAttribution(params: Record<string, string>): UtmAttrib
       }
     }
 
+    // Only save if there is at least one valid attribution parameter present
     if (hasAny) {
       captured.captured_at = new Date().toISOString();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(captured));
