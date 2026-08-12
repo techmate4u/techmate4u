@@ -7,6 +7,13 @@ import { contactFormSchema, type ContactFormData } from "@/lib/schemas";
 import FormField from "./FormField";
 import Button from "@/components/ui/Button";
 
+declare global {
+  interface Window {
+    fbq: (...args: any[]) => void;
+    _fbq: (...args: any[]) => void;
+  }
+}
+
 // Inline SVG — avoids loading the entire react-icons/fa package (~430KB wasted JS)
 const WhatsAppIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
@@ -49,6 +56,15 @@ export default function ContactForm() {
     resolver: zodResolver(contactFormSchema),
   });
 
+  const trackLead = (data: ContactFormData) => {
+    if (typeof window.fbq !== "function") return;
+
+    window.fbq("track", "Lead", {
+      content_name: data.service,
+      content_category: "Service Inquiry",
+    });
+  };
+
   const onSubmit = async (data: ContactFormData) => {
     setStatus("loading");
     setErrorMessage("");
@@ -74,11 +90,19 @@ export default function ContactForm() {
       }
 
       setStatus("success");
+
+      // Meta Lead conversion
+      trackLead(data);
+
       reset();
     } catch (err) {
       // If WhatsApp was chosen, the lead was already sent — show partial success
       if (isWhatsApp) {
         setStatus("success");
+
+        // WhatsApp inquiry was initiated
+        trackLead(data);
+
         reset();
       } else {
         setStatus("error");
