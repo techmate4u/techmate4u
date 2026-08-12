@@ -69,21 +69,27 @@ export default function ContactForm() {
   const trackLead = (
     data: ContactFormData,
     channel: "email" | "whatsapp",
-    utm: UtmAttribution
+    utm: UtmAttribution,
+    eventId: string
   ) => {
     if (typeof window.fbq !== "function") return;
 
-    window.fbq("track", "Lead", {
-      content_name: data.service,
-      content_category: "Service Inquiry",
-      lead_channel: channel,
-      ...(utm.utm_source && { utm_source: utm.utm_source }),
-      ...(utm.utm_medium && { utm_medium: utm.utm_medium }),
-      ...(utm.utm_campaign && { utm_campaign: utm.utm_campaign }),
-      ...(utm.utm_content && { utm_content: utm.utm_content }),
-      ...(utm.utm_term && { utm_term: utm.utm_term }),
-      ...(utm.fbclid && { fbclid: utm.fbclid }),
-    });
+    window.fbq(
+      "track",
+      "Lead",
+      {
+        content_name: data.service,
+        content_category: "Service Inquiry",
+        lead_channel: channel,
+        ...(utm.utm_source && { utm_source: utm.utm_source }),
+        ...(utm.utm_medium && { utm_medium: utm.utm_medium }),
+        ...(utm.utm_campaign && { utm_campaign: utm.utm_campaign }),
+        ...(utm.utm_content && { utm_content: utm.utm_content }),
+        ...(utm.utm_term && { utm_term: utm.utm_term }),
+        ...(utm.fbclid && { fbclid: utm.fbclid }),
+      },
+      { eventID: eventId }
+    );
   };
 
   const onSubmit = async (data: ContactFormData) => {
@@ -91,10 +97,15 @@ export default function ContactForm() {
     setErrorMessage("");
 
     const isWhatsApp = submitTypeRef.current === "whatsapp";
+    const channel = isWhatsApp ? "whatsapp" : "email";
     const utm = getStoredAttribution();
+    const eventId = `lead_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+
     const payload: ContactFormData = {
       ...data,
       utm,
+      eventId,
+      channel,
     };
 
     // ── WhatsApp channel: open immediately with pre-filled message ──
@@ -118,7 +129,7 @@ export default function ContactForm() {
       setStatus("success");
 
       // Meta Lead conversion
-      trackLead(data, isWhatsApp ? "whatsapp" : "email", utm);
+      trackLead(data, channel, utm, eventId);
 
       reset();
     } catch (err) {
@@ -127,7 +138,7 @@ export default function ContactForm() {
         setStatus("success");
 
         // WhatsApp inquiry was initiated
-        trackLead(data, "whatsapp", utm);
+        trackLead(data, "whatsapp", utm, eventId);
 
         reset();
       } else {

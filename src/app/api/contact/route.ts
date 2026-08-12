@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { contactFormSchema } from '@/lib/schemas';
+import { sendMetaCapiLeadEvent } from '@/lib/metaCapi';
 
 // Sanitize input to prevent XSS and HTML injection
 function sanitize(input: string): string {
@@ -31,7 +32,36 @@ export async function POST(request: Request) {
             }, { status: 400 });
         }
 
-        const { name, email, phone, company, service, message, utm } = validationResult.data;
+        const { name, email, phone, company, service, message, utm, eventId, channel } = validationResult.data;
+
+        // Extract client signals for Meta CAPI matching
+        const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0].trim() || request.headers.get("x-real-ip") || undefined;
+        const userAgent = request.headers.get("user-agent") || undefined;
+        const referer = request.headers.get("referer") || "https://techmate4u.com";
+
+        const cookieHeader = request.headers.get("cookie") || "";
+        const fbpMatch = cookieHeader.match(/_fbp=([^;]+)/);
+        const fbcMatch = cookieHeader.match(/_fbc=([^;]+)/);
+        const fbp = fbpMatch ? fbpMatch[1] : undefined;
+        const fbc = fbcMatch ? fbcMatch[1] : undefined;
+
+        // Trigger Meta Conversions API (CAPI) event asynchronously (non-blocking)
+        sendMetaCapiLeadEvent({
+            name,
+            email,
+            phone,
+            service,
+            channel: channel || "email",
+            eventId,
+            utm,
+            clientIp,
+            userAgent,
+            fbp,
+            fbc,
+            sourceUrl: referer,
+        }).catch((err) => {
+            console.error("[Meta CAPI Background Execution Error]", err instanceof Error ? err.message : err);
+        });
 
         // Strip headers for safety and sanitize values for XSS
         const safeName = sanitize(stripNewlines(name));

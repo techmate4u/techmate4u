@@ -56,6 +56,8 @@ export const contactFormSchema = z.object({
   service: serviceSchema,
   message: messageSchema,
   utm: utmSchema,
+  eventId: z.string().optional(),
+  channel: z.enum(["email", "whatsapp"]).optional(),
 });
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;
