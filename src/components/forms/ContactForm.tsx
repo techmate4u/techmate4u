@@ -56,12 +56,13 @@ export default function ContactForm() {
     resolver: zodResolver(contactFormSchema),
   });
 
-  const trackLead = (data: ContactFormData) => {
+  const trackLead = (data: ContactFormData, channel: "email" | "whatsapp") => {
     if (typeof window.fbq !== "function") return;
 
     window.fbq("track", "Lead", {
       content_name: data.service,
       content_category: "Service Inquiry",
+      lead_channel: channel,
     });
   };
 
@@ -92,7 +93,7 @@ export default function ContactForm() {
       setStatus("success");
 
       // Meta Lead conversion
-      trackLead(data);
+      trackLead(data, isWhatsApp ? "whatsapp" : "email");
 
       reset();
     } catch (err) {
@@ -101,7 +102,7 @@ export default function ContactForm() {
         setStatus("success");
 
         // WhatsApp inquiry was initiated
-        trackLead(data);
+        trackLead(data, "whatsapp");
 
         reset();
       } else {
