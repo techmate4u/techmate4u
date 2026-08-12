@@ -554,3 +554,48 @@ To clean up the testimonials page and redesign the services section using profes
   - Linked autoplay pauses directly to manual arrow clicks, resetting the 4-second resume timer on click instead of stopping autoplay permanently.
 - **Responsive Mobile Layout**: Hidden side overlay arrows on mobile devices (`hidden md:flex`) and added navigation controls directly below the cards container on mobile (`flex md:hidden`). Reduced mobile bottom padding (`pb-16` -> `pb-10`) to accommodate the arrows row without extending vertical page height.
 
+
+---
+
+## 21. Meta Ads & Conversions API (CAPI) Analytics Architecture (2026-08-12)
+
+A enterprise-grade hybrid conversion tracking architecture combining client-side Meta Pixel, server-side Meta Conversions API (CAPI), and 30-day first-touch UTM attribution tracking was fully implemented and verified:
+
+### Meta Pixel Client Integration (`src/components/analytics/MetaPixel.tsx`)
+- **Pixel ID**: `2596569040773118`
+- **Next.js Script**: Embedded via `next/script` with `strategy="afterInteractive"`.
+- **Automatic Advanced Matching**: Active by default upon initialization.
+- **Base Event**: Fires standard `PageView` event on route load.
+- **Location**: Rendered inside `<body>` in `src/app/layout.tsx`.
+
+### Custom Service View Tracking (`src/components/analytics/ServiceViewEvent.tsx`)
+- Client component rendered on `/services/[slug]` dynamic routes.
+- Fires custom Meta event: `fbq('trackCustom', 'ServiceView', { service_slug, service_name })`.
+
+### First-Touch UTM & Attribution Engine (`src/lib/attribution.ts` & `src/components/analytics/UtmTracker.tsx`)
+- **Parameters Tracked**: `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `fbclid`.
+- **Browser Persistence**: Saved in `localStorage` under key `"tm4u_utm_attribution"`.
+- **First-Touch Preservation**: Existing stored attribution is preserved and not overwritten by subsequent visits.
+- **30-Day Auto-Expiration**: If `captured_at` timestamp is >30 days old, attribution is automatically purged and refreshed.
+- **Direct/Organic Protection**: Direct or organic visits lacking UTM parameters never overwrite valid stored attribution.
+
+### Meta Lead Conversion & Deduplication (`src/components/forms/ContactForm.tsx`)
+- **Shared Event ID**: Client generates `eventId` (`lead_${timestamp}_${rand}`) on submit.
+- **Dual Channel Attribution**: Fired with `lead_channel: "email"` or `lead_channel: "whatsapp"`.
+- **Browser Pixel Call**: `window.fbq("track", "Lead", customData, { eventID: eventId })`.
+- **PII Protection**: Raw name, email, or phone are **never** passed into Meta event custom parameters.
+- **Unified Delivery**: The exact same `utm` and `eventId` are included in the `/api/contact` JSON payload, email notifications to `info@techmate4u.com`, and pre-filled WhatsApp URLs.
+
+### Server-Side Meta Conversions API (CAPI) (`src/lib/metaCapi.ts` & `src/app/api/contact/route.ts`)
+- **Server Endpoint**: `https://graph.facebook.com/v21.0/${pixelId}/events?access_token=${accessToken}`.
+- **Environment Variables**:
+  - `META_PIXEL_ID`: `2596569040773118`
+  - `META_ACCESS_TOKEN`: Stored exclusively in server environment variables (never exposed to client).
+  - `META_TEST_EVENT_CODE`: Optional variable used for interactive debugging in Meta Test Events UI.
+- **SHA-256 PII Hashing**:
+  - `em`: Hashed lowercase, trimmed email.
+  - `ph`: Hashed digits-only phone number.
+- **Client Matching Signals**: Transmits `client_ip_address`, `client_user_agent`, `fbp` (Browser ID), `fbc` (Click ID).
+- **Exact Deduplication**: Server event passes matching `event_id` and `action_source: "website"`, allowing Meta's engine to deduplicate client and server leads into 1 conversion.
+- **Non-Blocking Resilience**: `sendMetaCapiLeadEvent` executes asynchronously in a non-blocking `try/catch` block so CAPI API failures or network timeouts never affect email delivery or user submission success.
+
