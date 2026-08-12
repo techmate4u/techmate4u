@@ -4,8 +4,16 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { auditFormSchema, type AuditFormData } from "@/lib/schemas";
+import { getStoredAttribution, type UtmAttribution } from "@/lib/attribution";
 import FormField from "./FormField";
 import Button from "@/components/ui/Button";
+
+declare global {
+  interface Window {
+    fbq: (...args: any[]) => void;
+    _fbq: (...args: any[]) => void;
+  }
+}
 
 export default function AuditForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -20,21 +28,53 @@ export default function AuditForm() {
     resolver: zodResolver(auditFormSchema),
   });
 
+  const trackAuditLead = (utm: UtmAttribution, eventId: string) => {
+    if (typeof window.fbq !== "function") return;
+
+    window.fbq(
+      "track",
+      "Lead",
+      {
+        content_name: "Technical SEO Audit",
+        content_category: "Audit Request",
+        lead_channel: "audit_form",
+        ...(utm.utm_source && { utm_source: utm.utm_source }),
+        ...(utm.utm_medium && { utm_medium: utm.utm_medium }),
+        ...(utm.utm_campaign && { utm_campaign: utm.utm_campaign }),
+        ...(utm.utm_content && { utm_content: utm.utm_content }),
+        ...(utm.utm_term && { utm_term: utm.utm_term }),
+        ...(utm.fbclid && { fbclid: utm.fbclid }),
+      },
+      { eventID: eventId }
+    );
+  };
+
   const onSubmit = async (data: AuditFormData) => {
     setStatus("loading");
     setErrorMessage("");
+
+    const utm = getStoredAttribution();
+    const eventId = `audit_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+
+    const payload = {
+      ...data,
+      utm,
+      eventId,
+    };
+
     try {
       const response = await fetch("/api/audit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to submit audit request. Please try again later.");
+        throw new Error("Failed to submit audit request. Please check your connection and try again.");
       }
 
       setStatus("success");
+      trackAuditLead(utm, eventId);
       reset();
     } catch (err) {
       setStatus("error");
