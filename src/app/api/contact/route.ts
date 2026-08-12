@@ -78,17 +78,50 @@ export async function POST(request: Request) {
         const safeUtmTerm = utm?.utm_term ? sanitize(stripNewlines(utm.utm_term)) : 'N/A';
         const safeFbclid = utm?.fbclid ? sanitize(stripNewlines(utm.fbclid)) : 'N/A';
 
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
-            },
-        });
+        // Flexible email transporter configuration (supports Resend, custom SMTP, or Gmail)
+        const resendKey = process.env.RESEND_API_KEY || (process.env.EMAIL_PASS?.startsWith("re_") ? process.env.EMAIL_PASS : undefined);
+        const smtpHost = process.env.SMTP_HOST;
+
+        let transporter;
+        let fromAddress = process.env.EMAIL_FROM || process.env.EMAIL_USER || "info@techmate4u.com";
+
+        if (resendKey) {
+            // Resend SMTP integration (works with API Key re_...)
+            transporter = nodemailer.createTransport({
+                host: "smtp.resend.com",
+                port: 465,
+                secure: true,
+                auth: {
+                    user: "resend",
+                    pass: resendKey,
+                },
+            });
+            fromAddress = process.env.EMAIL_FROM || "TechMate4u Leads <onboarding@resend.dev>";
+        } else if (smtpHost) {
+            // Custom domain SMTP (Zoho, Hostinger, Titan, GoDaddy, etc.)
+            transporter = nodemailer.createTransport({
+                host: smtpHost,
+                port: Number(process.env.SMTP_PORT) || 465,
+                secure: process.env.SMTP_SECURE !== "false",
+                auth: {
+                    user: process.env.SMTP_USER || process.env.EMAIL_USER,
+                    pass: process.env.SMTP_PASS || process.env.EMAIL_PASS,
+                },
+            });
+        } else {
+            // Gmail fallback
+            transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: process.env.EMAIL_USER,
+                    pass: process.env.EMAIL_PASS,
+                },
+            });
+        }
 
         const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: 'info@techmate4u.com',
+            from: fromAddress,
+            to: process.env.EMAIL_TO || "info@techmate4u.com",
             replyTo: safeEmail,
             subject: `New Lead: [${safeService.toUpperCase()}] Inquiry from ${safeName}`,
             text: `New Project Inquiry\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nCompany: ${company || 'Not provided'}\nService: ${service}\n\nProject Details:\n${message || 'No details provided.'}\n\n--- Campaign Attribution ---\nUTM Source: ${safeUtmSource}\nUTM Medium: ${safeUtmMedium}\nUTM Campaign: ${safeUtmCampaign}\nUTM Content: ${safeUtmContent}\nUTM Term: ${safeUtmTerm}\nFBCLID: ${safeFbclid}`,
