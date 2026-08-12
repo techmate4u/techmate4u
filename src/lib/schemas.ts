@@ -38,6 +38,16 @@ const serviceSchema = z.enum(
   { message: "Please select a valid service or consultation." }
 );
 
+export const utmSchema = z.object({
+  utm_source: z.string().optional(),
+  utm_medium: z.string().optional(),
+  utm_campaign: z.string().optional(),
+  utm_content: z.string().optional(),
+  utm_term: z.string().optional(),
+  fbclid: z.string().optional(),
+  captured_at: z.string().optional(),
+}).optional();
+
 export const contactFormSchema = z.object({
   name: nameSchema,
   email: emailSchema,
@@ -45,6 +55,7 @@ export const contactFormSchema = z.object({
   company: z.string().max(100, { message: "Company name is too long." }).optional().or(z.literal("")),
   service: serviceSchema,
   message: messageSchema,
+  utm: utmSchema,
 });
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;

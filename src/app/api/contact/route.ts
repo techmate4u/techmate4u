@@ -31,7 +31,7 @@ export async function POST(request: Request) {
             }, { status: 400 });
         }
 
-        const { name, email, phone, company, service, message } = validationResult.data;
+        const { name, email, phone, company, service, message, utm } = validationResult.data;
 
         // Strip headers for safety and sanitize values for XSS
         const safeName = sanitize(stripNewlines(name));
@@ -40,6 +40,13 @@ export async function POST(request: Request) {
         const safeCompany = company ? sanitize(stripNewlines(company)) : 'Not provided';
         const safeService = sanitize(stripNewlines(service));
         const safeMessage = message ? sanitize(message) : 'No details provided.';
+
+        const safeUtmSource = utm?.utm_source ? sanitize(stripNewlines(utm.utm_source)) : 'N/A';
+        const safeUtmMedium = utm?.utm_medium ? sanitize(stripNewlines(utm.utm_medium)) : 'N/A';
+        const safeUtmCampaign = utm?.utm_campaign ? sanitize(stripNewlines(utm.utm_campaign)) : 'N/A';
+        const safeUtmContent = utm?.utm_content ? sanitize(stripNewlines(utm.utm_content)) : 'N/A';
+        const safeUtmTerm = utm?.utm_term ? sanitize(stripNewlines(utm.utm_term)) : 'N/A';
+        const safeFbclid = utm?.fbclid ? sanitize(stripNewlines(utm.fbclid)) : 'N/A';
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -54,7 +61,7 @@ export async function POST(request: Request) {
             to: 'info@techmate4u.com',
             replyTo: safeEmail,
             subject: `New Lead: [${safeService.toUpperCase()}] Inquiry from ${safeName}`,
-            text: `New Project Inquiry\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nCompany: ${company || 'Not provided'}\nService: ${service}\n\nProject Details:\n${message || 'No details provided.'}`,
+            text: `New Project Inquiry\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nCompany: ${company || 'Not provided'}\nService: ${service}\n\nProject Details:\n${message || 'No details provided.'}\n\n--- Campaign Attribution ---\nUTM Source: ${safeUtmSource}\nUTM Medium: ${safeUtmMedium}\nUTM Campaign: ${safeUtmCampaign}\nUTM Content: ${safeUtmContent}\nUTM Term: ${safeUtmTerm}\nFBCLID: ${safeFbclid}`,
             html: `
                 <h3>New Project Inquiry</h3>
                 <p><strong>Name:</strong> ${safeName}</p>
@@ -64,6 +71,16 @@ export async function POST(request: Request) {
                 <p><strong>Service:</strong> ${safeService}</p>
                 <h4>Project Details:</h4>
                 <p>${safeMessage.replace(/\n/g, '<br>')}</p>
+                <hr style="border:0;border-top:1px solid #eee;margin:20px 0;">
+                <h4>Campaign Attribution:</h4>
+                <ul>
+                    <li><strong>Source:</strong> ${safeUtmSource}</li>
+                    <li><strong>Medium:</strong> ${safeUtmMedium}</li>
+                    <li><strong>Campaign:</strong> ${safeUtmCampaign}</li>
+                    <li><strong>Content:</strong> ${safeUtmContent}</li>
+                    <li><strong>Term:</strong> ${safeUtmTerm}</li>
+                    <li><strong>FBCLID:</strong> ${safeFbclid}</li>
+                </ul>
             `,
         };
 

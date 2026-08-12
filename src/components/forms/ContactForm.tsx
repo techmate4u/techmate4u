@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { contactFormSchema, type ContactFormData } from "@/lib/schemas";
+import { getStoredAttribution, type UtmAttribution } from "@/lib/attribution";
 import FormField from "./FormField";
 import Button from "@/components/ui/Button";
 
@@ -25,9 +26,9 @@ const WhatsAppIcon = () => (
 // WhatsApp number for TechMate4u
 const WA_NUMBER = "919327263267";
 
-// Build a pre-filled WhatsApp message with all lead details
-function buildWhatsAppUrl(data: ContactFormData): string {
-  const text = [
+// Build a pre-filled WhatsApp message with lead & UTM attribution details
+function buildWhatsAppUrl(data: ContactFormData, utm?: UtmAttribution): string {
+  const lines = [
     "Hello TechMate4u! I'd like to get in touch.",
     "",
     `• Name: ${data.name}`,
@@ -37,8 +38,17 @@ function buildWhatsAppUrl(data: ContactFormData): string {
     `• Service: ${data.service}`,
     "",
     `Project Details: ${data.message || "N/A"}`,
-  ].join("\n");
-  return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+  ];
+
+  if (utm && (utm.utm_source || utm.utm_campaign)) {
+    lines.push("");
+    lines.push("--- Campaign Info ---");
+    if (utm.utm_source) lines.push(`Source: ${utm.utm_source}`);
+    if (utm.utm_medium) lines.push(`Medium: ${utm.utm_medium}`);
+    if (utm.utm_campaign) lines.push(`Campaign: ${utm.utm_campaign}`);
+  }
+
+  return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
 }
 
 export default function ContactForm() {
@@ -56,13 +66,23 @@ export default function ContactForm() {
     resolver: zodResolver(contactFormSchema),
   });
 
-  const trackLead = (data: ContactFormData, channel: "email" | "whatsapp") => {
+  const trackLead = (
+    data: ContactFormData,
+    channel: "email" | "whatsapp",
+    utm: UtmAttribution
+  ) => {
     if (typeof window.fbq !== "function") return;
 
     window.fbq("track", "Lead", {
       content_name: data.service,
       content_category: "Service Inquiry",
       lead_channel: channel,
+      ...(utm.utm_source && { utm_source: utm.utm_source }),
+      ...(utm.utm_medium && { utm_medium: utm.utm_medium }),
+      ...(utm.utm_campaign && { utm_campaign: utm.utm_campaign }),
+      ...(utm.utm_content && { utm_content: utm.utm_content }),
+      ...(utm.utm_term && { utm_term: utm.utm_term }),
+      ...(utm.fbclid && { fbclid: utm.fbclid }),
     });
   };
 
@@ -71,11 +91,16 @@ export default function ContactForm() {
     setErrorMessage("");
 
     const isWhatsApp = submitTypeRef.current === "whatsapp";
+    const utm = getStoredAttribution();
+    const payload: ContactFormData = {
+      ...data,
+      utm,
+    };
 
     // ── WhatsApp channel: open immediately with pre-filled message ──
     // Fires regardless of email API result so the lead is never lost.
     if (isWhatsApp) {
-      window.open(buildWhatsAppUrl(data), "_blank");
+      window.open(buildWhatsAppUrl(data, utm), "_blank");
     }
 
     // ── Email channel: always send lead to info@techmate4u.com ──
@@ -83,7 +108,7 @@ export default function ContactForm() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
@@ -93,7 +118,7 @@ export default function ContactForm() {
       setStatus("success");
 
       // Meta Lead conversion
-      trackLead(data, isWhatsApp ? "whatsapp" : "email");
+      trackLead(data, isWhatsApp ? "whatsapp" : "email", utm);
 
       reset();
     } catch (err) {
@@ -102,7 +127,7 @@ export default function ContactForm() {
         setStatus("success");
 
         // WhatsApp inquiry was initiated
-        trackLead(data, "whatsapp");
+        trackLead(data, "whatsapp", utm);
 
         reset();
       } else {

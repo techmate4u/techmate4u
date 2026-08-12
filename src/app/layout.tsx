@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
 import MetaPixel from "@/components/analytics/MetaPixel";
+import UtmTracker from "@/components/analytics/UtmTracker";
 import Script from "next/script";
 import "./globals.css";
 
@@ -137,6 +138,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <MetaPixel />
+        <UtmTracker />
         <Navbar />
         {children}
         <Footer />
