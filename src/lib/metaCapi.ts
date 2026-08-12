@@ -93,14 +93,22 @@ export async function sendMetaCapiLeadEvent(payload: CapiLeadPayload): Promise<v
       custom_data: customData,
     };
 
+    const testEventCode = process.env.META_TEST_EVENT_CODE;
+
+    const requestBody: Record<string, any> = {
+      data: [capiEvent],
+    };
+
+    if (testEventCode) {
+      requestBody.test_event_code = testEventCode;
+    }
+
     const response = await fetch(
       `https://graph.facebook.com/v21.0/${pixelId}/events?access_token=${accessToken}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          data: [capiEvent],
-        }),
+        body: JSON.stringify(requestBody),
       }
     );
 
