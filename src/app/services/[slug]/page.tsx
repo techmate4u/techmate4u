@@ -8,6 +8,7 @@ import Button from "@/components/ui/Button";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ContactForm from "@/components/forms/ContactForm";
 import AuditForm from "@/components/forms/AuditForm";
+import ServiceViewEvent from "@/components/analytics/ServiceViewEvent";
 
 export interface ServiceData {
   slug: string;
@@ -356,6 +357,10 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   return (
     <main className="min-h-screen pt-32 pb-0 relative overflow-hidden">
+      <ServiceViewEvent
+        slug={service.slug}
+        title={service.title}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
