@@ -102,7 +102,7 @@ export default function Services() {
           const cardWidth = container.firstElementChild ? (container.firstElementChild as HTMLElement).offsetWidth : 300;
           const gap = 24;
           const currentIndex = Math.round(scrollLeft / (cardWidth + gap));
-          
+
           if (currentIndex >= 12) {
             container.scrollTo({ left: (currentIndex - 6) * (cardWidth + gap), behavior: 'auto' });
           } else if (currentIndex <= 5) {
@@ -215,14 +215,14 @@ export default function Services() {
 
         // Step 4: Large soft wave expands from touchpoint
         tl.to(characterRef.current, { scaleX: 1, scaleY: 1, rotate: 2, duration: 0.5 })
-          .fromTo(wave1Ref.current, 
-            { scale: 0.2, opacity: 1 }, 
-            { scale: 8, opacity: 0, duration: 1.2 }, 
+          .fromTo(wave1Ref.current,
+            { scale: 0.2, opacity: 1 },
+            { scale: 8, opacity: 0, duration: 1.2 },
             "-=0.5"
           )
-          .fromTo(wave2Ref.current, 
-            { scale: 0.2, opacity: 0.8 }, 
-            { scale: 11, opacity: 0, duration: 1.5 }, 
+          .fromTo(wave2Ref.current,
+            { scale: 0.2, opacity: 0.8 },
+            { scale: 11, opacity: 0, duration: 1.5 },
             "-=1.0"
           );
 
@@ -246,20 +246,20 @@ export default function Services() {
   }, []);
 
   return (
-    <section 
-      ref={sectionRef} 
-      className="w-full relative z-20 overflow-hidden pt-20 pb-10 lg:pt-32 lg:pb-28 bg-white border-b border-[var(--line-soft)]" 
+    <section
+      ref={sectionRef}
+      className="w-full relative z-20 overflow-hidden pt-20 pb-10 lg:pt-32 lg:pb-28 bg-white border-b border-[var(--line-soft)]"
     >
       {/* Top blend gradient overlay to transition smoothly from Hero */}
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white to-transparent pointer-events-none z-10" />
 
       {/* Premium Minimal Background Overlay */}
-      <div 
+      <div
         ref={glowOverlayRef}
         className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden bg-white origin-bottom"
       >
         {/* Radial Slate-Indigo Glow */}
-        <div 
+        <div
           className="absolute top-[-30%] left-[-15%] w-[85%] h-[85%] rounded-full blur-[130px]"
           style={{
             background: "radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%)"
@@ -267,7 +267,7 @@ export default function Services() {
         />
 
         {/* Soft Champagne Gold Glow */}
-        <div 
+        <div
           className="absolute bottom-[-15%] right-[-10%] w-[75%] h-[75%] rounded-full blur-[140px]"
           style={{
             background: "radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 70%)"
@@ -275,7 +275,7 @@ export default function Services() {
         />
 
         {/* Radial Mineral Teal Glow */}
-        <div 
+        <div
           className="absolute top-[25%] left-[-10%] w-[70%] h-[70%] rounded-full blur-[120px]"
           style={{
             background: "radial-gradient(circle, rgba(45, 212, 191, 0.08) 0%, transparent 70%)"
@@ -283,7 +283,7 @@ export default function Services() {
         />
 
         {/* Radial Dusty Rose Glow */}
-        <div 
+        <div
           className="absolute bottom-[35%] right-[-15%] w-[65%] h-[65%] rounded-full blur-[110px]"
           style={{
             background: "radial-gradient(circle, rgba(244, 63, 94, 0.1) 0%, transparent 70%)"
@@ -291,12 +291,12 @@ export default function Services() {
         />
 
         {/* Blurred Gradient Mesh */}
-        <div 
+        <div
           className="absolute top-[15%] right-[10%] w-[380px] h-[380px] rounded-full blur-[110px] mix-blend-multiply opacity-50 bg-gradient-to-tr from-amber-100/20 via-rose-100/15 to-transparent"
         />
 
         {/* Light Beam from Top Left */}
-        <div 
+        <div
           className="absolute top-0 left-0 w-full h-[65%] pointer-events-none"
           style={{
             background: "linear-gradient(135deg, rgba(99, 102, 241, 0.07) 0%, transparent 55%)"
@@ -312,7 +312,7 @@ export default function Services() {
       {/* Floating 3D WWDC Character & Scroll Interactions (Right Side) */}
       <div className="absolute inset-0 pointer-events-none z-10 overflow-visible hidden lg:block">
         {/* The 3D Character (Positioned higher next to title) */}
-        <div 
+        <div
           ref={characterRef}
           className="absolute right-[50px] top-[1%] w-[270px] h-[270px] pointer-events-none select-none z-20 flex items-center justify-center bg-white p-2 rounded-full border border-blue-500/10 shadow-[0_8px_30px_rgb(0,0,0,0.03)]"
           style={{ transformOrigin: "bottom center" }}
@@ -326,7 +326,7 @@ export default function Services() {
         </div>
 
         {/* Glowing Touch Ring */}
-        <div 
+        <div
           ref={ringRef}
           className="absolute right-[300px] top-[12%] w-[56px] h-[56px] rounded-full border border-blue-400/30 bg-blue-500/5 shadow-[0_0_12px_rgba(47,107,255,0.15)] flex items-center justify-center z-10"
         >
@@ -335,11 +335,11 @@ export default function Services() {
         </div>
 
         {/* Expanding Wave Rings */}
-        <div 
+        <div
           ref={wave1Ref}
           className="absolute right-[304px] top-[14%] w-[48px] h-[48px] rounded-full border border-blue-400/20 pointer-events-none z-0"
         />
-        <div 
+        <div
           ref={wave2Ref}
           className="absolute right-[304px] top-[14%] w-[48px] h-[48px] rounded-full border border-purple-400/15 pointer-events-none z-0"
         />
@@ -370,11 +370,10 @@ export default function Services() {
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
               aria-label="Previous services"
-              className={`hidden md:flex absolute left-0 lg:left-[-12px] top-1/2 -translate-y-1/2 z-30 size-11 rounded-full border border-[var(--line-strong)] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md items-center justify-center shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] ${
-                canScrollLeft 
-                  ? 'opacity-100 hover:scale-105 hover:border-[var(--primary)] text-[var(--text)] hover:text-[var(--primary)] cursor-pointer' 
+              className={`hidden md:flex absolute left-0 lg:left-[-12px] top-1/2 -translate-y-1/2 z-30 size-11 rounded-full border border-[var(--line-strong)] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md items-center justify-center shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] ${canScrollLeft
+                  ? 'opacity-100 hover:scale-105 hover:border-[var(--primary)] text-[var(--text)] hover:text-[var(--primary)] cursor-pointer'
                   : 'opacity-30 cursor-not-allowed text-[var(--text-muted)]'
-              }`}
+                }`}
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
@@ -388,17 +387,16 @@ export default function Services() {
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
               aria-label="Next services"
-              className={`hidden md:flex absolute right-0 lg:right-[-12px] top-1/2 -translate-y-1/2 z-30 size-11 rounded-full border border-[var(--line-strong)] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md items-center justify-center shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] ${
-                canScrollRight 
-                  ? 'opacity-100 hover:scale-105 hover:border-[var(--primary)] text-[var(--text)] hover:text-[var(--primary)] cursor-pointer' 
+              className={`hidden md:flex absolute right-0 lg:right-[-12px] top-1/2 -translate-y-1/2 z-30 size-11 rounded-full border border-[var(--line-strong)] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md items-center justify-center shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] ${canScrollRight
+                  ? 'opacity-100 hover:scale-105 hover:border-[var(--primary)] text-[var(--text)] hover:text-[var(--primary)] cursor-pointer'
                   : 'opacity-30 cursor-not-allowed text-[var(--text-muted)]'
-              }`}
+                }`}
             >
               <ChevronRight className="h-5 w-5" />
             </button>
 
             {/* Carousel Track Container */}
-            <div 
+            <div
               ref={scrollContainerRef}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
@@ -464,11 +462,10 @@ export default function Services() {
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
                 aria-label="Previous services"
-                className={`size-11 rounded-full border border-[var(--line-strong)] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md flex items-center justify-center shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] ${
-                  canScrollLeft 
-                    ? 'opacity-100 text-[var(--text)] hover:text-[var(--primary)] hover:border-[var(--primary)]' 
+                className={`size-11 rounded-full border border-[var(--line-strong)] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md flex items-center justify-center shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] ${canScrollLeft
+                    ? 'opacity-100 text-[var(--text)] hover:text-[var(--primary)] hover:border-[var(--primary)]'
                     : 'opacity-30 cursor-not-allowed text-[var(--text-muted)]'
-                }`}
+                  }`}
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -480,11 +477,10 @@ export default function Services() {
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
                 aria-label="Next services"
-                className={`size-11 rounded-full border border-[var(--line-strong)] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md flex items-center justify-center shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] ${
-                  canScrollRight 
-                    ? 'opacity-100 text-[var(--text)] hover:text-[var(--primary)] hover:border-[var(--primary)]' 
+                className={`size-11 rounded-full border border-[var(--line-strong)] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md flex items-center justify-center shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] ${canScrollRight
+                    ? 'opacity-100 text-[var(--text)] hover:text-[var(--primary)] hover:border-[var(--primary)]'
                     : 'opacity-30 cursor-not-allowed text-[var(--text-muted)]'
-                }`}
+                  }`}
               >
                 <ChevronRight className="h-5 w-5" />
               </button>

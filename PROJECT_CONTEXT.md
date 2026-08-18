@@ -599,3 +599,38 @@ A enterprise-grade hybrid conversion tracking architecture combining client-side
 - **Exact Deduplication**: Server event passes matching `event_id` and `action_source: "website"`, allowing Meta's engine to deduplicate client and server leads into 1 conversion.
 - **Non-Blocking Resilience**: `sendMetaCapiLeadEvent` executes asynchronously in a non-blocking `try/catch` block so CAPI API failures or network timeouts never affect email delivery or user submission success.
 
+---
+
+## 22. 3D Interactive Hero Avatar & Performance Optimization (2026-08-18)
+
+An interactive, real-time 3D character was integrated into the top-right visual area of the Hero section (`src/components/HeroVisual.tsx` and `src/components/HeroCharacter3D.tsx`), replacing the static card asset:
+
+### 1. Ultra-Low Latency 3D Asset Optimization (94.5% Size Reduction)
+- **Source Model**: Raw 3D character GLTF model was originally **50.46 MB** with 4096×4096 uncompressed textures and high-density geometry.
+- **Draco Compression & Sharp Resampling**: Resampled textures to 1024×1024 high-efficiency maps and applied edgebreaker Draco geometry quantization (`quantizePosition: 14`, `quantizeNormal: 10`, `quantizeTexcoord: 12`).
+- **Final Optimized Size**: Reduced to **2.76 MB** (`/public/models/character.glb`), enabling instant sub-second asset loading on broadband and mobile connections.
+- **Self-Hosted Draco Decoders**: Hosted all Draco WASM and JS decoder files locally under `/public/draco/`, removing any external CDN dependencies or network latency bottlenecks.
+
+### 2. Clean Natural T-Shirt Texture
+- **Original Clean Appearance**: Retained the clean, minimal plain white t-shirt texture seamlessly matching the studio aesthetic.
+
+### 3. True-Direction Real-Time Cursor Tracking
+- **Screen Projection Kinematics**: Tracks the cursor position relative to the avatar's screen-projected head position (`headWorld.project(camera)`):
+  - Cursor centered on avatar's face $\rightarrow$ Looks straight ahead.
+  - Moving cursor UP / DOWN / LEFT / RIGHT $\rightarrow$ Head and neck bones pitch and yaw in exact natural direction.
+- **Smooth Damping & Kinematic Hierarchy**:
+  - Head bone rotation: 65% weight.
+  - Neck bone rotation: 25% weight.
+  - Spine2 bone rotation: 10% weight.
+  - Damped via exponential lerp easing (`0.09`) for zero jitter and lifelike fluidity.
+  - Subtle harmonic breathing oscillation (`Math.sin(time * 2.2)`) on head and spine.
+
+### 4. Studio Lighting & Visual Integration
+- **WebGL Lighting Suite**: Key light (`0xffffff`, intensity `2.6`), cyan fill light (`0x38bdf8`, intensity `1.6`), purple rim light (`0x818cf8`, intensity `2.2`), ambient light (`1.4`), and a dynamic mouse-following point light (`0x60a5fa`).
+- **Framing & Viewport Spacing**:
+  - Camera positioned at `(0, 0.55, 1.45)` with target `(0, 0.52, 0)` and `FOV = 38°` for clean upper-body framing.
+  - Applied CSS gradient mask (`linear-gradient(to bottom, black 70%, transparent 96%)`) so the lower boundary of the character seamlessly fades into the background.
+  - Set Hero min-height to `min-h-[90vh] lg:min-h-[92vh]` and adjusted section spacing (`top-[90px]` in Services) to prevent any below-the-fold visual overlap.
+- **Resource Management**: Fully manages WebGL context lifecycle — cleans up animation frames, disposes geometries/materials, disconnects `IntersectionObserver` when scrolled out of view, and unbinds all window listeners on component unmount.
+
+

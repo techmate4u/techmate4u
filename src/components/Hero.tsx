@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 
 // Dynamically import heavy graphics to completely exclude framer-motion from mobile load path
 const HeroVisual = dynamic(() => import("./HeroVisual"), {
-  ssr: false,
+    ssr: false,
 });
 import { useState, useEffect } from "react";
 import { ArrowRight, Play, Zap, Handshake, Rocket } from "lucide-react";
@@ -25,7 +25,7 @@ export default function Hero() {
 
     return (
         <section
-            className="w-full min-h-[85vh] mt-8 sm:mt-12 lg:mt-16 pt-32 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-visible flex flex-col items-center"
+            className="w-full min-h-[80vh] pt-20 sm:pt-24 lg:pt-24 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-visible flex flex-col items-center"
             id="home"
         >
             {/* Direct high-priority preload of static background asset (bypasses Next.js image optimizer server) - Desktop only */}
@@ -83,7 +83,7 @@ export default function Hero() {
 
                         {/* Subheading — readable line-height, softer blue color */}
                         <p className="hero-fade-up hero-stagger-3 text-sm sm:text-base lg:text-[1.125rem] font-medium max-w-xl leading-[1.65] tracking-[-0.01em] text-[var(--text-muted)]">
-                            We build high-performance Next.js websites and custom AI workflows 
+                            We build high-performance Next.js websites and custom AI workflows
                             that automate manual business operations.
                         </p>
                     </div>
